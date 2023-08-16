@@ -151,16 +151,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
   # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "PAME",
+    "site_title": "DENTAL SMILE",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "PAME",
-    "site_brand": "PAME",
+    "site_header": "DENTAL SMILE",
+    "site_brand": "DENTAL SMILE",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
     "site_logo": "img/logo160x16021.png",
 
-    "welcome_sign": "Bienvenido al Sistema PAME",
+    "welcome_sign": "Bienvenido al Sistema DENTAL SMILE",
 
     "changeform_format": "single",
 
@@ -187,6 +187,7 @@ JAZZMIN_SETTINGS = {
         "pertenencias.Valores": 'fas fa-coins',
         "salud.ExpedienteMedico": 'fas fa-notes-medical',
         "usuarios.Usuario": 'fas fa-user',
+        
 
 
 
