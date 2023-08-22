@@ -1,0 +1,55 @@
+from django.db import models
+class Tipos(models.Model):
+    tipo = models.CharField(max_length=50, null=False)
+
+    def __str__(self) -> str:
+        return self.tipo
+    
+    class Meta:
+        verbose_name_plural = "Tipos"
+# Create your models here.
+class Municipio(models.Model):
+    estado = models.CharField(max_length=50, null=False)
+
+    def __str__(self) -> str:
+        return self.estado
+
+class Responsable(models.Model):
+    nombre = models.CharField(max_length=50, null=False)
+    apellidoPat = models.CharField(max_length=50, null=False)
+    apellidoMat = models.CharField(max_length=50, null=False)
+    email = models.EmailField(max_length=254, null=False)
+    telefono = models.CharField(max_length=10, null=False)
+
+    def __str__(self) -> str:
+        return self.nombre
+    
+class Estatus(models.Model):
+    tipoEstatus = models.CharField(max_length=20, null=False)
+
+    def __str__(self) -> str:
+        return self.tipoEstatus
+    
+    class Meta:
+        verbose_name_plural = "Estatus"
+
+class Estacion(models.Model):
+    identificador = models.CharField(max_length=10, null=False)
+    nombre = models.CharField(max_length=50, null=False)
+    calle = models.CharField(max_length=50, null=False)
+    noext = models.CharField(max_length=5)
+    noint = models.CharField(max_length=5, blank=True)
+    colonia = models.CharField(max_length=50, null=False)
+    cp = models.IntegerField(null=False)
+    estado = models.ForeignKey(Municipio, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=254, null=False)
+    responsable = models.ForeignKey(Responsable, on_delete=models.CASCADE)
+    tipo = models.ForeignKey(Tipos, on_delete=models.CASCADE)
+    estatus = models.ForeignKey(Estatus, on_delete=models.CASCADE)
+    capacidad = models.IntegerField( null=False)
+    
+    def __str__(self) -> str:
+        return self.nombre
+    
+    class Meta:
+        verbose_name_plural = "Estaciones"

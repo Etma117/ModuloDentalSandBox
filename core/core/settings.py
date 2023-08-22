@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'horarios',
     'pacientes',
     'usuarios',
+    'catalogos',
+    
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
