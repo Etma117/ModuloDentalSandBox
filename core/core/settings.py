@@ -41,14 +41,13 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     'citas',
-    'dentistas',
     'generales',
     'horarios',
     'pacientes',
     'usuarios',
     'catalogos',
     'clinicas',
-    
+
     
 ]
 
@@ -67,6 +66,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+AUTH_USER_MODEL = 'usuarios.CustomUser'
+
 
 TEMPLATES = [
     {
@@ -90,14 +91,21 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME':'modulo1',
+#         'USER':'arleyivansoliszacapantzi',
+#         'PASSWORD':'12345',
+#         'HOST':'localhost',
+#         'PORT':'5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'modulo1',
-        'USER':'arleyivansoliszacapantzi',
-        'PASSWORD':'12345',
-        'HOST':'localhost',
-        'PORT':'5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -205,6 +213,7 @@ JAZZMIN_SETTINGS = {
 }
 
 
+LOGIN_URL = '/accounts/login/'
 
 LOGIN_REDIRECT_URL = 'menu'
 LOGOUT_REDIRECT_URL = "home"
