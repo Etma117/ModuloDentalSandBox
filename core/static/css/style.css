@@ -1,6 +1,6 @@
 
 .custom-navbar {
-    background-color: #008787;
+    background-color: #239db9;
 }
 
 
@@ -45,14 +45,14 @@
   }
 
   .custom-sidebar {
-    background-color: #006161;
+    background-color: #239db9;
 }
 
 
 /* Cambio para el dashboard  */
 
   .nav-item .nav-link.first-li.active {
-    background-color: #008787 !important;
+    background-color: #1d8096 !important;
     color: #fff;
   }
 
