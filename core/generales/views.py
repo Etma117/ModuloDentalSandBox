@@ -17,7 +17,12 @@ class home(LoginRequiredMixin, TemplateView):
     template_name = 'menu.html'
 
 
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'home'  
+        return context
+
+
 def exit(request):
     logout(request)
     return redirect('home')
