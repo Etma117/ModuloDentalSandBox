@@ -82,63 +82,7 @@
       </li>
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+
       <!-- Notifications Dropdown Menu -->
       <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -274,6 +218,14 @@
                   <p>Paciente</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{% url "UserCreateViewResponsable" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Responsable</p>
+                </a>
+              </li>
+
+              
             </ul>
           </li>
           <li class="nav-header">Gestión de Citas</li>
@@ -620,9 +572,12 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="{% static 'js/jquery.min.js' %}"></script>
+{% block script1 %}
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js" %}"></script>
+<script src="{% static "js/jquery-ui.min.js" %}"></script>
+
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
@@ -630,28 +585,220 @@
 <!-- Bootstrap 4 -->
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <!-- ChartJS -->
-<script src="plugins/chart.js/Chart.min.js"></script>
+<script src="{% static "plugins/chart.js/Chart.min.js" %}"></script>
 <!-- Sparkline -->
-<script src="plugins/sparklines/sparkline.js"></script>
+<script src="{% static "plugins/sparklines/sparkline.js" %}"></script>
 <!-- JQVMap -->
-<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<script src="{% static "plugins/jqvmap/jquery.vmap.min.js" %}"></script>
+<script src="{% static "plugins/jqvmap/maps/jquery.vmap.usa.js" %}"></script>
 <!-- jQuery Knob Chart -->
-<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<script src="{% static "plugins/jquery-knob/jquery.knob.min.js" %}"></script>
 <!-- daterangepicker -->
-<script src="plugins/moment/moment.min.js"></script>
-<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="{% static "plugins/moment/moment.min.js" %}"></script>
+<script src="{% static "plugins/daterangepicker/daterangepicker.js" %}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="{% static "plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js" %}"></script>
 <!-- Summernote -->
-<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<script src="{% static "plugins/summernote/summernote-bs4.min.js" %}"></script>
 <!-- overlayScrollbars -->
-<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="{% static "plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js" %}"></script>
 <!-- AdminLTE App -->
-<script src="{% static 'js/adminlte.min.js' %}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
+<script src="{% static "dist/js/adminlte.js" %}"></script>
+<script src="{% static 'js/demo.js' %}"></script>
+<script src="{% static 'js/Chart.min.js' %}"></script>
+
+<script src="{% static "dist/js/pages/dashboard.js" %}"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+
+<!-- ----------------DATATABLES-------------------------- -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.js"></script>
+<script>
+  $("#tabla").DataTable({
+    {% block filtro %}
+
+    {% endblock filtro %}
+      paging: true,
+      lengthMenu: [5, 10, 25, 50, 100], // Cambiamos el menú de longitud para incluir 5 entradas
+      pageLength:5,
+      lengthChange :true,
+      autoWidth: true,
+      searching: true,
+      bInfo: true,
+      bSort: true,
+      {% block dom %}
+      dom: 'Bfrltip',
+      {% endblock dom %}
+      buttons:[
+        {% block datatable %}
+
+        
+        {% endblock datatable %}        
+        
+        {% block datatable2 %}
+        {extend: 'copy',
+        text: '<i class="fas fa-clone"></i>',
+        class: 'btn btn-secondary',
+        titleAttr: 'Copiar a Documento',
+        exportOptions:{
+            columns:[0,1,2]
+        }
+        },
+        {extend: 'excel',
+        text: '<i class="fas fa-file-excel"></i>',
+        class: 'btn btn-secondary',
+        titleAttr: 'Exportar a Excel',
+        exportOptions:{
+            columns:[0,1,2]
+        }
+        },
+        {extend: 'print',
+        text: '<i class="fas fa-print"></i>',
+        class: 'btn btn-secondary',
+        titleAttr: 'Imprimir',
+        exportOptions:{
+            columns:[0,1,2]
+        }
+        },
+        {% endblock datatable2 %}
+      ],
+      "language": {
+                  "sProcessing": "Procesando...",
+                  "sLengthMenu": "Mostrar _MENU_ Registros",
+                  "sZeroRecords": "No se encontraron resultados",
+                  "sEmptyTable": "Ningún dato disponible en esta tabla",
+                  "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                  "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                  "sInfoFiltered": "(filtrado de un total de _MAX_ Registros)",
+                  "sSearch": "Buscar:",
+                  "sInfoThousands": ",",
+                  "sLoadingRecords": "Cargando...",
+                  "oPaginate": {
+                      "sFirst": "Primero",
+                      "sLast": "Último",
+                      "sNext": "Siguiente",
+                      "sPrevious": "Anterior"
+                  },
+                  "oAria": {
+                      "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                      "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                  },
+                  "buttons": {
+                      "copy": "Copiar",
+                      "colvis": "Visibilidad"
+                  }
+              },
+
+  });
+  
+</script>
+
+    
+  {% block script  %}
+    
+  {% endblock script  %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+
+
+
+
+{% endblock script1 %}
+
+
+{% block script2 %}
+
+{% endblock script2 %}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  $(function() {
+    setTimeout(function() {
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
+
+      {% for message in messages %}
+        {% if message.tags == "success" %}
+          Toast.fire({
+            icon: 'success',
+            title: '{{ message }}'
+          });
+        {% elif message.tags == "error" %}
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ message }}",
+            confirmButtonColor: '#2A4B41'
+          });
+          {% elif message.tags == "warning" %}
+          Swal.fire({
+            icon: 'warning',
+            title: 'Acción denegada',
+            text: "{{ message }}",
+            confirmButtonColor: '#2A4B41'
+          });
+        {% endif %}
+      {% endfor %}
+    }, 500); // 500 milisegundos (medio segundo)
+  });
+</script>
+
+<!-- En tu plantilla base o donde sea necesario -->
+{% comment %} <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> {% endcomment %}
+
+<script>
+  // Detectar inactividad y mostrar un mensaje con SweetAlert
+  $(document).ready(function() {
+    var inactivityTimeout = 600000;  // 10 minutos en milisegundos
+
+    function showSessionExpiredMessage() {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Tu sesión ha expirado',
+        text: 'Por favor, vuelve a iniciar sesión.',
+        confirmButtonText: 'OK',
+        allowOutsideClick: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "{% url 'login' %}";  // Redirigir a la página de inicio de sesión
+        }
+      });
+    }
+
+    var timeout;
+
+    function resetTimeout() {
+      clearTimeout(timeout);
+      timeout = setTimeout(showSessionExpiredMessage, inactivityTimeout);
+    }
+
+    $(document).on('mousemove keydown scroll', resetTimeout);
+
+    resetTimeout();  // Iniciar el temporizador cuando la página se carga
+  });
+
+  function mostrarAlertaActualizacion() {
+    Swal.fire({
+        title: 'En Desarrollo',
+        text: 'Estamos trabajando en esta actualización.',
+        icon: 'info',
+        confirmButtonText: 'Entendido'
+    });
+}
+</script>
 </body>
 </html>

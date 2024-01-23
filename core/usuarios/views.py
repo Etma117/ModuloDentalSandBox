@@ -78,3 +78,31 @@ class UserCreateViewAsistente(CreateView):
 
         return context
     
+
+class UserCreateViewResponsable(CreateView):
+    model = CustomUser
+    form_class = CustomUserCreationFormTemplate
+    template_name = 'register/register_user_responsable.html'
+    success_url = reverse_lazy('home') 
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.tipo_usuario = 'responsable'  
+        user.created_by = self.request.user
+        user.save()
+        admin_group, created = Group.objects.get_or_create(name='Responsable')
+        user.groups.add(admin_group)
+
+        messages.success(self.request, "Usuario Responsable creado con éxito.")
+        return super().form_valid(form)
+    
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios' 
+        context['seccion'] = 'ver_responsable' 
+
+        return context
+    
+    

@@ -19,7 +19,7 @@ Registrar Usuario
 {% block contenido %}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="dashboard-header">
-    <h1 class="dashboard-title">Registrar Nuevo Dentista</h1>
+    <h1 class="dashboard-title">Registrar Nuevo Responsable de Clinica</h1>
 </div>
 
 {% if form.non_field_errors %}
@@ -48,7 +48,6 @@ Registrar Usuario
 
 {% load crispy_forms_tags %}
 
-<div class="container mt-4">
     <div class="card">
         <div class="card-header">
             Registrar Nuevo Usuario
@@ -109,7 +108,9 @@ Registrar Usuario
                     <div class="col-md-4">
                         {{ form.foto|as_crispy_field }}
                     </div>
-      
+                    <div class="col-md-4">
+                        {{ form.clinicas|as_crispy_field }}
+                    </div>
                 </div>
 
                 <div class="row">
@@ -123,7 +124,6 @@ Registrar Usuario
                     <button type="submit" class="btn btn-custom2">Registrar Usuario</button>
             </form>
         </div>
-    </div>
 </div>
 {% endblock contenido %}
 

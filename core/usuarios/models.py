@@ -13,6 +13,7 @@ class CustomUser(AbstractUser):
         ('medico', 'Médico'),
         ('asistente', 'Asistente'),
         ('paciente', 'Paciente'),
+        ('responsable', 'Responsable')
     )
     apellido_materno = models.CharField(max_length=100, blank=True)
     direccion = models.CharField(max_length=255, blank=True)
