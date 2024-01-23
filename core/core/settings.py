@@ -215,5 +215,5 @@ JAZZMIN_SETTINGS = {
 
 LOGIN_URL = '/accounts/login/'
 
-LOGIN_REDIRECT_URL = 'menu'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = "home"
