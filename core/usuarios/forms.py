@@ -37,7 +37,7 @@ class CustomUserCreationFormTemplate(UserCreationForm):
         model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email', 'foto', 
                  'apellido_materno', 'direccion', 'celular', 'telefono_fijo', 
-                 'sexo', 'fecha_nacimiento')  
+                 'sexo', 'fecha_nacimiento','clinicas',)  
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento', 'type': 'date'}),
             }
@@ -59,6 +59,7 @@ class CustomUserCreationFormTemplate(UserCreationForm):
         
         self.fields['sexo'].widget.attrs['placeholder'] = 'Sexo'
         self.fields['sexo'].label = 'Sexo'
+        self.fields['clinicas'].widget.attrs['class'] = 'select2'
 
 
         for field_name in self.fields:

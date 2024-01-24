@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-b1=sn7!$2v1iz&effl(f_!5o%o@&ua6nxiuan&-++xt(byy+&3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'usuarios.context_processors.user_groups',
+                'usuarios.context_processors.group_context',
             ],
         },
     },
@@ -215,5 +217,5 @@ JAZZMIN_SETTINGS = {
 
 LOGIN_URL = '/accounts/login/'
 
-LOGIN_REDIRECT_URL = 'menu'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = "home"
