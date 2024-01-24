@@ -11,7 +11,7 @@ Registrar Usuario
 
 
 {% block dashboard %}
-<a class="btn btn-sm btn-icon1 " href="{% url "users_list" %}">
+<a class="btn btn-sm btn-icon1 " href="{% url "home" %}">
   <i class="fas fa-arrow-left"></i>
 </a>
 {% endblock dashboard %}
@@ -107,7 +107,7 @@ Registrar Usuario
 
 </style>
 <div class="dashboard-header">
-    <h1 class="dashboard-title">Ańadir Nuevo Usuario</h1>
+    <h1 class="dashboard-title">Ańadir Nuevo Responsable de Clinica</h1>
 </div>
 
 {% if form.non_field_errors %}
@@ -139,7 +139,7 @@ Registrar Usuario
 
     <div class="card">
         <div class="card-header">
-            <i class="fa-solid fa-circle-plus" style="color: #3A8586;"></i> Registrar Nuevo Responsable de Clínica
+            <i class="fa-solid fa-circle-plus" style="color: #3A8586;"></i> Registrar Nuevo Usuario
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
@@ -181,14 +181,7 @@ Registrar Usuario
                         </div>
                     </div>
                     <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{ form.username|as_crispy_field }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form.email|as_crispy_field }}
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 {{ form.username|as_crispy_field }}
