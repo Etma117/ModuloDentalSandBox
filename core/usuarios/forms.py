@@ -66,3 +66,54 @@ class CustomUserCreationFormTemplate(UserCreationForm):
             field = self.fields.get(field_name)  
             if field and isinstance(field.widget, forms.TextInput):
                 field.widget.attrs.update({'class': 'form-control'})
+
+
+class CustomUserUpdateDentistaFormTemplate(UserCreationForm):
+    
+    fecha_nacimiento = forms.DateField(
+        label="Fecha de Nacimiento:",
+        widget=forms.DateInput(attrs={'type': 'text', 'id': 'date', 'placeholder': "DD/MM/YYYY"}),
+        input_formats=['%d/%m/%Y'],
+    )
+
+    def clean_fechaNacimiento(self):
+        data = self.cleaned_data['fecha_nacimiento']
+        today = datetime.date.today()
+        age = today.year - data.year - ((today.month, today.day) < (data.month, data.day))
+        if age < 18:
+            raise ValidationError('Debe de ser mayor de 18 años.')        
+        if age > 110:
+            raise ValidationError('La edad ingresada no es válida. Por favor, verifica la fecha de nacimiento.')
+        return data
+    
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'email', 'foto', 
+                 'apellido_materno', 'direccion', 'celular', 'telefono_fijo', 
+                 'sexo', 'fecha_nacimiento')  
+        widgets = {
+            'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento', 'type': 'date'}),
+            }
+             
+    def __init__(self, *args, **kwargs):
+        super(CustomUserUpdateDentistaFormTemplate, self).__init__(*args, **kwargs)
+
+       
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Nombre'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Apellido Paterno'
+        self.fields['email'].widget.attrs['placeholder'] = 'Correo electrónico'
+        self.fields['apellido_materno'].widget.attrs['placeholder'] = 'Apellido Materno'
+        self.fields['last_name'].label = 'Apellido Paterno'
+        self.fields['apellido_materno'].label = 'Apellido Materno'
+        self.fields['direccion'].widget.attrs['placeholder'] = 'Ej. Av Moctezuma'
+        self.fields['celular'].widget.attrs['placeholder'] = 'Numero de Celular'
+        self.fields['telefono_fijo'].widget.attrs['placeholder'] = 'Numero de Teléfono'
+        
+        self.fields['sexo'].widget.attrs['placeholder'] = 'Sexo'
+        self.fields['sexo'].label = 'Sexo'
+
+
+        for field_name in self.fields:
+            field = self.fields.get(field_name)  
+            if field and isinstance(field.widget, forms.TextInput):
+                field.widget.attrs.update({'class': 'form-control'})
