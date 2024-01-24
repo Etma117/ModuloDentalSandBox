@@ -9,7 +9,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="{% static 'css/login/loginStyle.css' %}?V1.1" />
-    <title>Sign in & Sign up Form</title>
+    <title>Registro e Inicio</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   </head>
@@ -41,14 +41,14 @@
             <h2 class="title">Iniciar Sesión</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" name="username" placeholder="Username" id="usernameInput" />
+              <input type="text" name="username" placeholder="Nombre de Usuario" id="usernameInput" />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" name="password" placeholder="Password" id="passwordInput" />
+              <input type="password" name="password" placeholder="Contraseña" id="passwordInput" />
             </div>
-            <input type="submit" value="Login" class="btn solid" />
-            <p class="social-text">Or Sign in with social platforms</p>
+            <input type="submit" value="Iniciar Sesión" class="btn solid" />
+            <p class="social-text">O Inicie Sesion con Redes Sociales</p>
             <div class="social-media">
               <a href="#" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
@@ -67,21 +67,21 @@
          
   
           <form action="#" class="sign-up-form">
-            <h2 class="title">Sign up</h2>
+            <h2 class="title">Registrarse</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" placeholder="Nombre de Usuario" />
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input type="email" placeholder="Correo Electronico" />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Contraseña" />
             </div>
-            <input type="submit" class="btn" value="Sign up" />
-            <p class="social-text">Or Sign up with social platforms</p>
+            <input type="submit" class="btn" value="Registrarse" />
+            <p class="social-text">O Registrate con una Red Social</p>
             <div class="social-media">
               <a href="#" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
@@ -112,26 +112,24 @@
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
-            <h3>New here ?</h3>
+            <h3>¿ Nuevo Aqui ?</h3>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+              Registrate para empezar una nueva vida con una mejor y esplendida sonrisa
             </p>
             <button class="btn transparent" id="sign-up-btn">
-              Sign up
+              Registrarse
             </button>
           </div>
           <img src="{% static 'img/register/img1.png' %}" class="image" alt="" />
         </div>
         <div class="panel right-panel">
           <div class="content">
-            <h3>One of us ?</h3>
+            <h3>¿ Ya estas Registrado ?</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
+              Inicia sesion para continuar maravillando a todos con una gran sonrisa
             </p>
             <button class="btn transparent" id="sign-in-btn">
-              Sign in
+              Iniciar Sesión
             </button>
           </div>
           <img src="{% static 'img/register/img2.png' %}" class="image" alt="" />
