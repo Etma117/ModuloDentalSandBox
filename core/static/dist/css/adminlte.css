@@ -44509,6 +44509,17 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
   border-radius: 50%;
 }
 
+
+
+.user-picture-large {
+  width: 00px;
+  height: 200px;
+}
+
+.user-picture-small {
+  width: 100px;
+  height: 100px;
+}
 .img-size-64,
 .img-size-50,
 .img-size-32 {
