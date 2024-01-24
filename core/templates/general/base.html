@@ -175,14 +175,17 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-               <li class="nav-item">
+
+        <li class="nav-item">
                 <a href="{% url "home" %}" class="nav-link  {% if navbar == 'home' %}active first-li{% endif %}">  
                   <i class="nav-icon fas fa-th"></i>
                   <p>
-                    Menú
+                  Menú
                   </p>
                 </a>
-              </li>
+        </li>
+
+       
     
           <li class="nav-header">Gestión de Usuarios</li>
           <li class="nav-item {% if navbar == 'gestion_usuarios' %}menu-is-opening menu-open{% endif %}">
@@ -206,6 +209,9 @@
                   <p>Dentista</p>
                 </a>
               </li>
+
+
+              
               <li class="nav-item">
                 <a href="{% url "UserCreateViewAsistente" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
                   <i class="far fa-circle nav-icon"></i>
@@ -218,12 +224,16 @@
                   <p>Paciente</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{% url "UserCreateViewResponsable" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Responsable</p>
-                </a>
-              </li>
+
+              {% if es_administrador %}
+                  <li class="nav-item">
+                    <a href="{% url "UserCreateViewResponsable" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Responsable</p>
+                    </a>
+                  </li>
+              {% endif %}
+   
 
               
             </ul>
