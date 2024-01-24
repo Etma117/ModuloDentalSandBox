@@ -19,7 +19,7 @@ Registrar Usuario
 {% block contenido %}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="dashboard-header">
-    <h1 class="dashboard-title">Registrar Nuevo Usuario</h1>
+    <h1 class="dashboard-title">Registro de Dentistas</h1>
 </div>
 
 {% if form.non_field_errors %}
@@ -51,7 +51,7 @@ Registrar Usuario
 <div class="container mt-4">
     <div class="card">
         <div class="card-header">
-            Registrar Nuevo Usuario
+            Registro
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
@@ -120,7 +120,7 @@ Registrar Usuario
                         {{ form.password2|as_crispy_field }}
                     </div>
                 </div>
-                    <button type="submit" class="btn btn-custom2">Registrar Usuario</button>
+                    <button type="submit" class="btn btn-custom2" >Registrar </button>
             </form>
         </div>
     </div>
