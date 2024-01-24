@@ -1,7 +1,7 @@
 
 
 .custom-navbar {
-  background-color: #008787;
+    background-color: #239db9;
 }
 
 
@@ -45,17 +45,17 @@ color: #63192B;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agregar sombra al pasar el mouse */
 }
 
-.custom-sidebar {
-  background-color: #006161;
+  .custom-sidebar {
+    background-color: #239db9;
 }
 
 
 /* Cambio para el dashboard  */
 
-.nav-item .nav-link.first-li.active {
-  background-color: #008787 !important;
-  color: #fff;
-}
+  .nav-item .nav-link.first-li.active {
+    background-color: #1d8096 !important;
+    color: #fff;
+  }
 
 .nav-item .nav-link.second-li.active {
   background-color: #62d2d2 !important;

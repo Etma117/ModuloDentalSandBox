@@ -39,7 +39,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{% static "plugins/summernote/summernote-bs4.min.css" %}">
   <script src="https://kit.fontawesome.com/78350df3d2.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v1.829">
+  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v1.829q">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
 
@@ -134,7 +134,7 @@
             </a>
             <a class="dropdown-item" href="#">
               <i class="fas fa-map-marker-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-              <strong style='color:#A3835F;'>Secciones: </strong>
+              <strong style='color:#A3835F;'>Clinica: </strong>
               {% if user.is_in_special_groups %}
                   Todas las secciones
               {% else %}
@@ -175,14 +175,17 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-               <li class="nav-item">
+
+        <li class="nav-item">
                 <a href="{% url "home" %}" class="nav-link  {% if navbar == 'home' %}active first-li{% endif %}">  
                   <i class="nav-icon fas fa-th"></i>
                   <p>
-                    Menú
+                  Menú
                   </p>
                 </a>
-              </li>
+        </li>
+
+       
     
           <li class="nav-header">Gestión de Usuarios</li>
           <li class="nav-item {% if navbar == 'gestion_usuarios' %}menu-is-opening menu-open{% endif %}">
@@ -194,18 +197,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link   {% if seccion == '' %}active {% endif %}"> 
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Administrador</p>
-                </a>
-              </li>
+      
               <li class="nav-item">
                 <a href="{% url 'register_user_dentista'  %}" class="nav-link {% if seccion == 'ver_dentistas' %}active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dentista</p>
                 </a>
               </li>
+
+
+              
               <li class="nav-item">
                 <a href="{% url "UserCreateViewAsistente" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
                   <i class="far fa-circle nav-icon"></i>
@@ -218,12 +219,16 @@
                   <p>Paciente</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{% url "UserCreateViewResponsable" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Responsable</p>
-                </a>
-              </li>
+
+              {% if es_administrador %}
+                  <li class="nav-item">
+                    <a href="{% url "UserCreateViewResponsable" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Responsable</p>
+                    </a>
+                  </li>
+              {% endif %}
+   
 
               
             </ul>
@@ -520,7 +525,15 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">
+              {% block dashboard %}
+              
+              
+              {% endblock dashboard %}
+
+
+
+            </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
