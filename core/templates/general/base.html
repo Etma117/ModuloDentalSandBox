@@ -134,7 +134,7 @@
             </a>
             <a class="dropdown-item" href="#">
               <i class="fas fa-map-marker-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-              <strong style='color:#A3835F;'>Secciones: </strong>
+              <strong style='color:#A3835F;'>Clinica: </strong>
               {% if user.is_in_special_groups %}
                   Todas las secciones
               {% else %}
@@ -197,12 +197,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link   {% if seccion == '' %}active {% endif %}"> 
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Administrador</p>
-                </a>
-              </li>
+      
               <li class="nav-item">
                 <a href="{% url 'register_user_dentista'  %}" class="nav-link {% if seccion == 'ver_dentistas' %}active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
@@ -531,7 +526,15 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">
+              {% block dashboard %}
+              
+              
+              {% endblock dashboard %}
+
+
+
+            </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
