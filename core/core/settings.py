@@ -82,6 +82,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'usuarios.context_processors.user_groups',
                 'usuarios.context_processors.group_context',
+                'usuarios.context_processors.user_profile_picture',
+
             ],
         },
     },

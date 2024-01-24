@@ -25,3 +25,8 @@ def group_context(request):
         'es_administrador': request.user.groups.filter(name='Administrador').exists()
     }
     return context
+
+def user_profile_picture(request):
+    if request.user.is_authenticated:
+        return {'user_picture': request.user.foto.url if request.user.foto else None}
+    return {}
