@@ -4,31 +4,35 @@
 Añadir Clínica
 {% endblock %}
 
+{% block script2 %}
+<script>
+    $(document).ready(function () {
+        var inputArchivos = $("#logoClinica");
+        inputArchivos.change(visualizar);
+    
+        function visualizar() {
+            var arrayArchivos = this.files;
+            var ventana = window.URL || window.webkitURL;
+    
+            $.each(arrayArchivos, function (indice, objArchivo) {
+                if (objArchivo.type.indexOf('image') >= 0) {
+                    var url = ventana.createObjectURL(objArchivo);
+    
+                    $('#imagenPrevisualizar').attr('src', url);
+                    window.URL.revokeObjectURL(objArchivo);
+                } else {
+                    alert("Ese archivo no es una imagen");
+                }
+            });
+        }
+    });
+    
+    </script>
+{% endblock %}
+
 {%block content%}
 
-<script>
-$(document).ready(function () {
-    var inputArchivos = $("#logoClinica");
-    inputArchivos.change(visualizar);
 
-    function visualizar() {
-        var arrayArchivos = this.files;
-        var ventana = window.URL || window.webkitURL;
-
-        $.each(arrayArchivos, function (indice, objArchivo) {
-            if (objArchivo.type.indexOf('image') >= 0) {
-                var url = ventana.createObjectURL(objArchivo);
-
-                $('#imagenPrevisualizar').attr('src', url);
-                window.URL.revokeObjectURL(objArchivo);
-            } else {
-                alert("Ese archivo no es una imagen");
-            }
-        });
-    }
-});
-
-</script>
 
 <h1>Añadir nueva clínica</h1>
 
@@ -52,7 +56,9 @@ $(document).ready(function () {
     <div style="margin: 0 20px;">
         <label for="logoClinica">Logo de la clínica</label>
         <input type="file" id="logoClinica" name="logoClinica" style="font-size: 1.2em;" />
-        <img id="imagenPrevisualizar" style="width: 100%; height: 100%;" />
+    </div>
+    <div>
+        <img id="imagenPrevisualizar" style="width: 500px; height: 300px;" />
     </div>
     <button type="submit" style="background-color: #007bff; color: white; font-size: 1.2em;">Guardar</button>
     <button type="cancel" style="background-color: #ff4d4d; color: white; font-size: 1.2em;">Cancelar</button>
