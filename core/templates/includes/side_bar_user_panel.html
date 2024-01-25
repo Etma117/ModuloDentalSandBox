@@ -35,7 +35,15 @@
       {% if user_picture %}
       <img src="{{ user_picture }}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
       {% else %}
-      <img src="{% static 'img/users/user_male.png' %}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
+
+          {% if user_sexo == 'Hombre' %}
+              <img src="{% static 'img/users/user_male.png' %}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
+          {% elif user_sexo == 'Mujer' %}
+              <img src="{% static 'img/users/user_female.png' %}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
+          {% else %}
+              <img src="{% static 'img/usuariono.png' %}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
+          {% endif %}
+  
       {% endif %}
   </div>
   

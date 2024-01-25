@@ -4,28 +4,48 @@
 
 
 {% block dashboard %}
-        {% if es_dentista %}
+    <style>
+        .texto-bienvenida {
+            font-family: Arial, sans-serif; /* Cambia esto por la fuente que prefieras */
+            color: #767676; /* Cambia esto por el color que prefieras */
+            font-size: 24px; 
+            margin-left:50px;
+        }
         
-        Bienvenido Dr.
+    </style>
 
-        {% elif  es_responsable%}
-        Bienvenido Responsable
+            {% if es_dentista %}
+            <span class="texto-bienvenida d-none d-md-block">Bienvenido Dr. {{ user_nombre }} {{ user_apellido }}</span>
+            {% elif es_responsable %}
+                <span class="texto-bienvenida d-none d-md-block">Bienvenido Responsable {{ user_nombre }} {{ user_apellido }}</span>
+            {% elif es_administrador %}
+                <span class="texto-bienvenida d-none d-md-block">Bienvenido Administrador {{ user_nombre }} {{ user_apellido }}</span>
+            {% else %}
+                <span class="texto-bienvenida d-none d-md-block">Bienvenido {{ user_nombre }} {{ user_apellido }}</span>
+            {% endif %}
 
-        {% elif es_administrador %}
-        Bienvenido Administrador
-
-        {% else %}
-
-            Bienvenido
-
-        {% endif %}      
 {% endblock dashboard %}
+{% block dashboard1 %}
+<p id="current-time" class="texto-bienvenida d-none d-md-block"></p>
 
+{% endblock dashboard1 %}
 {% block content %}
-    <h1>hola</h1>
 
-    shdjhdjheuh 
 
+    <script>
+        function updateCurrentTime() {
+          var now = new Date();
+          var timeString = now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +
+                           ' - ' + now.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          document.getElementById('current-time').textContent = '' + timeString;
+        }
+        
+        // Actualizar la hora cada segundo
+        setInterval(updateCurrentTime, 1000);
+        
+        // Llamar a la función inmediatamente para inicializar la hora
+        updateCurrentTime();
+    </script>
 {% endblock content %}
 
 
