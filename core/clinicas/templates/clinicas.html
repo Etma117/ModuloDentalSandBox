@@ -6,23 +6,24 @@ Clinicas
 
 {%block content%}
 
-
-<div class="row" style="display: flex; margin-left: auto;">
-    <button type="button" class="btn btn-success" style="font-size: 18px;">
-        Añadir clinica
-    </button>
+<div class="row justify-content-end">
+    <div class="col-auto">
+        <button type="button" class="btn btn-success" style="font-size: 18px;">
+            Añadir clínica
+        </button>
+    </div>
 </div>
-<div class="row" style="padding-top:10px;">
+
+<div class="row mt-2">
     <div class="col-md-3">
         <div class="card" style="background: #0289A8; border-radius: 25px;">
-            <a href="{% url "vistaClinicas" %}">
-                <div class="card-body">
-                    <i class="fas fa-hospital fa-7x" style="padding: 1px 0px 1px 110px; color: white;"></i>
-                    <h3 style="color: white; padding: 10px 60px 10px;"> Nombre de la clinica </h3>
+            <a href="{% url 'vistaClinicas' %}">
+                <div class="card-body text-center">
+                    <i class="fas fa-hospital fa-7x" style="color: white;"></i>
+                    <h3 class="text-white mt-3">Nombre de la clínica</h3>
                 </div>
             </a>
         </div>
     </div>
 </div>
-
 {% endblock %}
