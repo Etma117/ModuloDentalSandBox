@@ -46,6 +46,96 @@
         // Llamar a la función inmediatamente para inicializar la hora
         updateCurrentTime();
     </script>
+
+<div class="row">
+    <div class="col-lg-4 col-6" >
+        <div class="small-box bg-info" style="box-sizing: content-box;">
+            <div class="inner">
+                <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
+                <a style="font-size: xx-large;">Número de pacientes</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
+                <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
+                <a style="font-size: xx-large;">Citas próximas</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
+                <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <i class="fa-solid fa-phone fa-3x" style="margin-bottom: 45px;"></i>
+                <a style="font-size: xx-large;">Citas reagendadas</a>
+                <a style="font-size: xx-large;margin-left: 5px;">340</a>
+                <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <a href="#" class="card btn bg-info" style="text-decoration: none;">
+            <div class="card-body">
+                <i class="fa-solid fa-user-plus fa-6x" style="float: left;"></i>
+                <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir paciente</h2>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="#" class="card btn bg-info" style="text-decoration: none;">
+            <div class="card-body">
+                <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
+                <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir cita</h2>
+            </div>
+        </a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID. Cita</th>
+            <th>Nombre</th>
+            <th>Hora</th>
+            <th>Estatus</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>045</td>
+            <td>Juana Perez</td>
+            <td>12:30 p.m.</td>
+            <td> Pendiente</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>045</td>
+            <td>Juana Perez</td>
+            <td>12:30 p.m.</td>
+            <td> Pendiente</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>045</td>
+            <td>Juana Perez</td>
+            <td>12:30 p.m.</td>
+            <td> Pendiente</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
 {% endblock content %}
 
 
