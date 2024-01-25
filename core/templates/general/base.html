@@ -234,7 +234,8 @@
 
               
             </ul>
-          </li>     
+          </li> 
+          {% if es_administrador %}    
           <li class="nav-header">Gestion de Clinicas </li>
           <li class="nav-item">
             <a href="{% url "clinicas" %}" class="nav-link  first-li">  
@@ -244,6 +245,7 @@
               </p>
             </a>
           </li>  
+          {% endif %}
           <li class="nav-header">Gestión de Citas</li>
 
           <li class="nav-item">
