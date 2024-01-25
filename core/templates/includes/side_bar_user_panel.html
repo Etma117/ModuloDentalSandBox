@@ -1,12 +1,56 @@
 {% load static %}
 
+
+<style>
+
+  .user-picture-large {
+    width: 200px !important;
+    height: 200px !important;
+  }
+
+  .user-picture-small {
+    width: 45px !important;
+    height: 45px !important;
+  }
+  .info {
+    /* Estilos para la sección de 'Editar perfil' */
+    margin-top: 190px; /* Espaciado superior */
+    margin-left: -160px;
+  }
+
+  .info a {
+    /* Estilos adicionales para el enlace si es necesario */
+  }
+
+  .info 1{
+    /* Estilos para la sección de 'Editar perfil' */
+    margin-top: 200px; /* Espaciado superior */
+    margin-left: -150px;
+  }
+
+
+</style>
 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
   <div class="image">
       {% if user_picture %}
-      <img src="{{ user_picture }}" class="img-circle elevation-2" alt="User Image" style="width: 200px; height: 200px;">
+      <img src="{{ user_picture }}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
       {% else %}
-          <img src="dist/img/default-user-image.jpg" class="img-circle elevation-2" alt="User Image">
+
+          {% if user_sexo == 'Hombre' %}
+              <img src="{% static 'img/users/user_male.png' %}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
+          {% elif user_sexo == 'Mujer' %}
+              <img src="{% static 'img/users/user_female.png' %}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
+          {% else %}
+              <img src="{% static 'img/usuariono.png' %}" class="img-circle elevation-2 user-picture user-picture-large" alt="User Image">
+          {% endif %}
+  
       {% endif %}
+  </div>
+  
+  <div class="editar">
+    <a href="{% url "editar_usuario" user_id%}" class="d-block ml-2 mt-2">
+           <i class="fas fa-edit "></i> Editar perfil
+    </a>
   </div>
 </div>
 

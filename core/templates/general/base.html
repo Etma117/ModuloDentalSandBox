@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>  
     {% block titulo %}
-    Brayan 
+    Dental Smile 
     {% endblock titulo %}
 </title>
 
@@ -31,7 +31,7 @@
   <!-- JQVMap -->
   <link rel="stylesheet" href="{% static "plugins/jqvmap/jqvmap.min.css" %}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}">
+  <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}?v1.1">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{% static "plugins/overlayScrollbars/css/OverlayScrollbars.min.css" %}">
   <!-- Daterange picker -->
@@ -47,7 +47,9 @@
   {% block link %}{% endblock link %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+
+
+  <div class="wrapper">
 
   <!-- Preloader -->
  {% include "includes/preloader.html" %}
@@ -233,6 +235,15 @@
               
             </ul>
           </li>     
+          <li class="nav-header">Gestion de Clinicas </li>
+          <li class="nav-item">
+            <a href="{% url "clinicas" %}" class="nav-link  first-li">  
+              <i class="nav-icon fas fa-calendar"></i>
+              <p>
+                Clinicas
+              </p>
+            </a>
+          </li>  
           <li class="nav-header">Gestión de Citas</li>
 
           <li class="nav-item">
@@ -538,8 +549,12 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
+              {% block dashboard1 %}
+              
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard v1</li>
+              {% endblock dashboard1 %}
+      
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -812,6 +827,44 @@
         confirmButtonText: 'Entendido'
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Función para determinar si el sidebar está cerrado
+  function isSidebarClosed() {
+      var bodyClassList = document.body.classList;
+      return bodyClassList.contains('sidebar-closed') || bodyClassList.contains('sidebar-collapse');
+  }
+
+  // Obtiene la imagen del usuario y el div de editar perfil
+  var userImage = document.querySelector('.user-picture');
+  var editProfileDiv = document.querySelector('.editar');
+
+  function updateUI() {
+      // Actualiza el tamaño de la imagen
+      if (userImage) {
+          if (isSidebarClosed()) {
+              userImage.classList.replace('user-picture-large', 'user-picture-small');
+              editProfileDiv.classList.remove('info');
+          } else {
+              userImage.classList.replace('user-picture-small', 'user-picture-large');
+              editProfileDiv.classList.add('info');
+          }
+      }
+  }
+
+  // Configura el estado inicial del UI
+  updateUI();
+
+  // Escucha los cambios en el estado del sidebar
+  var sidebarToggle = document.querySelector('[data-widget="pushmenu"]');
+  if (sidebarToggle) {
+      sidebarToggle.addEventListener('click', function () {
+          setTimeout(updateUI, 250); // Ajusta este tiempo si es necesario
+      });
+  }
+});
+
+
 </script>
 </body>
 </html>

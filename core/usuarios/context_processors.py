@@ -1,6 +1,11 @@
 
 
 
+from django.utils import timezone
+
+from usuarios.models import CustomUser
+
+
 def profile_completion(request):
     user_profile_complete = True  # Cambiar por la lógica real de comprobación
     if request.user.is_authenticated:
@@ -28,5 +33,25 @@ def group_context(request):
 
 def user_profile_picture(request):
     if request.user.is_authenticated:
-        return {'user_picture': request.user.foto.url if request.user.foto else None}
+        # Obtiene el nombre y apellidos del usuario
+        nombre = request.user.first_name
+        apellido = request.user.last_name
+        sexo = request.user.sexo  # Asumiendo que el campo sexo es parte del modelo de usuario.
+        sexo_display = dict(CustomUser.SEX_CHOICES).get(sexo, '')
+
+        return {
+            'user_id': request.user.id,
+            'user_picture': request.user.foto.url if request.user.foto else None,
+            'user_nombre': nombre,
+            'user_apellido': apellido,
+            'user_sexo': sexo_display,  # Agregamos esta línea.
+
+            # ... puedes agregar más información del usuario aquí si es necesario ...
+        }
     return {}
+
+
+def current_time(request):
+    return {
+        'current_time': timezone.localtime()
+    }

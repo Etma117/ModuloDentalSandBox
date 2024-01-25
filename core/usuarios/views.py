@@ -11,7 +11,7 @@ from django.views.generic.detail import DetailView
 
 # Local imports
 from .models import CustomUser
-from .forms import CustomUserCreationFormTemplate
+from .forms import CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
 
 # Create your views here.
 
@@ -35,6 +35,26 @@ class UserCreateViewDentista(CreateView):
         context['seccion'] = 'ver_dentistas'  # Cambia esto según la página activa
 
         return context
+    
+
+class UserUpdateView(UpdateView):
+    model = CustomUser
+    form_class = CustomUserUpdateDentistaFormTemplate  
+    template_name = 'editar/edit_user_profile.html'  
+    success_url = reverse_lazy('home')  
+
+    def form_valid(self, form):
+        messages.success(self.request, "Perfil actualizado con éxito.")
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'  # Cambia esto según la página activa
+        context['seccion'] = 'editar_perfil'  # Cambia esto según la página activa
+        return context
+    
+
+
     
 class UserCreateViewPaciente(CreateView):
     model = CustomUser

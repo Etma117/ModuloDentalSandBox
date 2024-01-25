@@ -83,6 +83,7 @@ TEMPLATES = [
                 'usuarios.context_processors.user_groups',
                 'usuarios.context_processors.group_context',
                 'usuarios.context_processors.user_profile_picture',
+                'usuarios.context_processors.current_time',
 
             ],
         },
