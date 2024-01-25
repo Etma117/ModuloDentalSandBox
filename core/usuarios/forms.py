@@ -73,9 +73,9 @@ class CustomUserCreationFormTemplate(UserCreationForm):
 class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
     fecha_nacimiento = forms.DateField(
         label="Fecha de Nacimiento:",
-        widget=forms.DateInput(attrs={'type': 'date'}),
-        input_formats=['%Y-%m-%d'],  # Formato de fecha ajustado para el widget 'date'
-    )
+        widget=forms.DateInput(attrs={'type': 'text', 'id': 'date', 'placeholder': "DD/MM/YYYY"}),
+        input_formats=['%d/%m/%Y'],
+     )
 
     def clean_fecha_nacimiento(self):
         data = self.cleaned_data['fecha_nacimiento']
