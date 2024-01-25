@@ -11,8 +11,36 @@ Registrar Usuario
 
 
 {% block dashboard %}
-<a class="btn btn-sm btn-icon1 " href="{% url "home" %}">
-  <i class="fas fa-arrow-left"></i>
+<a class="btn btn-sm  " href="{% url "home" %}">
+    <style>
+        .btn-custom {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 12px;
+          border-radius: 50%;
+          background: linear-gradient(45deg, #239DB9, #FFFFFF); /* Combinación de colores */
+          color: white; /* Color del texto */
+          border: 2px solid #239DB9; /* Color del borde (puede ajustarse) */
+          cursor: pointer;
+          transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+      
+        .btn-custom:hover {
+          background: linear-gradient(45deg, #239DB9, #FFFFFF); /* Combinación de colores al pasar el cursor */
+          color: white; /* Color del texto al pasar el cursor */
+          border-color: #239DB9; /* Color del borde al pasar el cursor */
+          transform: scale(1.1); /* Efecto de escala al pasar el cursor */
+        }
+      
+        .btn-custom i {
+          margin-right: 5px; /* Espaciado entre el ícono y el texto (ajustable) */
+        }
+      </style>
+      
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>  
 </a>
 {% endblock dashboard %}
 
@@ -34,7 +62,7 @@ Registrar Usuario
     
     .image-icon {
         font-size: 100px; /* Ajusta al tamaño deseado */
-        color: #6c757d; /* Color del icono */
+        color: #8A8F90; /* Color del icono */
         display: block; /* Asegurarse de que se muestre el icono */
     }
     
@@ -102,12 +130,12 @@ Registrar Usuario
         left: 0;
         width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
         height: 4px; /* Ajusta el grosor de la línea aquí */
-        background-color: #286060; /* Ajusta el color de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
     }
 
 </style>
 <div class="dashboard-header">
-    <h1 class="dashboard-title">Ańadir Nuevo Responsable de Clinica</h1>
+    <h1 class="dashboard-title" style="color: black;">Añadir Nuevo Responsable</h1>
 </div>
 
 {% if form.non_field_errors %}
@@ -139,7 +167,7 @@ Registrar Usuario
 
     <div class="card">
         <div class="card-header">
-            <i class="fa-solid fa-circle-plus" style="color: #3A8586;"></i> Registrar Nuevo Usuario
+            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Registrar Nuevo Usuario</strong>
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
