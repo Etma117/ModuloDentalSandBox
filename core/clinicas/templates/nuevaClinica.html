@@ -1,0 +1,62 @@
+{% extends 'general/base.html' %}
+
+{% block titulo %}
+Añadir Clínica
+{% endblock %}
+
+{%block content%}
+
+<script>
+$(document).ready(function () {
+    var inputArchivos = $("#logoClinica");
+    inputArchivos.change(visualizar);
+
+    function visualizar() {
+        var arrayArchivos = this.files;
+        var ventana = window.URL || window.webkitURL;
+
+        $.each(arrayArchivos, function (indice, objArchivo) {
+            if (objArchivo.type.indexOf('image') >= 0) {
+                var url = ventana.createObjectURL(objArchivo);
+
+                $('#imagenPrevisualizar').attr('src', url);
+                window.URL.revokeObjectURL(objArchivo);
+            } else {
+                alert("Ese archivo no es una imagen");
+            }
+        });
+    }
+});
+
+</script>
+
+<h1>Añadir nueva clínica</h1>
+
+<form action="" method="post">
+    <div style="margin: 0 20px;">
+        <label for="nombreClinica">Nombre de la clínica</label>
+        <input type="text" id="nombreClinica" name="nombreClinica" style="font-size: 1.2em;" />
+    </div>
+    <div style="margin: 0 20px;">
+        <label for="direccionClinica">Dirección de la clínica</label>
+        <input type="text" id="direccionClinica" name="direccionClinica" style="font-size: 1.2em;" />
+    </div>
+    <div style="margin: 0 20px;">
+        <label for="responsableClinica">Responsable de la clínica</label>
+        <input type="text" id="responsableClinica" name="responsableClinica" style="font-size: 1.2em;" />
+    </div>
+    <div style="margin: 0 20px;">
+        <label for="horarioAtencion">Horario de atención</label>
+        <input type="text" id="horarioAtencion" name="horarioAtencion" style="font-size: 1.2em;" />
+    </div>
+    <div style="margin: 0 20px;">
+        <label for="logoClinica">Logo de la clínica</label>
+        <input type="file" id="logoClinica" name="logoClinica" style="font-size: 1.2em;" />
+        <img id="imagenPrevisualizar" style="width: 100%; height: 100%;" />
+    </div>
+    <button type="submit" style="background-color: #007bff; color: white; font-size: 1.2em;">Guardar</button>
+    <button type="cancel" style="background-color: #ff4d4d; color: white; font-size: 1.2em;">Cancelar</button>
+</form>
+
+
+{% endblock %}
