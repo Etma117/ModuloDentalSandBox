@@ -1,0 +1,25 @@
+{%extends 'general/base.html' %}
+{% block dashboard %}
+        {% if es_dentista %}
+        
+        Bienvenido Dr.
+
+        {% elif  es_responsable%}
+        Bienvenido Responsable
+
+        {% elif es_administrador %}
+        Bienvenido Administrador
+
+        {% else %}
+
+            Bienvenido
+
+        {% endif %}      
+{% endblock dashboard %}
+
+{% block content %}
+    <h1>hola</h1>
+
+    shdjhdjheuh 
+
+{% endblock content %}
