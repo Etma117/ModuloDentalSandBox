@@ -234,19 +234,20 @@
 
               
             </ul>
-          </li>     
-          <li class="nav-header">Gestión de Citas</li>
-
+          </li> 
+          {% if es_administrador %}    
+          <li class="nav-header">Gestion de Clinicas </li>
           <li class="nav-item">
-            <a href="#" class="nav-link  first-li">  
-              <i class="nav-icon fas fa-hospital"></i>
+            <a href="{% url "clinicas" %}" class="nav-link  first-li">  
+              <i class="nav-icon fas fa-calendar"></i>
               <p>
                 Clinicas
               </p>
             </a>
-          </li>
-
+          </li>  
+          {% endif %}
           <li class="nav-header">Gestión de Citas</li>
+
           <li class="nav-item">
             <a href="#" class="nav-link  first-li">  
               <i class="nav-icon fas fa-calendar"></i>
