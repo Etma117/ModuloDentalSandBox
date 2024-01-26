@@ -304,35 +304,58 @@ Editar datos del Usuario
 
 
 
-
-        <div class="card card1 collapsed-card">
-            <div class="card-header">
-
-                <i class="fas fa-solid fa-key fa-2x" style="color: #239db9;"></i> <strong>Cambiar Contraseña</strong>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                </button>
-              </div>
+<div class="card card1 card2 collapsed-card">
+    <div class="card-header">
+        <i class="fas fa-solid fa-key fa-2x" style="color: #239db9;"></i> <strong>Cambiar Contraseña</strong>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <form id="passwordChangeForm" onsubmit="return changePasswordAjax();">
+            <!-- Contraseña Actual -->
+            <div class="form-group">
+                <label for="id_old_password">Contraseña Actual</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_old_password" name="old_password" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_old_password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                      <label for="currentPassword" class="form-label">Contraseña Actual</label>
-                      <input type="password" class="form-control" id="currentPassword" required>
+            <!-- Nueva Contraseña -->
+            <div class="form-group">
+                <label for="id_new_password1">Nueva Contraseña</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_new_password1" name="new_password1" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_new_password1')">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
-                    <div class="mb-3">
-                      <label for="newPassword" class="form-label">Nueva Contraseña</label>
-                      <input type="password" class="form-control" id="newPassword" required>
+                </div>
+            </div>
+            <!-- Confirmar Nueva Contraseña -->
+            <div class="form-group">
+                <label for="id_new_password2">Confirmar Nueva Contraseña</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_new_password2" name="new_password2" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_new_password2')">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
-                    <div class="mb-3">
-                      <label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña</label>
-                      <input type="password" class="form-control" id="confirmPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
-                  </form>            </div>
-            <!-- /.card-body -->
-          </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom2">Cambiar Contraseña</button>
+        </form>
+    </div>
+    <!-- /.card-body -->
+</div>
+
   
 <!-- Modal para la captura de foto -->
 <div class="modal fade" id="cameraModal" tabindex="-1" role="dialog" aria-labelledby="cameraModalLabel" aria-hidden="true">
@@ -359,6 +382,11 @@ Editar datos del Usuario
         </div>
       </div>
     </div>
+</div>
+
+
+<div id="passwordChangeSection">
+
 </div>
 
 
@@ -535,4 +563,68 @@ Editar datos del Usuario
         }
     });
   </script>
+
+
+  <script>
+ // Para evitar el envío normal del formulario
+ function changePasswordAjax() {
+    let formData = new FormData(document.getElementById('passwordChangeForm'));
+    formData.append('change_password', '1'); // Identificador para el backend
+
+    fetch(window.location.href, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',  // Asegúrate de obtener el token CSRF
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mostrar mensaje de éxito con SweetAlert
+            Swal.fire({
+                title: 'Éxito!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Colapsar la tarjeta
+                    $('.card2').CardWidget('collapse');
+                }
+            });
+        } else {
+            // Mostrar errores con SweetAlert
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error al cambiar la contraseña.',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
+        }
+    })
+    .catch(error => {
+        // Manejar error
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'Se produjo un error en la solicitud.',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+    });
+
+    return false; // Para evitar el envío normal del formulario
+}
+
+function togglePassword(fieldId) {
+    var field = document.getElementById(fieldId);
+    if (field.type === "password") {
+        field.type = "text";
+    } else {
+        field.type = "password";
+    }
+}
+
+</script>
 {% endblock script2 %}
