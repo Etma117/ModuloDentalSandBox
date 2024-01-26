@@ -18,7 +18,7 @@ Citas
 {% block content %}
 <div class = "conteiner-lg">
     <div class = "row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" style = "border-radius: 15px;">
                 
             <table class="table table-primary " id = "tabla-eventos">
                 <thead>
@@ -56,16 +56,16 @@ Citas
                             {{ cita.fecha|date:"d/m/Y"  }}
                         </td>
                         <td>
-                            {{ cita.hora_inicio| time:"H:i:s"}}
+                            {{ cita.hora_inicio| time:"H:i"}}
                         </td>
                         <td>
                             {{ cita.estado_cita }}
                         </td>
                         <td>
-                            <a href="#" class="text-primary" style="padding-left: 10px; text-decoration: none;">
+                            <a href="{% url 'Editar_Cita' pk=cita.id%}" class="text-primary" style="padding-left: 10px; text-decoration: none;">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="mr-1 text-danger" style="padding-left: 10px; text-decoration: none;">
+                            <a href="{% url 'Cancelar_Cita' pk=cita.id%}" class="mr-1 text-danger" style="padding-left: 10px; text-decoration: none;">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -75,11 +75,23 @@ Citas
                     {% endfor %}
 
                 </tbody>
-            </table>   
+            </table> 
+
+            <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; ">
+                <div class="card-body">
+                    <i class="fa-regular fa-calendar-plus fa-6x" ></i>
+                    <h2 style="font-size: x-large;  margin-bottom: 0;">Añadir cita</h2>
+                </div>
+            </a>
+
+
         </div>
 
         <div class="col-lg-6" style="border: 2px solid #ccc; padding: 10px; border-radius: 15px;">
             <div id="calendar" ></div>
+        </div>
+        <div class="col-md-3">
+            
         </div>
     </div>
     
