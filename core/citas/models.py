@@ -1,11 +1,9 @@
 from django.db import models
 from django.utils import timezone
+from datetime import datetime, timedelta
+
+from clinicas.models import Clinica
 from usuarios.models import CustomUser
-from django.conf import settings
-
-
-# Create your models here.
-
 
 class Cita(models.Model):
 
@@ -16,13 +14,16 @@ class Cita(models.Model):
         ('Concluida', 'Concluida')
     )
 
-    paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)#models.CharField(max_length=255, blank=True) #models.ForeignKey(settings.AUTH_USER_MODEL)
-    doctor = models.CharField(max_length=255, blank=True)  #models.ForeignKey(CustomUser, on_delete= models.CASCADE)
-    fecha = models.DateField()  
+    doctor = models.ForeignKey(CustomUser, related_name='doctor_citas', on_delete=models.CASCADE)
+    paciente = models.ForeignKey(CustomUser, related_name='paciente_citas', on_delete=models.CASCADE)
+
+    clinica = models.ForeignKey(Clinica, related_name='clinica_cita', on_delete=models.CASCADE)
+   
+    fecha = models.DateField(default=(datetime.now() + timedelta(days=1)).date()) 
     hora_inicio = models.TimeField(default=timezone.now)
     hora_termino = models.TimeField(default=timezone.now)
 
-    estado_cita = models.CharField(choices=ESTADOS_CITA, max_length=40)
+    estado_cita = models.CharField(choices=ESTADOS_CITA, max_length=40, default='Espera')
 
-    #def __str__(self):
-        #return self.paciente
+    def __str__(self):
+        return self.fecha   
