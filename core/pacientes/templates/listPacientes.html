@@ -70,7 +70,13 @@ Ver Pacientes
         <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de pacientes </strong>
     </div>
     <div class="card-body">
+        {% if grupo_paciente_existe %}
 
+        {% else %}
+            <a href="{% url "UserCreateViewPaciente" %}" class="btn btn-custom2">Agregar nuevo dentista</a>
+
+        {% endif %}
+        
 
         <table id="example" class="display" style="width:100%">
             <thead>

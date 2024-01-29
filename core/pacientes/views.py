@@ -27,5 +27,6 @@ class PacienteListView(ListView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
         context['seccion'] = 'ver_pacientes'
+        context['grupo_paciente_existe'] = Group.objects.filter(name='Paciente').exists()
         return context
     
