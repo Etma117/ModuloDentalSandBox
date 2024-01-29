@@ -26,6 +26,8 @@ class UserCreateViewDentista(CreateView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.created_by = self.request.user
+        user.tipo_usuario = 'dentista'  
+
         user.save()
         admin_group, created = Group.objects.get_or_create(name='Dentista')
         user.groups.add(admin_group)
@@ -82,6 +84,8 @@ class UserCreateViewPaciente(CreateView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.created_by = self.request.user
+        user.tipo_usuario = 'paciente'  
+
         user.save()
         admin_group, created = Group.objects.get_or_create(name='Paciente')
         user.groups.add(admin_group)
@@ -103,6 +107,8 @@ class UserCreateViewAsistente(CreateView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
+        user.tipo_usuario = 'asistente'  
+
         user.created_by = self.request.user
         user.save()
         admin_group, created = Group.objects.get_or_create(name='Asistente')

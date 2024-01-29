@@ -44512,8 +44512,13 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 
 
 .user-picture-large {
-  width: 00px;
+  width: 200px;
   height: 200px;
+}
+
+.user-picture-medium {
+  width: 15px;
+  height: 15px;
 }
 
 .user-picture-small {

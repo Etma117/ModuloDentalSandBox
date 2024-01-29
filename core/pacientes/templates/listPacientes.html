@@ -23,6 +23,43 @@ Ver Pacientes
 
 {% block contenido %}
 
+<style>
+    #example {
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        width: 100%;
+        border: none;
+    }
+
+    #example thead tr {
+        background-color: #007bff; /* Cambia este color según tu preferencia */
+        color: white;
+    }
+
+    #example th, #example td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    #example tr:nth-child(even) {background-color: #f2f2f2;}
+
+    #example tr:hover {background-color: #ddd;}
+
+    .user-picture-medium {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+    }
+
+
+    #example thead tr {
+        background-color: #4C9BB6;
+        color: white;
+        border-radius: 100%;
+    }
+</style>
 
 
 
@@ -33,6 +70,60 @@ Ver Pacientes
         <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de pacientes </strong>
     </div>
     <div class="card-body">
+
+
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th></th>
+        
+
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Tipo Usuario</th>
+                    <!-- Agrega más columnas según lo que desees mostrar -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                <tr>
+
+                    {% if paciente.foto  %}
+                    <td style="text-align: center; vertical-align: middle;">
+
+                        <img src="{{paciente.foto.url }}" class="img-circle elevation-2  user-picture-medium mt-2 " alt="User Image">
+                        <br>
+                    </td>
+                    
+                    {% else %}
+                    <td style="text-align: center; vertical-align: middle;">
+                            {% if paciente.sexo == "Hombre" %}
+                                    <img src="{% static 'img/users/user_male.png' %}" class="img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+                            {% elif paciente.sexo == "Mujer" %}
+                                    <img src="{% static 'img/users/user_female.png' %}" class="img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+                            {% else %}
+                                    <img src="{% static 'img/usuariono.png' %}" class="img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+
+                            {% endif %}
+
+                        </td>
+                    {% endif %}
+
+                    <td>{{ paciente.get_full_name }}</td>
+                    <td>{{ paciente.email }}</td>
+                    <td>{{ paciente.celular }}</td>
+                    <td>{{ paciente.get_tipo_usuario_display }}</td>
+                    <!-- Más campos de paciente si es necesario -->
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No hay pacientes registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
 
     </div>
 </div>
@@ -94,7 +185,7 @@ Ver Pacientes
 <script>
   $(document).ready(function() {
     // Define la configuración de DataTables dentro de la función ready para asegurarte de que el DOM está cargado.
-    $("#example1").DataTable({
+    $("#example").DataTable({
       {% block filtro %}
       // Aquí podrías incluir cualquier filtro personalizado si es necesario.
       {% endblock filtro %}
@@ -113,20 +204,13 @@ Ver Pacientes
       {% endblock dom %}
       buttons: [
         {
-          text: 'Crear Promovido',
-          className: 'btn btn-custom1 mr-2',
+          text: 'Nuevo Paciente',
+          className: 'btn btn-custom2 mr-2',
           action: function (e, dt, node, config) {
             window.location.href = '';
           }
         },
-        {
-          text: '<i class="fas fa-map"></i>', // Ícono de mapa de FontAwesome
-          className: 'btn btn-custom1 mr-2',
-          action: function (e, dt, node, config) {
 
-            window.location.href = '';
-          }
-        },
         // Botones por defecto
         {extend: 'copy', text: '<i class="fas fa-clone"></i>', class: 'btn btn-secondary', titleAttr: 'Copiar a Documento', exportOptions: {  columns: ':visible'  }},
         {extend: 'excel', text: '<i class="fas fa-file-excel"></i>', class: 'btn btn-secondary', titleAttr: 'Exportar a Excel', exportOptions: {  columns: ':visible' }},
@@ -166,8 +250,15 @@ Ver Pacientes
         }
       }
     });
-    $("#example1_wrapper .btn").css("margin-bottom", "40px"); // Ajusta el margen según tus necesidades
+    $("#example_wrapper .btn").css("margin-bottom", "40px"); // Ajusta el margen según tus necesidades
+    $("#example_info").css("margin-bottom", "40px"); // Ajusta el margen según tus necesidades
+
+    
   });
+
+
+
+
 </script>
 
 {% endblock script1 %}
