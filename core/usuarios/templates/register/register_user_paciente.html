@@ -11,33 +11,7 @@ Registrar Usuario
 
 
 {% block dashboard %}
-<a class="btn btn-sm  " href="{% url "home" %}">
-    <style>
-        .btn-custom {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 12px;
-          border-radius: 50%;
-          background: linear-gradient(45deg, #239DB9, #FFFFFF); /* Combinación de colores */
-          color: white; /* Color del texto */
-          border: 2px solid #239DB9; /* Color del borde (puede ajustarse) */
-          cursor: pointer;
-          transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-        }
-      
-        .btn-custom:hover {
-          background: linear-gradient(45deg, #239DB9, #FFFFFF); /* Combinación de colores al pasar el cursor */
-          color: white; /* Color del texto al pasar el cursor */
-          border-color: #239DB9; /* Color del borde al pasar el cursor */
-          transform: scale(1.1); /* Efecto de escala al pasar el cursor */
-        }
-      
-        .btn-custom i {
-          margin-right: 5px; /* Espaciado entre el ícono y el texto (ajustable) */
-        }
-      </style>
-      
+<a class="btn btn-sm  " href="{% url "home" %}">      
       <button class="btn-custom">
         <i class="fas fa-chevron-left"></i>
       </button>  

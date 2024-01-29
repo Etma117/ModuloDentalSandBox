@@ -39,7 +39,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{% static "plugins/summernote/summernote-bs4.min.css" %}">
   <script src="https://kit.fontawesome.com/78350df3d2.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v1.829q">
+  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v2">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
 
@@ -313,9 +313,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="{% url "ver_pacientes" %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Historial Médico</p>
+                  <p>Ver Pacientes</p>
                 </a>
               </li>
               <li class="nav-item">
