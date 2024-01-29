@@ -8,6 +8,9 @@ Citas
 {% block link %}
 
 <link rel="stylesheet" href=" {% static 'fullcalendar/lib/main.css' %}">
+<!--link rel="stylesheet" href=" https://bootswatch.com/5/minty/bootstrap.min.css"-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+
 
 {%endblock link%}
 
@@ -18,7 +21,7 @@ Citas
 {% block content %}
 <div class = "conteiner-lg">
     <div class = "row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" style = "border-radius: 15px;">
                 
             <table class="table table-primary " id = "tabla-eventos">
                 <thead>
@@ -56,16 +59,16 @@ Citas
                             {{ cita.fecha|date:"d/m/Y"  }}
                         </td>
                         <td>
-                            {{ cita.hora_inicio| time:"H:i:s"}}
+                            {{ cita.hora_inicio| time:"H:i"}}
                         </td>
                         <td>
                             {{ cita.estado_cita }}
                         </td>
                         <td>
-                            <a href="#" class="text-primary" style="padding-left: 10px; text-decoration: none;">
+                            <a href="{% url 'Editar_Cita' pk=cita.id%}" class="text-primary" style="padding-left: 10px; text-decoration: none;">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="mr-1 text-danger" style="padding-left: 10px; text-decoration: none;">
+                            <a href="{% url 'Cancelar_Cita' pk=cita.id%}" class="mr-1 text-danger" style="padding-left: 10px; text-decoration: none;">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -75,11 +78,23 @@ Citas
                     {% endfor %}
 
                 </tbody>
-            </table>   
+            </table> 
+
+            <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; ">
+                <div class="card-body">
+                    <i class="fa-regular fa-calendar-plus fa-6x" ></i>
+                    <h2 style="font-size: x-large;  margin-bottom: 0;">Añadir cita</h2>
+                </div>
+            </a>
+
+
         </div>
 
         <div class="col-lg-6" style="border: 2px solid #ccc; padding: 10px; border-radius: 15px;">
             <div id="calendar" ></div>
+        </div>
+        <div class="col-md-3">
+            
         </div>
     </div>
     
@@ -98,20 +113,24 @@ Citas
         document.addEventListener('DOMContentLoaded', function(){
             var calendarUI = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarUI, {
+                themeSystem: 'bootstrap5',
                 headerToolbar:{
                     left: 'prev,next today',
                     center:'title',                    
                     right: 'dayGridMonth,dayGridWeek,dayGridDay',
                 },
+                               
                 events: [
                 {%for cita in cita%}
                     {
                         title: 'Consulta {{cita.paciente}}',
                         start: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_inicio | time:"H:i:s"}}', 
                         end: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_termino | time:"H:i:s"}}',
+                        url: '{% url 'Detalle_Cita' pk=cita.id %}'
                     },
                 {% endfor %}
                 ]
+
             });
             calendar.render();
             calendar.setOption('locale','es');

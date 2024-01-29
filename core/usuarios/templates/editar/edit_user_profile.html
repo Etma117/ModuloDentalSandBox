@@ -1,7 +1,7 @@
 {% extends "general/base.html" %}
 {% load static %}
 {% block titulo %}
-Registrar Usuario
+Editar datos del Usuario
 {% endblock titulo %}
 
 {% block link %}
@@ -12,31 +12,7 @@ Registrar Usuario
 
 {% block dashboard %}
 <a class="btn btn-sm  " href="{% url "home" %}">
-    <style>
-        .btn-custom {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 12px;
-          border-radius: 50%;
-          background: linear-gradient(45deg, #239DB9, #FFFFFF); /* Combinación de colores */
-          color: white; /* Color del texto */
-          border: 2px solid #239DB9; /* Color del borde (puede ajustarse) */
-          cursor: pointer;
-          transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-        }
-      
-        .btn-custom:hover {
-          background: linear-gradient(45deg, #239DB9, #FFFFFF); /* Combinación de colores al pasar el cursor */
-          color: white; /* Color del texto al pasar el cursor */
-          border-color: #239DB9; /* Color del borde al pasar el cursor */
-          transform: scale(1.1); /* Efecto de escala al pasar el cursor */
-        }
-      
-        .btn-custom i {
-          margin-right: 5px; /* Espaciado entre el ícono y el texto (ajustable) */
-        }
-      </style>
+
       
       <button class="btn-custom">
         <i class="fas fa-chevron-left"></i>
@@ -136,12 +112,12 @@ Registrar Usuario
     .btn-primary:hover {
         background-color: #0056b3;
     }
-    .card {
+    .card1 {
         /* Estilos existentes para tu tarjeta */
         position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
     }
     
-    .card:before {
+    .card1:before {
         content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
         position: absolute;
         top: 0;
@@ -153,7 +129,7 @@ Registrar Usuario
 
 </style>
 <div class="dashboard-header">
-    <h1 class="dashboard-title">Ańadir Nuevo Asistente  </h1>
+    <h1 class="dashboard-title">Editar usuario  </h1>
 </div>
 
 {% if form.non_field_errors %}
@@ -183,7 +159,7 @@ Registrar Usuario
 {% load crispy_forms_tags %}
 
 
-    <div class="card">
+    <div class="card card1">
         <div class="card-header">
             <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Editar Perfil </strong>
         </div>
@@ -294,9 +270,65 @@ Registrar Usuario
 
             </form>
         </div>
+    </div>
 </div>
 
 
+
+
+<div class="card card1 card2 collapsed-card">
+    <div class="card-header">
+        <i class="fas fa-solid fa-key fa-2x" style="color: #239db9;"></i> <strong>Cambiar Contraseña</strong>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <form id="passwordChangeForm" onsubmit="return changePasswordAjax();">
+            <!-- Contraseña Actual -->
+            <div class="form-group">
+                <label for="id_old_password">Contraseña Actual</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_old_password" name="old_password" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_old_password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Nueva Contraseña -->
+            <div class="form-group">
+                <label for="id_new_password1">Nueva Contraseña</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_new_password1" name="new_password1" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_new_password1')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirmar Nueva Contraseña -->
+            <div class="form-group">
+                <label for="id_new_password2">Confirmar Nueva Contraseña</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_new_password2" name="new_password2" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_new_password2')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom2">Cambiar Contraseña</button>
+        </form>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+  
 <!-- Modal para la captura de foto -->
 <div class="modal fade" id="cameraModal" tabindex="-1" role="dialog" aria-labelledby="cameraModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -322,7 +354,14 @@ Registrar Usuario
         </div>
       </div>
     </div>
-  </div>
+</div>
+
+
+<div id="passwordChangeSection">
+
+</div>
+
+
   
 {% endblock contenido %}
 
@@ -496,4 +535,68 @@ Registrar Usuario
         }
     });
   </script>
+
+
+  <script>
+ // Para evitar el envío normal del formulario
+ function changePasswordAjax() {
+    let formData = new FormData(document.getElementById('passwordChangeForm'));
+    formData.append('change_password', '1'); // Identificador para el backend
+
+    fetch(window.location.href, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',  // Asegúrate de obtener el token CSRF
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mostrar mensaje de éxito con SweetAlert
+            Swal.fire({
+                title: 'Éxito!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Colapsar la tarjeta
+                    $('.card2').CardWidget('collapse');
+                }
+            });
+        } else {
+            // Mostrar errores con SweetAlert
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error al cambiar la contraseña.',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
+        }
+    })
+    .catch(error => {
+        // Manejar error
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'Se produjo un error en la solicitud.',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+    });
+
+    return false; // Para evitar el envío normal del formulario
+}
+
+function togglePassword(fieldId) {
+    var field = document.getElementById(fieldId);
+    if (field.type === "password") {
+        field.type = "text";
+    } else {
+        field.type = "password";
+    }
+}
+
+</script>
 {% endblock script2 %}

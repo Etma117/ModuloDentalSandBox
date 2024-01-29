@@ -5,6 +5,13 @@ from .models import CustomUser
 from django import forms
 from django.contrib.auth.models import Group
 from django.core.validators import MinValueValidator
+from django.contrib.auth.forms import PasswordChangeForm
+
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    pass  # Personaliza si es necesario
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -75,18 +82,7 @@ class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
         label="Fecha de Nacimiento:",
         widget=forms.DateInput(attrs={'type': 'text', 'id': 'date', 'placeholder': "DD/MM/YYYY"}),
         input_formats=['%d/%m/%Y'],
-     )
-
-    def clean_fecha_nacimiento(self):
-        data = self.cleaned_data['fecha_nacimiento']
-        if data:  # Asegúrate de que la fecha de nacimiento no sea None
-            today = datetime.date.today()
-            age = today.year - data.year - ((today.month, today.day) < (data.month, data.day))
-            if age < 18:
-                raise ValidationErr('Debe de ser mayor de 18 años.')        
-            if age > 110:
-                raise ValidationErr('La edad ingresada no es válida. Por favor, verifica la fecha de nacimiento.')
-        return data
+    )
 
     class Meta:
         model = CustomUser
@@ -94,11 +90,28 @@ class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
                   'apellido_materno', 'direccion', 'celular', 'telefono_fijo', 
                   'sexo', 'fecha_nacimiento')
         widgets = {
-            'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento'}),
+            'first_name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
+            'apellido_materno': forms.TextInput(attrs={'placeholder': 'Apellido Materno'}),
+            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
+            'celular': forms.TextInput(attrs={'placeholder': 'Celular'}),
+            'telefono_fijo': forms.TextInput(attrs={'placeholder': 'Teléfono Fijo'}),
+            'sexo': forms.Select(attrs={'placeholder': 'Sexo'}),
+            # 'fecha_nacimiento' ya está definido arriba
         }
 
     def __init__(self, *args, **kwargs):
         super(CustomUserUpdateDentistaFormTemplate, self).__init__(*args, **kwargs)
-
-
         del self.fields['password']
+
+    def clean_fecha_nacimiento(self):
+        data = self.cleaned_data['fecha_nacimiento']
+        if data:
+            today = datetime.date.today()
+            age = today.year - data.year - ((today.month, today.day) < (data.month, data.day))
+            if age < 18:
+                raise forms.ValidationError('Debe de ser mayor de 18 años.')
+            if age > 110:
+                raise forms.ValidationError('La edad ingresada no es válida. Por favor, verifica la fecha de nacimiento.')
+        return data

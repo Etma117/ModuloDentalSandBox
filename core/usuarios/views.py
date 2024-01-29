@@ -8,7 +8,9 @@ from django.contrib.auth.models import Group
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-
+from django.http import JsonResponse
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 # Local imports
 from .models import CustomUser
 from .forms import CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
@@ -24,6 +26,8 @@ class UserCreateViewDentista(CreateView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.created_by = self.request.user
+        user.tipo_usuario = 'dentista'  
+
         user.save()
         admin_group, created = Group.objects.get_or_create(name='Dentista')
         user.groups.add(admin_group)
@@ -54,6 +58,21 @@ class UserUpdateView(UpdateView):
         return context
     
 
+    def post(self, request, *args, **kwargs):
+        if "change_password" in request.POST:
+            return self.change_password(request)
+        return super().post(request, *args, **kwargs)
+
+    def change_password(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Importante para no desloguear al usuario
+            return JsonResponse({"success": True, "message": "Contraseña actualizada correctamente."})
+        else:
+            return JsonResponse({"success": False, "errors": form.errors})
+
+
 
     
 class UserCreateViewPaciente(CreateView):
@@ -65,6 +84,8 @@ class UserCreateViewPaciente(CreateView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.created_by = self.request.user
+        user.tipo_usuario = 'paciente'  
+
         user.save()
         admin_group, created = Group.objects.get_or_create(name='Paciente')
         user.groups.add(admin_group)
@@ -77,6 +98,7 @@ class UserCreateViewPaciente(CreateView):
 
         return context
     
+
 class UserCreateViewAsistente(CreateView):
     model = CustomUser
     form_class = CustomUserCreationFormTemplate
@@ -85,6 +107,8 @@ class UserCreateViewAsistente(CreateView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
+        user.tipo_usuario = 'asistente'  
+
         user.created_by = self.request.user
         user.save()
         admin_group, created = Group.objects.get_or_create(name='Asistente')
