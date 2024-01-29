@@ -216,10 +216,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url "UserCreateViewPaciente" %}" class="nav-link  {% if seccion == 'ver_pacientes' %}active {% endif %}">
+
+                <a href="{% url "ver_pacientes" %}" class="nav-link  {% if seccion == 'ver_pacientes' %}active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Paciente</p>
                 </a>
+              
               </li>
 
               {% if es_administrador %}

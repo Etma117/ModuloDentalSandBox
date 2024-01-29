@@ -82,6 +82,7 @@ Ver Pacientes
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Tipo Usuario</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -113,6 +114,7 @@ Ver Pacientes
                     <td>{{ paciente.email }}</td>
                     <td>{{ paciente.celular }}</td>
                     <td>{{ paciente.get_tipo_usuario_display }}</td>
+
                     <!-- Más campos de paciente si es necesario -->
                 </tr>
                 {% empty %}
@@ -206,7 +208,7 @@ Ver Pacientes
           text: 'Nuevo Paciente',
           className: 'btn btn-custom2 mr-2',
           action: function (e, dt, node, config) {
-            window.location.href = '';
+            window.location.href = '{% url "UserCreateViewPaciente" %}';
           }
         },
 
