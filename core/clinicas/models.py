@@ -8,7 +8,7 @@ class Clinica(models.Model):
     telefono = models.CharField(max_length=20)
     horario = models.CharField(max_length=10, null=True, blank= True)
     responsable = models.CharField(max_length=100, null=True, blank= True)
-    logo = models.ImageField(upload_to = 'clinicas/', default='clinicas/default.jpg')
+    logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg')
 
     def __str__(self):
         return self.nombre

@@ -5,3 +5,4 @@ class clinicaForm(forms.ModelForm):
     class Meta:
         model = Clinica
         fields = '__all__'
+ 
