@@ -28,6 +28,8 @@ urlpatterns = [
     path("citas/", include('citas.urls'), name='Citas'),
     path("clinicas/", include('clinicas.urls')),
     path("pacientes/", include('pacientes.urls')),
+    path("dentistas/", include('dentistas.urls')),
+    path("asistentes/", include('asistentes.urls')),
 
     path('accounts/', include('django.contrib.auth.urls')),
 
