@@ -94,6 +94,7 @@ class UserCreateViewPaciente(CreateView):
 
         return context
     
+
 class UserCreateViewAsistente(CreateView):
     model = CustomUser
     form_class = CustomUserCreationFormTemplate
