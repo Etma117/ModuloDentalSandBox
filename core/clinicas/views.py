@@ -1,17 +1,27 @@
 from django.shortcuts import render
+from django.views.generic import CreateView, ListView, DetailView, DeleteView 
+from .models import Clinica
+from .forms import clinicaForm
+from django.urls import reverse_lazy
 
-def clinicas(request):
-    return render(request, 'clinicas.html')
+class Clinicas(ListView):
+    model = Clinica
+    template_name = 'clinicas.html'
+    context_object_name = 'clinica'
 
-def vistaClinica(request):
-    return render(request, 'vistaclinicas.html')
+class clinicaCrear(CreateView):
+    model = Clinica
+    template_name = 'nuevaClinica.html'
+    form_class = clinicaForm
+    context_object_name = 'clinica'
+    success_url = reverse_lazy('clinicas')
 
-def crearClinica(request):
-    return render(request, 'nuevaClinica.html')
+class vistaClinica(DetailView):
+    model = Clinica
+    template_name = 'vistaClinicas.html'
+    context_object_name = 'clinica'
 
-def clinicaFormulario(request):
-    form = clinicaForm(request.POST)
-    if form.is_valid():
-        return redirect("clinicas")
-    else:
-        return render (request, "nuevaClinica.html", {"form": form })
+class eliminarClinica(DeleteView):
+    model = Clinica
+    template_name = 'eliminarClinica.html'
+    success_url = reverse_lazy('clinicas')

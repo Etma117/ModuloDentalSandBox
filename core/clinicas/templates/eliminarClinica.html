@@ -1,0 +1,16 @@
+{% extends 'general/base.html' %}
+
+{% block titulo %}
+    {{clinica.nombre}}
+{% endblock %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <h2> ¿Estas seguro(a) de eliminar la Clínica {{ clinica.nombre }}?</h2>
+    <button type="submit" class="btn btn-danger"> Eliminar </button>
+    <a href="{% url 'clinicas' %}" class="btn btn-success"> Cancelar </a>
+</form>
+
+{% endblock %}
