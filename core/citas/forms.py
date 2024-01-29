@@ -15,7 +15,7 @@ class CitaForm(forms.ModelForm):
 
         }
         widgets = {
-            'paciente': forms.TextInput(attrs={'class': 'form-control'}),
+            'paciente': forms.Select(attrs={'class': 'form-control'}),
             'doctor': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'class': 'form-control', 'type':'date'}),
             'hora_inicio' : forms.TimeInput(attrs={'class': 'form-control', 'type':'time'}),            

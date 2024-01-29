@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from usuarios.models import CustomUser
 from django.conf import settings
 
@@ -18,8 +19,8 @@ class Cita(models.Model):
     paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)#models.CharField(max_length=255, blank=True) #models.ForeignKey(settings.AUTH_USER_MODEL)
     doctor = models.CharField(max_length=255, blank=True)  #models.ForeignKey(CustomUser, on_delete= models.CASCADE)
     fecha = models.DateField()  
-    hora_inicio = models.TimeField()
-    hora_termino = models.TimeField()
+    hora_inicio = models.TimeField(default=timezone.now)
+    hora_termino = models.TimeField(default=timezone.now)
 
     estado_cita = models.CharField(choices=ESTADOS_CITA, max_length=40)
 
