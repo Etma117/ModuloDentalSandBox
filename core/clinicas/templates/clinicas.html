@@ -6,23 +6,28 @@ Clinicas
 
 {%block content%}
 
-
-<div class="row" style="display: flex; margin-left: auto;">
-    <button type="button" class="btn btn-success" style="font-size: 18px;">
-        Añadir clinica
-    </button>
-</div>
-<div class="row" style="padding-top:10px;">
-    <div class="col-md-3">
-        <div class="card" style="background: #0289A8; border-radius: 25px;">
-            <a href="{% url "vistaClinicas" %}">
-                <div class="card-body">
-                    <i class="fas fa-hospital fa-7x" style="padding: 1px 0px 1px 110px; color: white;"></i>
-                    <h3 style="color: white; padding: 10px 60px 10px;"> Nombre de la clinica </h3>
-                </div>
-            </a>
-        </div>
+<div class="row justify-content-end">
+    <div class="col-auto">
+        <a class="btn btn-success" style="font-size: 18px; " href="{% url 'nuevaClinica' %}">
+            Añadir clínica
+        </a>
     </div>
 </div>
 
+<div class="row mt-2">
+    {% for clinica in clinica %}
+    <div class="col-md-3">
+        
+        <div class="card" style="background: #0289A8; border-radius: 25px;">
+            <a href="{% url 'vistaClinicas' pk=clinica.id %}">
+                <div class="card-body text-center">
+                    <i class="fas fa-hospital fa-7x" style="color: white;"></i>
+                    <h3 class="text-white mt-3">{{ clinica.nombre }}</h3>
+                </div>
+            </a>
+        </div>
+        
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

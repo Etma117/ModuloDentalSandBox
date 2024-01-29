@@ -1,7 +1,7 @@
 {% extends "general/base.html" %}
 {% load static %}
 {% block titulo %}
-Registrar Usuario
+Editar datos del Usuario
 {% endblock titulo %}
 
 {% block link %}
@@ -11,8 +11,13 @@ Registrar Usuario
 
 
 {% block dashboard %}
-<a class="btn btn-sm btn-icon1 " href="{% url "home" %}">
-  <i class="fas fa-arrow-left"></i>
+<a class="btn btn-sm  " href="{% url "home" %}">
+
+      
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
 </a>
 {% endblock dashboard %}
 
@@ -23,12 +28,15 @@ Registrar Usuario
 <style>
 
     .centered-container {
+        margin-top:20px;
+        margin-bottom:40px;
+
         display: flex;
         align-items: center; /* Centrar verticalmente */
         justify-content: center; /* Centrar horizontalmente */
         height: 20vh; /* Altura total de la ventana de visualización, ajusta según necesites */
     }
-
+    
 
     .image-upload-container {
         position: relative;
@@ -40,6 +48,7 @@ Registrar Usuario
         justify-content: center;
         background-color: #f8f9fa; /* Color de fondo mientras no hay imagen */
         border-radius: 50%; /* Esto hace que la imagen sea redonda */
+
 
     }
     
@@ -107,24 +116,24 @@ Registrar Usuario
     .btn-primary:hover {
         background-color: #0056b3;
     }
-    .card {
+    .card1 {
         /* Estilos existentes para tu tarjeta */
         position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
     }
     
-    .card:before {
+    .card1:before {
         content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
         position: absolute;
         top: 0;
         left: 0;
         width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
         height: 4px; /* Ajusta el grosor de la línea aquí */
-        background-color: #286060; /* Ajusta el color de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
     }
 
 </style>
 <div class="dashboard-header">
-    <h1 class="dashboard-title">Ańadir Nuevo Asistente  </h1>
+    <h1 class="dashboard-title">Editar usuario  </h1>
 </div>
 
 {% if form.non_field_errors %}
@@ -154,9 +163,9 @@ Registrar Usuario
 {% load crispy_forms_tags %}
 
 
-    <div class="card">
+    <div class="card card1">
         <div class="card-header">
-            <i class="fa-solid fa-circle-plus" style="color: #3A8586;"></i> Editar Perfil
+            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Editar Perfil </strong>
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
@@ -170,7 +179,7 @@ Registrar Usuario
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-12 centered-container">
-                                        <div class="image-upload-container">
+                                        <div class="image-upload-container mt-5 ">
                                             <!-- El icono de usuario se mostrará inicialmente -->
                                             {% if customuser.foto %}
                                                 <script>
@@ -200,7 +209,7 @@ Registrar Usuario
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 mt-2">
                                         {{ form.foto|as_crispy_field }}
 
                                     </div>
@@ -265,9 +274,65 @@ Registrar Usuario
 
             </form>
         </div>
+    </div>
 </div>
 
 
+
+
+<div class="card card1 card2 collapsed-card">
+    <div class="card-header">
+        <i class="fas fa-solid fa-key fa-2x" style="color: #239db9;"></i> <strong>Cambiar Contraseña</strong>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <form id="passwordChangeForm" onsubmit="return changePasswordAjax();">
+            <!-- Contraseña Actual -->
+            <div class="form-group">
+                <label for="id_old_password">Contraseña Actual</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_old_password" name="old_password" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_old_password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Nueva Contraseña -->
+            <div class="form-group">
+                <label for="id_new_password1">Nueva Contraseña</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_new_password1" name="new_password1" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_new_password1')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirmar Nueva Contraseña -->
+            <div class="form-group">
+                <label for="id_new_password2">Confirmar Nueva Contraseña</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="id_new_password2" name="new_password2" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('id_new_password2')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom2">Cambiar Contraseña</button>
+        </form>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+  
 <!-- Modal para la captura de foto -->
 <div class="modal fade" id="cameraModal" tabindex="-1" role="dialog" aria-labelledby="cameraModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -293,7 +358,14 @@ Registrar Usuario
         </div>
       </div>
     </div>
-  </div>
+</div>
+
+
+<div id="passwordChangeSection">
+
+</div>
+
+
   
 {% endblock contenido %}
 
@@ -467,4 +539,68 @@ Registrar Usuario
         }
     });
   </script>
+
+
+  <script>
+ // Para evitar el envío normal del formulario
+ function changePasswordAjax() {
+    let formData = new FormData(document.getElementById('passwordChangeForm'));
+    formData.append('change_password', '1'); // Identificador para el backend
+
+    fetch(window.location.href, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',  // Asegúrate de obtener el token CSRF
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mostrar mensaje de éxito con SweetAlert
+            Swal.fire({
+                title: 'Éxito!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Colapsar la tarjeta
+                    $('.card2').CardWidget('collapse');
+                }
+            });
+        } else {
+            // Mostrar errores con SweetAlert
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error al cambiar la contraseña.',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
+        }
+    })
+    .catch(error => {
+        // Manejar error
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'Se produjo un error en la solicitud.',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+    });
+
+    return false; // Para evitar el envío normal del formulario
+}
+
+function togglePassword(fieldId) {
+    var field = document.getElementById(fieldId);
+    if (field.type === "password") {
+        field.type = "text";
+    } else {
+        field.type = "password";
+    }
+}
+
+</script>
 {% endblock script2 %}

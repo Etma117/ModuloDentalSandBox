@@ -11,8 +11,12 @@ Registrar Usuario
 
 
 {% block dashboard %}
-<a class="btn btn-sm btn-icon1 " href="{% url "home" %}">
-  <i class="fas fa-arrow-left"></i>
+<a class="btn btn-sm  " href="{% url "home" %}">
+
+      
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>  
 </a>
 {% endblock dashboard %}
 
@@ -21,6 +25,17 @@ Registrar Usuario
 
 
 <style>
+    .centered-container {
+        margin-top:20px;
+        margin-bottom:40px;
+
+        display: flex;
+        align-items: center; /* Centrar verticalmente */
+        justify-content: center; /* Centrar horizontalmente */
+        height: 20vh; /* Altura total de la ventana de visualización, ajusta según necesites */
+    }
+    
+
     .image-upload-container {
         position: relative;
         width: 200px; /* Ajusta al tamaño deseado */
@@ -30,6 +45,9 @@ Registrar Usuario
         align-items: center;
         justify-content: center;
         background-color: #f8f9fa; /* Color de fondo mientras no hay imagen */
+        border-radius: 50%; /* Esto hace que la imagen sea redonda */
+
+
     }
     
     .image-icon {
@@ -40,12 +58,16 @@ Registrar Usuario
     
     .image-preview {
         display: none; /* Se mostrará después de capturar la foto */
-        width: 100%;
-        height: 100%;
+        width: 100%; /* Ajusta esto si necesitas un tamaño específico */
+        height: 100%; /* Asegúrate de que sea igual al ancho para un círculo perfecto */
         position: absolute;
         top: 0;
         left: 0;
+        border-radius: 50%; /* Esto hace que la imagen sea redonda */
+        border: 5px solid #F0F0F0; /* Ajusta el color y el grosor del borde según sea necesario */
+        object-fit: cover; /* Asegura que la imagen cubra el círculo sin deformarse */
     }
+    
     
     /* ... Resto del CSS ... */
 
@@ -64,7 +86,9 @@ Registrar Usuario
         justify-content: center;
         opacity: 0;
         transition: opacity 0.2s ease-in-out;
+        
     }
+
     
     .image-upload-container:hover .image-upload-overlay {
         opacity: 1;
@@ -102,12 +126,12 @@ Registrar Usuario
         left: 0;
         width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
         height: 4px; /* Ajusta el grosor de la línea aquí */
-        background-color: #286060; /* Ajusta el color de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
     }
 
 </style>
 <div class="dashboard-header">
-    <h1 class="dashboard-title">Ańadir Nuevo Responsable de Clinica</h1>
+    <h1 class="dashboard-title" style="color: black;">Añadir Nuevo Responsable</h1>
 </div>
 
 {% if form.non_field_errors %}
@@ -139,7 +163,7 @@ Registrar Usuario
 
     <div class="card">
         <div class="card-header">
-            <i class="fa-solid fa-circle-plus" style="color: #3A8586;"></i> Registrar Nuevo Usuario
+            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Registrar Nuevo Usuario</strong>
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
@@ -152,8 +176,8 @@ Registrar Usuario
                             
                             <div class="col-md-12">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="image-upload-container">
+                                    <div class="col-md-12 centered-container">
+                                        <div class="image-upload-container mt-5">
                                             <!-- El icono de usuario se mostrará inicialmente -->
                                             <i class="fas fa-user image-icon"></i>
                                             <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
@@ -169,7 +193,7 @@ Registrar Usuario
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-12 mt-2">
                                         {{ form.foto|as_crispy_field }}
 
                                     </div>
@@ -181,7 +205,7 @@ Registrar Usuario
                         </div>
                     </div>
                     <div class="col-md-7">
-
+           
                         <div class="row">
                             <div class="col-md-6">
                                 {{ form.username|as_crispy_field }}

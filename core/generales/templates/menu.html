@@ -1,8 +1,5 @@
 {% extends 'general/base.html' %}
 
-
-
-
 {% block dashboard %}
     <style>
         .texto-bienvenida {
@@ -47,29 +44,28 @@
         updateCurrentTime();
     </script>
 
-{% if es_dentista or es_asistente%}
-    <div class="row">
-        <div class="col-lg-4 col-md-6 mb-4" >
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
-                    <a style="font-size: xx-large;">Número de pacientes</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
-                </div>
+<div class="row">
+    <div class="col-lg-4 col-6" >
+        <div class="small-box bg-info" style="box-sizing: content-box;">
+            <div class="inner">
+                <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
+                <a style="font-size: xx-large;">Número de pacientes</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
+                <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
             </div>
         </div>
+    </div>
 
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
-                    <a style="font-size: xx-large;">Citas próximas</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
-                </div>
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
+                <a style="font-size: xx-large;">Citas próximas</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
+                <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
             </div>
         </div>
+    </div>
 
         <div class="col-lg-4 col-6">
             <div class="small-box bg-info">
@@ -94,7 +90,7 @@
     </div>
 
     <div class="col-md-3">
-        <a href="#" class="card btn bg-info" style="text-decoration: none;">
+        <a href="{% url 'CitaCrear'%}" class="card btn bg-info" style="text-decoration: none;">
             <div class="card-body">
                 <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
                 <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir cita</h2>

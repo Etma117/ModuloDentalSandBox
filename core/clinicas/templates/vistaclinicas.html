@@ -1,79 +1,99 @@
 {% extends 'general/base.html' %}
+{% load static %}
 
 {% block titulo %}
-Clinica 0
+    {{ clinica.nombre }}
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-2" style="padding-left: 40px; padding-right: 40px;">
-        <div class="card" style="background: #0289A8; border-radius: 25px; padding-left: 10px; ">
-            <div class="card-body">
-                <i class="fas fa-hospital fa-7x" style="color: white;"></i>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 col-sm-6" style="padding-left: 10px; padding-right: 10px;">
+            <div class="card" style="background: #0289A8; border-radius: 25px; padding: 10px;">
+                <div class="card-body text-center">
+                    <img src="{{ clinica.logo.url }}" alt="Logo de la clínica" style="width: 100%; height: 100%; border-radius: 15px;">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div>
+                <a style="font-size: large;">Nombre de la Clínica: {{ clinica.nombre }}</a>
+            </div>
+            <p></p>
+            <div>
+                <a style="font-size: large;">Dirección: {{ clinica.direccion }}</a>
+            </div>
+            <p></p>
+            <div>
+                <a style="font-size: large;">Responsable de la Clínica: {{ clinica.responsable }}</a>
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
-        <a style="font-size: xx-large;"> Nombre de la Clínica: </a>
-        <p> </p>
-        <a style="font-size: xx-large;"> Dirección: </a>
-        <p> </p>
-        <a style="font-size: xx-large;"> Responsable de la Clínica: </a>
+
+    <div class="row justify-content-end">
+        <div class="col-md-2" style="padding-left: 7%;">
+            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px;"> Editar </a>
+            <a class="btn btn-danger" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'eliminarClinica' pk=clinica.id %}"> Eliminar </a>
+        </div>
     </div>
-    
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-hover" style="width: 100%;">
+                    <tr style="text-align: center;">
+                        <th>Hora</th>
+                        <th>Lunes</th>
+                        <th>Martes</th>
+                        <th>Miércoles</th>
+                        <th>Jueves</th>
+                        <th>Viernes</th>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>10:00 - 11:00</td>
+                        <td>Dentista 1</td>
+                        <td>Dentista 1</td>
+                        <td>Dentista 2</td>
+                        <td>Dentista 2</td>
+                        <td></td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>11:00 - 12:00</td>
+                        <td>Dentista 1</td>
+                        <td>Dentista 1</td>
+                        <td>Dentista 2</td>
+                        <td>Dentista 2</td>
+                        <td></td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>12:00 - 1:00</td>
+                        <td>Dentista 1</td>
+                        <td>Dentista 1</td>
+                        <td>Dentista 2</td>
+                        <td>Dentista 2</td>
+                        <td></td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>1:00 - 2:00</td>
+                        <td>Dentista 2</td>
+                        <td>Dentista 2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>2:00 - 3:00</td>
+                        <td>Dentista 2</td>
+                        <td>Dentista 2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row" style="padding-top: 40px; padding-left: 40px;">
-    <table class="table table-hover" style="width: 80%;">
-        <tr style="text-align: center;">
-          <th>Hora</th>
-          <th>Lunes</th>
-          <th>Martes</th>
-          <th>Miércoles</th>
-          <th>Jueves</th>
-          <th>Viernes</th>
-        </tr>
-        <tr style="text-align: center;">
-            <td>10:00 - 11:00</td>
-            <td>Dentista 1</td>
-            <td>Dentista 1</td>
-            <td>Dentista 2</td>
-            <td>Dentista 2</td>
-            <td></td>
-        </tr>
-        <tr style="text-align: center;">
-            <td>11:00 - 12:00</td>
-            <td>Dentista 1</td>
-            <td>Dentista 1</td>
-            <td>Dentista 2</td>
-            <td>Dentista 2</td>
-            <td></td>
-        </tr>
-        <tr style="text-align: center;">
-            <td>12:00 - 1:00</td>
-            <td>Dentista 1</td>
-            <td>Dentista 1</td>
-            <td>Dentista 2</td>
-            <td>Dentista 2</td>
-            <td></td>
-        </tr>
-        <tr style="text-align: center;">
-            <td>1:00 - 2:00</td>
-            <td>Dentista 2</td>
-            <td>Dentista 2</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr style="text-align: center;">
-            <td>2:00 - 3:00</td>
-            <td>Dentista 2</td>
-            <td>Dentista 2</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
-</div>
 
 {% endblock %}

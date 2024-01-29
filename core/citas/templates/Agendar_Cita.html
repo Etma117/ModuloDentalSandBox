@@ -1,0 +1,33 @@
+{%extends 'general/base.html' %}
+{% block dashboard %}
+        {% if es_dentista %}
+        
+        Bienvenido Dr.
+
+        {% elif  es_responsable%}
+        Bienvenido Responsable
+
+        {% elif es_administrador %}
+        Bienvenido Administrador
+
+        {% else %}
+
+            Bienvenido
+
+        {% endif %}      
+{% endblock dashboard %}
+
+{% block content %}
+  <h1>Agendar Nueva cita</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <a href ="javascript:history.back()"class="btn btn-danger" type="submit">Cancelar</a> 
+    </form>
+  {% if form.errors %}
+    <div class="errors">
+        {{ form.errors }}
+    </div>
+  {% endif %}
+{% endblock %}
