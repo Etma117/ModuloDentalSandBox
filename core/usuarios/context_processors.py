@@ -22,12 +22,14 @@ def user_groups(request):
 
 
 def group_context(request):
+
     context = {
         'es_dentista': request.user.groups.filter(name='Dentista').exists(),
         'es_paciente': request.user.groups.filter(name='Paciente').exists(),
         'es_responsable': request.user.groups.filter(name='Responsable').exists(),
         'es_asistente': request.user.groups.filter(name='Asistente').exists(),
-        'es_administrador': request.user.groups.filter(name='Administrador').exists()
+        'es_administrador': request.user.groups.filter(name='Administrador').exists(),
+
     }
     return context
 

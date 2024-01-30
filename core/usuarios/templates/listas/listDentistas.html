@@ -67,11 +67,16 @@ Ver Pacientes
 
 <div class="card card1">
     <div class="card-header">
-        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de pacientes </strong>
+        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de Dentistas </strong>
     </div>
     <div class="card-body">
+       {% if grupo_dentista_existe %}
 
+        {% else %}
+            <a href="{% url "register_user_dentista" %}" class="btn btn-custom2">Agregar nuevo dentista</a>
 
+        {% endif %}
+        
         <table id="example" class="display" style="width:100%">
             <thead>
                 <tr>
@@ -82,11 +87,11 @@ Ver Pacientes
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Tipo Usuario</th>
-                    <!-- Agrega más columnas según lo que desees mostrar -->
+
                 </tr>
             </thead>
             <tbody>
-                {% for paciente in pacientes %}
+                {% for paciente in dentistas %}
                 <tr>
 
                     {% if paciente.foto  %}
@@ -114,11 +119,12 @@ Ver Pacientes
                     <td>{{ paciente.email }}</td>
                     <td>{{ paciente.celular }}</td>
                     <td>{{ paciente.get_tipo_usuario_display }}</td>
+
                     <!-- Más campos de paciente si es necesario -->
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4">No hay pacientes registrados.</td>
+                    <td colspan="5">No hay dentistas registrados.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -136,28 +142,6 @@ Ver Pacientes
 
 
 
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <!-- Agrega más columnas según lo que desees mostrar -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for paciente in pacientes %}
-        <tr>
-            <td>{{ paciente.get_full_name }}</td>
-            <td>{{ paciente.email }}</td>
-            <!-- Más campos de paciente si es necesario -->
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="2">No hay pacientes registrados.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
 {% endblock contenido %}
 
@@ -204,10 +188,10 @@ Ver Pacientes
       {% endblock dom %}
       buttons: [
         {
-          text: 'Nuevo Paciente',
+          text: 'Nuevo Dentista',
           className: 'btn btn-custom2 mr-2',
           action: function (e, dt, node, config) {
-            window.location.href = '';
+            window.location.href = '{% url "register_user_dentista" %}';
           }
         },
 
