@@ -46,7 +46,7 @@
 
 {% if es_dentista or es_asistente%}
     <div class="row">
-        <div class="col-lg-4 col-md-6 mb-4" >
+        <div class="col-lg-4 col-sm-12" >
             <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
@@ -57,28 +57,19 @@
             </div>
         </div>
 
-<<<<<<<<< Temporary merge branch 1
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
-                <a style="font-size: xx-large;">Citas próximas</a>
-                <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
-                <a href="{% url 'Citas'%}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
-=========
-        <div class="col-lg-4 col-md-6 mb-4">
+
+        <div class="col-lg-4 col-sm-12">
             <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
                     <a style="font-size: xx-large;">Citas próximas</a>
                     <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a href="{% url 'Citas'%}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
->>>>>>>>> Temporary merge branch 2
             </div>
         </div>
 
-        <div class="col-lg-4 col-6">
+        <div class="col-lg-4 col-sm-12">
             <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-solid fa-phone fa-3x" style="margin-bottom: 45px;"></i>
@@ -92,7 +83,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        <a href="{% url "UserCreateViewPaciente" %}" class="card btn bg-info" style="text-decoration: none;">
+        <a href="{% url "UserCreateViewPaciente" %}" class="card bg-info" style="text-decoration: none;">
             <div class="card-body">
                 <i class="fa-solid fa-user-plus fa-6x" style="float: left;"></i>
                 <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir paciente</h2>
@@ -158,9 +149,9 @@
             <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-solid fa-stethoscope fa-3x" style="margin-bottom: 45px;" ></i>
-                    <a style="font-size: xx-large;">Doctores</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a style="font-size: xx-large;">Dentistas</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_dentistas }}</a>
+                    <a href="{% url "DentistaListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
@@ -170,8 +161,8 @@
                 <div class="inner">
                     <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
                     <a style="font-size: xx-large;">Responsables</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_responsables }}</a>
+                    <a href="{% url "ResponsableListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
@@ -181,7 +172,7 @@
                 <div class="inner">
                     <i class="fa fa-hospital fa-3x" style="margin-bottom: 45px;" ></i>
                     <a style="font-size: xx-large;">Número de clínicas</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_clinicas }}</a>
                     <a href="{% url "clinicas" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
@@ -247,7 +238,7 @@
         </div>
 
         <div class="col-md-3">
-            <a href="#" class="card btn bg-info" style="text-decoration: none;">
+            <a href="#" class="card bg-info" style="text-decoration: none;">
                 <div class="card-body">
                     <i class="fa-solid fa-prescription-bottle-medical fa-6x" style="float: left;"></i>
                     <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Tratamiento</h2>
