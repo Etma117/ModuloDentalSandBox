@@ -6,37 +6,200 @@ Añadir Clínica
 
 {%block content%}
 
-<h1>Añadir nueva clínica</h1>
+{% load crispy_forms_tags %}
 
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div style="margin: 0 20px;">
-        <label for="nombreClinica">Nombre de la clínica</label>
-        {{ form.nombre }}
-    </div>
-    <div style="margin: 0 20px;">
-        <label for="direccionClinica">Dirección de la clínica</label>
-        {{ form.direccion }}
-    </div>
-    <div style="margin: 0 20px;">
-        <label for="telefonoClinica">Telefono de la clínica</label>
-        {{ form.telefono }}
-    </div>
-    <div style="margin: 0 20px;">
-        <label for="responsableClinica">Responsable de la clínica</label>
-        {{ form.responsable }}
-    </div>
-    <div style="margin: 0 20px;">
-        <label for="horarioAtencion">Horario de atención</label>
-        {{ form.horario }}
-    </div>
-    <div style="margin: 0 20px;">
-        <label for="logoClinica">Logo de la clínica</label>
-        {{ form.logo }}
-    </div>
-    <button type="submit" style="background-color: #007bff; color: white; font-size: 1.2em;">Guardar</button>
-    <a href="{% url 'clinicas' %}" type="submit" style="background-color: #ff4d4d; color: white; font-size: 1.2em;">Cancelar</a>
-</form>
+<style>
+    .centered-container {
+        margin-top:20px;
+        margin-bottom:40px;
 
+        display: flex;
+        align-items: center; /* Centrar verticalmente */
+        justify-content: center; /* Centrar horizontalmente */
+        height: 20vh; /* Altura total de la ventana de visualización, ajusta según necesites */
+    }
+    
+    .image-upload-container {
+        position: relative;
+        width: 200px; /* Ajusta al tamaño deseado */
+        height: 200px; /* Ajusta al tamaño deseado */
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa; /* Color de fondo mientras no hay imagen */
+        border-radius: 50%; /* Esto hace que la imagen sea redonda */
+    }
+    
+    .image-icon {
+        font-size: 100px; /* Ajusta al tamaño deseado */
+        color: #6c757d; /* Color del icono */
+        display: block; /* Asegurarse de que se muestre el icono */
+    }
+    
+    .image-preview {
+        display: none; /* Se mostrará después de capturar la foto */
+        width: 100%; /* Ajusta esto si necesitas un tamaño específico */
+        height: 100%; /* Asegúrate de que sea igual al ancho para un círculo perfecto */
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 50%; /* Esto hace que la imagen sea redonda */
+        border: 5px solid #F0F0F0; /* Ajusta el color y el grosor del borde según sea necesario */
+        object-fit: cover; /* Asegura que la imagen cubra el círculo sin deformarse */
+    }
+    
+    /* ... Resto del CSS ... */
+    
+    .image-upload-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        
+    }
+    
+    .card {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
+    }
 
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Añadir nueva clínica</h3>
+    </div>
+    <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col md-5">
+                    <div class="row">                           
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 centered-container">
+                                    <div class="image-upload-container mt-5">
+                                        <!-- El icono de usuario se mostrará inicialmente -->
+                                        <i class="fas fa-user image-icon"></i>
+                                        <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mt-2">
+                                    {{ form.logo|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px;">
+                                {{ form.nombre|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px;">
+                                {{ form.direccion|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px;">
+                                {{ form.telefono|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px">
+                                {{form.correo_electronico|as_crispy_field}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px;">
+                                {{ form.responsable|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px;">
+                                {{ form.horario|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Servicios Ofrecidos
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                {{form.equipamiento|as_crispy_field}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                {{form.numero_consultorios|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="row ">
+                            <button class="btn btn-primary btn-lg" type="submit" style="width: 108px; margin-top: 5px; margin-right: 5px;">Guardar</button>
+                            <a class="btn btn-danger btn-lg" href="{% url 'clinicas' %}" style="width: 108px; margin-top: 5px;">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script2 %}
+<script>
+    document.querySelector('input[name="logo"]').addEventListener('change', function(event) {
+        var file = event.target.files[0]; // Obtener el archivo seleccionado
+        var reader = new FileReader();
+    
+        reader.onload = function(e) {
+            // Asignar el resultado del FileReader como fuente de la imagen
+            document.getElementById('photo').src = e.target.result;
+            document.getElementById('photo').style.display = 'block'; // Asegurarse de que la imagen esté visible
+    
+            // Ocultar el icono de usuario predeterminado
+            var imageIcon = document.querySelector('.image-icon');
+            if (imageIcon) {
+                imageIcon.style.display = 'none';
+            }
+        };
+    
+        // Leer el archivo seleccionado y disparar el evento onload después
+        reader.readAsDataURL(file);
+    });
+    
+</script>
 {% endblock %}

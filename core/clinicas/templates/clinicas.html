@@ -6,6 +6,7 @@ Clinicas
 
 {%block content%}
 
+{% if es_administrador %}
 <div class="row justify-content-end">
     <div class="col-auto">
         <a class="btn btn-success" style="font-size: 18px; " href="{% url 'nuevaClinica' %}">
@@ -13,6 +14,7 @@ Clinicas
         </a>
     </div>
 </div>
+{% endif %}
 
 <div class="row mt-2">
     {% for clinica in clinica %}
