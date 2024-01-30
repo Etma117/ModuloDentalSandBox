@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.contrib.auth.models import Group
+from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
+
 
 from usuarios.models import CustomUser
 
@@ -29,3 +32,18 @@ class PacienteListView(ListView):
         context['seccion'] = 'ver_pacientes'
         return context
     
+class PacienteDetailView(DetailView):
+    model = CustomUser
+    template_name = 'detallepaciente.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'paciente'
+
+    def get_object(self, queryset=None):
+        # Obtén el paciente por su id
+        paciente_id = self.kwargs.get('pk')
+        return get_object_or_404(CustomUser, id=paciente_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_pacientes'
+        return context
