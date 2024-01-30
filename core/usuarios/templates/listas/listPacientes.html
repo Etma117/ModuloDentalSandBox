@@ -59,6 +59,21 @@ Ver Pacientes
         color: white;
         border-radius: 100%;
     }
+
+    .card1 {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card1:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
+    }
 </style>
 
 
