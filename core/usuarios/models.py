@@ -36,12 +36,29 @@ class CustomUser(AbstractUser):
     )
 
     SEX_CHOICES = [
-        ('M', 'Hombre'),
-        ('F', 'Mujer'),
+        ('Hombre', 'Hombre'),
+        ('Mujer', 'Mujer'),
         # Puedes agregar más opciones si es necesario
     ]
-    sexo = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
+    sexo = models.CharField(max_length=10, choices=SEX_CHOICES, blank=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
+
+    PREGUNTAS_SEGURIDAD_1 = [
+        ('nombre_primera_mascota', '¿Cuál es el nombre de tu primera mascota?'),
+        ('ciudad_nacimiento', '¿En qué ciudad naciste?'),
+        ('nombre_mejor_amigo', '¿Cómo se llama tu mejor amigo de la infancia?'),
+    ]
+
+    PREGUNTAS_SEGURIDAD_2 = [
+        ('primer_coche', '¿Cuál fue la marca de tu primer coche?'),
+        ('primera_escuela', '¿Cómo se llama tu primera escuela?'),
+        ('plato_favorito', '¿Cuál es tu plato favorito?'),
+    ]
+
+    pregunta_seguridad_1 = models.CharField(max_length=255, choices=PREGUNTAS_SEGURIDAD_1, blank=True, null=True)
+    respuesta_seguridad_1 = models.CharField(max_length=255, blank=True,  null=True)
+    pregunta_seguridad_2 = models.CharField(max_length=255, choices=PREGUNTAS_SEGURIDAD_2, blank=True, null=True)
+    respuesta_seguridad_2 = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.username

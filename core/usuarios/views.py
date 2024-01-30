@@ -55,13 +55,42 @@ class UserUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'  # Cambia esto según la página activa
         context['seccion'] = 'editar_perfil'  # Cambia esto según la página activa
+        
+        user = self.request.user
+        preguntas_configuradas = user.pregunta_seguridad_1 and user.pregunta_seguridad_2
+        context['preguntas_configuradas'] = preguntas_configuradas
+        context['preguntas_seguridad_1'] = CustomUser.PREGUNTAS_SEGURIDAD_1
+        context['preguntas_seguridad_2'] = CustomUser.PREGUNTAS_SEGURIDAD_2
+
         return context
     
 
     def post(self, request, *args, **kwargs):
         if "change_password" in request.POST:
             return self.change_password(request)
+        elif "update_security_questions" in request.POST:
+            return self.update_security_questions(request)
         return super().post(request, *args, **kwargs)
+    
+    def update_security_questions(self, request):
+        pregunta_1 = request.POST.get('pregunta_seguridad_1')
+        respuesta_1 = request.POST.get('respuesta_seguridad_1')
+        pregunta_2 = request.POST.get('pregunta_seguridad_2')
+        respuesta_2 = request.POST.get('respuesta_seguridad_2')
+
+        if not all([pregunta_1, respuesta_1, pregunta_2, respuesta_2]):
+            # Si alguna pregunta o respuesta está vacía, enviar un error
+            return JsonResponse({"error": False, "message": "Todas las preguntas y respuestas de seguridad son obligatorias."})
+
+        # Si todas las preguntas y respuestas están presentes, proceder a guardarlas
+        user = self.request.user
+        user.pregunta_seguridad_1 = pregunta_1
+        user.respuesta_seguridad_1 = respuesta_1
+        user.pregunta_seguridad_2 = pregunta_2
+        user.respuesta_seguridad_2 = respuesta_2
+        user.save()
+
+        return JsonResponse({"success": True, "message": "Preguntas de seguridad actualizadas correctamente."})
 
     def change_password(self, request):
         form = PasswordChangeForm(request.user, request.POST)
@@ -70,9 +99,9 @@ class UserUpdateView(UpdateView):
             update_session_auth_hash(request, user)  # Importante para no desloguear al usuario
             return JsonResponse({"success": True, "message": "Contraseña actualizada correctamente."})
         else:
-            return JsonResponse({"success": False, "errors": form.errors})
-
-
+            # Recopila los mensajes de error del formulario y los envía al frontend
+            errors = {field: error.get_json_data() for field, error in form.errors.items()}
+            return JsonResponse({"success": False, "errors": errors})
 
     
 class UserCreateViewPaciente(CreateView):
@@ -150,3 +179,89 @@ class UserCreateViewResponsable(CreateView):
         return context
     
     
+# lista de usuarios 
+class ResponsableListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listResponsable.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'responsables'
+
+    def get_queryset(self):
+        try:
+            paciente_group = Group.objects.get(name='Responsable')
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_responsable'
+        context['grupo_responsable_existe'] = Group.objects.filter(name='Responsable').exists()
+
+        return context
+    
+class PacienteListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listPacientes.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'pacientes'
+
+    def get_queryset(self):
+        try:
+            # Intentar obtener el grupo "Paciente"
+            paciente_group = Group.objects.get(name='Paciente')
+            # Filtrar usuarios que pertenecen al grupo "Paciente"
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_pacientes'
+        context['grupo_paciente_existe'] = Group.objects.filter(name='Paciente').exists()
+        return context
+    
+
+class DentistaListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listDentistas.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'dentistas'
+
+    def get_queryset(self):
+        try:
+            paciente_group = Group.objects.get(name='Dentista')
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_dentistas'
+        context['grupo_dentista_existe'] = Group.objects.filter(name='Dentista').exists()
+
+        return context
+    
+class AsistenteListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listAsistentes.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'asistentes'
+
+    def get_queryset(self):
+        try:
+            paciente_group = Group.objects.get(name='Asistente')
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_asistente'
+        context['grupo_asistente_existe'] = Group.objects.filter(name='Asistente').exists()
+
+        return context

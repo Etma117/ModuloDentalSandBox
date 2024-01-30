@@ -26,9 +26,11 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Información personal', {'fields': ('first_name', 'last_name', 'email', 'foto', 'tipo_usuario', 'fecha_nacimiento', 'numero')}),
+        ('Clínicas asociadas', {'fields': ('clinicas',)}),
         ('Permisos', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Fechas importantes', {'fields': ('last_login', 'date_joined')}),
-        ('Clínicas asociadas', {'fields': ('clinicas',)}),
+        ('Preguntas de Seguridad', {'fields': ('pregunta_seguridad_1', 'respuesta_seguridad_1','pregunta_seguridad_2', 'respuesta_seguridad_2')}),
+
     )
     
     # Para crear un nuevo usuario

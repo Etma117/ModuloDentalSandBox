@@ -49,6 +49,8 @@ class CustomUserCreationFormTemplate(UserCreationForm):
                  'sexo', 'fecha_nacimiento','clinicas',)  
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento', 'type': 'date'}),
+            'sexo': forms.Select(attrs={'placeholder': 'Sexo'}),
+
             }
              
     def __init__(self, *args, **kwargs):
@@ -65,9 +67,7 @@ class CustomUserCreationFormTemplate(UserCreationForm):
         self.fields['direccion'].widget.attrs['placeholder'] = 'Ej. Av Moctezuma'
         self.fields['celular'].widget.attrs['placeholder'] = 'Numero de Celular'
         self.fields['telefono_fijo'].widget.attrs['placeholder'] = 'Numero de Teléfono'
-        
-        self.fields['sexo'].widget.attrs['placeholder'] = 'Sexo'
-        self.fields['sexo'].label = 'Sexo'
+
         self.fields['clinicas'].widget.attrs['class'] = 'select2'
 
 
@@ -115,3 +115,18 @@ class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
             if age > 110:
                 raise forms.ValidationError('La edad ingresada no es válida. Por favor, verifica la fecha de nacimiento.')
         return data
+
+
+
+
+class CustomUserCreationForm(forms.ModelForm):
+    # Tus otros campos...
+
+    pregunta_seguridad_1 = forms.ChoiceField(choices=CustomUser.PREGUNTAS_SEGURIDAD_1, required=True)
+    respuesta_seguridad_1 = forms.CharField(widget=forms.PasswordInput, required=True)
+    pregunta_seguridad_2 = forms.ChoiceField(choices=CustomUser.PREGUNTAS_SEGURIDAD_2, required=True)
+    respuesta_seguridad_2 = forms.CharField(widget=forms.PasswordInput, required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'pregunta_seguridad_1', 'respuesta_seguridad_1', 'pregunta_seguridad_2', 'respuesta_seguridad_2')
