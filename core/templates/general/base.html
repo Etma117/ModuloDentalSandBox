@@ -211,7 +211,7 @@
 
               
               <li class="nav-item">
-                <a href="{% url "UserCreateViewAsistente" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
+                <a href="{% url "AsistenteListView" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Asistente</p>
                 </a>
@@ -227,7 +227,8 @@
 
               {% if es_administrador %}
                   <li class="nav-item">
-                    <a href="{% url "UserCreateViewResponsable" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
+                    
+                    <a href="{% url "ResponsableListView" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Responsable</p>
                     </a>

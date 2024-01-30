@@ -150,3 +150,89 @@ class UserCreateViewResponsable(CreateView):
         return context
     
     
+# lista de usuarios 
+class ResponsableListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listResponsable.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'responsables'
+
+    def get_queryset(self):
+        try:
+            paciente_group = Group.objects.get(name='Responsable')
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_responsable'
+        context['grupo_responsable_existe'] = Group.objects.filter(name='Responsable').exists()
+
+        return context
+    
+class PacienteListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listPacientes.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'pacientes'
+
+    def get_queryset(self):
+        try:
+            # Intentar obtener el grupo "Paciente"
+            paciente_group = Group.objects.get(name='Paciente')
+            # Filtrar usuarios que pertenecen al grupo "Paciente"
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_pacientes'
+        context['grupo_paciente_existe'] = Group.objects.filter(name='Paciente').exists()
+        return context
+    
+
+class DentistaListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listDentistas.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'dentistas'
+
+    def get_queryset(self):
+        try:
+            paciente_group = Group.objects.get(name='Dentista')
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_dentistas'
+        context['grupo_dentista_existe'] = Group.objects.filter(name='Dentista').exists()
+
+        return context
+    
+class AsistenteListView(ListView):
+    model = CustomUser
+    template_name = 'listas/listAsistentes.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'asistentes'
+
+    def get_queryset(self):
+        try:
+            paciente_group = Group.objects.get(name='Asistente')
+            return CustomUser.objects.filter(groups=paciente_group)
+        except Group.DoesNotExist:
+            # Si no existe el grupo, devolver un queryset vacío
+            return CustomUser.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_asistente'
+        context['grupo_asistente_existe'] = Group.objects.filter(name='Asistente').exists()
+
+        return context

@@ -43,12 +43,9 @@ INSTALLED_APPS = [
     'citas',
     'generales',
     'horarios',
-    'pacientes',
     'usuarios',
     'catalogos',
     'clinicas',
-    'dentistas',
-    'asistentes',
 
     
 ]
