@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import home, exit
+from .views import home, exit, recover_password, verify_security_answers
 
 
 from django.conf.urls.static import static
@@ -8,6 +8,8 @@ urlpatterns = [
     path('', home.as_view(), name="home"),
 
     path('logout/', exit, name='exit'),
+    path('recover-password/', recover_password, name='recover_password'),
+    path('verify-security-answers/', verify_security_answers, name='verify_security_answers'),
 
    
 ]

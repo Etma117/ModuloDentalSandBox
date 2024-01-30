@@ -93,7 +93,7 @@ Ver Pacientes
             </thead>
             <tbody>
                 {% for paciente in pacientes %}
-                <tr>
+                <tr onclick="window.location='{% url 'paciente_detail' paciente.id %}'" style="cursor:pointer;">
 
                     {% if paciente.foto  %}
                     <td style="text-align: center; vertical-align: middle;">

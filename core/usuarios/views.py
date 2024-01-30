@@ -265,3 +265,25 @@ class AsistenteListView(ListView):
         context['grupo_asistente_existe'] = Group.objects.filter(name='Asistente').exists()
 
         return context
+    
+
+
+
+
+# Detalles del paciente 
+
+class PacienteDetailView(DetailView):
+    model = CustomUser
+    template_name = 'detalles/detallePaciente.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'paciente'
+
+    def get_object(self, queryset=None):
+        # Obtén el paciente por su id
+        paciente_id = self.kwargs.get('pk')
+        return get_object_or_404(CustomUser, id=paciente_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_pacientes'
+        return context
