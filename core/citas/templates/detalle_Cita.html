@@ -9,6 +9,72 @@ Citas
 
 <link rel="stylesheet" href=" {% static 'fullcalendar/lib/main.css' %}">
 
+<style>
+
+    .centered-container {
+        margin-top:20px;
+        margin-bottom:40px;
+
+        display: flex;
+        align-items: center; /* Centrar verticalmente */
+        justify-content: center; /* Centrar horizontalmente */
+        height: 20vh; /* Altura total de la ventana de visualización, ajusta según necesites */
+    }
+
+       
+    /* ... Resto del CSS ... */
+
+    
+    .btn-primary {
+        border: none;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.2s ease-in-out;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    .card1 {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card1:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
+    }
+
+    .card-error {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card-error:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #F6C344; /* Ajusta el color de la línea aquí */
+    }
+
+</style>
+
 {%endblock link%}
 {% block dashboard %}
 <h1>Cita {{cita.fecha}}</h1>     
@@ -27,16 +93,52 @@ Citas
                     </small>
 
                 </div-->
-        <div class="card col-lg-3">
-            <div class="card-body">
-                <h1 class="card-title">Paciente: {{ cita.paciente }}</h1>
-                <p class="card-text">Fecha y hora: {{ cita.fecha }} {{ cita.hora_inicio }}</p>
-                <p class="card-text">Doctor: {{ cita.doctor }}</p>
-                
+        <div class="card col-lg-5" style="border: 2px solid #ccc; border-radius: 15px;">
+            <div class="card-header">
+                <i class="fa-solid fa-calendar-days" style="color: #239db9;"></i> <strong>Cita del {{cita.fecha}}</strong>
             </div>
-        </div>
+            <div class="card card1">
+                <div class="card-body">
+                    <h1 class="card-title">Paciente: {{ cita.paciente.first_name}} {{cita.paciente.last_name}} {{cita.paciente.apellido_materno}}</h1>
+                    <p class="card-text">Fecha y hora: {{ cita.fecha }} {{ cita.hora_trabajo.hora_inicio| time:"H:i"}}</p>
+                    <p class="card-text">Dentista: {{ cita.dentista }}</p>
+                    
+                </div>
+            </div>
 
-        <div class="col-lg-6" style="border: 2px solid #ccc; padding: 10px; border-radius: 15px;">
+            <div class="d-flex flex-wrap">
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; position: relative; font-size: 1.5vw;">
+                    <div class="card-body">
+                        <i class="fa-regular fa-calendar-plus fa-3x" ></i>
+                        <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Ultimos Tratamientos</h2>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; position: relative; font-size: 1.5vw; ">
+                        <div class="card-body">
+                        <i class="fa-regular fa-calendar-plus fa-3x" ></i>
+                        <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Historial Clinica</h2>
+                        </div>
+                    </a>
+                </div>
+           
+                <div class="col-md-4 mb-3">
+                    <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; position: relative; font-size: 1.5vw;">
+                        <div class="card-body">
+                            <i class="fa-regular fa-calendar-plus fa-3x" ></i>
+                            <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Odontograma Gráfico</h2>
+                        </div>
+                    </a>
+                </div>
+            </div> 
+        </div>
+        
+
+        <div class="col-lg-6" style="border: 2px solid #ccc; padding: 10px; border-radius: 15px; margin-left: 10px">
             <div id="calendar" ></div>
         </div>
     </div>
@@ -60,8 +162,8 @@ Citas
                 events: [
                     {
                         title: 'Consulta {{cita.paciente}}',
-                        start: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_inicio | time:"H:i:s"}}', 
-                        end: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_termino | time:"H:i:s"}}',
+                        start: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_trabajo.hora_inicio| time:"H:i:s"}}', 
+                        end: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_trabajo.hora_fin | time:"H:i:s"}}',
                     },
                 ]
             });
