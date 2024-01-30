@@ -65,6 +65,9 @@ Citas
                             {{ cita.estado_cita }}
                         </td>
                         <td>
+                            <a href="#" class="bi bi-check-circle-fill text-success" style="padding-left: 10px; text-decoration: none;">
+                                <i class="fas fa-edit"></i>
+                            </a>
                             <a href="{% url 'Editar_Cita' pk=cita.id%}" class="text-primary" style="padding-left: 10px; text-decoration: none;">
                                 <i class="fas fa-edit"></i>
                             </a>
