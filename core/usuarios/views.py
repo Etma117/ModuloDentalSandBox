@@ -55,13 +55,42 @@ class UserUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'  # Cambia esto según la página activa
         context['seccion'] = 'editar_perfil'  # Cambia esto según la página activa
+        
+        user = self.request.user
+        preguntas_configuradas = user.pregunta_seguridad_1 and user.pregunta_seguridad_2
+        context['preguntas_configuradas'] = preguntas_configuradas
+        context['preguntas_seguridad_1'] = CustomUser.PREGUNTAS_SEGURIDAD_1
+        context['preguntas_seguridad_2'] = CustomUser.PREGUNTAS_SEGURIDAD_2
+
         return context
     
 
     def post(self, request, *args, **kwargs):
         if "change_password" in request.POST:
             return self.change_password(request)
+        elif "update_security_questions" in request.POST:
+            return self.update_security_questions(request)
         return super().post(request, *args, **kwargs)
+    
+    def update_security_questions(self, request):
+        pregunta_1 = request.POST.get('pregunta_seguridad_1')
+        respuesta_1 = request.POST.get('respuesta_seguridad_1')
+        pregunta_2 = request.POST.get('pregunta_seguridad_2')
+        respuesta_2 = request.POST.get('respuesta_seguridad_2')
+
+        if not all([pregunta_1, respuesta_1, pregunta_2, respuesta_2]):
+            # Si alguna pregunta o respuesta está vacía, enviar un error
+            return JsonResponse({"error": False, "message": "Todas las preguntas y respuestas de seguridad son obligatorias."})
+
+        # Si todas las preguntas y respuestas están presentes, proceder a guardarlas
+        user = self.request.user
+        user.pregunta_seguridad_1 = pregunta_1
+        user.respuesta_seguridad_1 = respuesta_1
+        user.pregunta_seguridad_2 = pregunta_2
+        user.respuesta_seguridad_2 = respuesta_2
+        user.save()
+
+        return JsonResponse({"success": True, "message": "Preguntas de seguridad actualizadas correctamente."})
 
     def change_password(self, request):
         form = PasswordChangeForm(request.user, request.POST)
@@ -70,9 +99,9 @@ class UserUpdateView(UpdateView):
             update_session_auth_hash(request, user)  # Importante para no desloguear al usuario
             return JsonResponse({"success": True, "message": "Contraseña actualizada correctamente."})
         else:
-            return JsonResponse({"success": False, "errors": form.errors})
-
-
+            # Recopila los mensajes de error del formulario y los envía al frontend
+            errors = {field: error.get_json_data() for field, error in form.errors.items()}
+            return JsonResponse({"success": False, "errors": errors})
 
     
 class UserCreateViewPaciente(CreateView):
