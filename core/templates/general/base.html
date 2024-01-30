@@ -201,7 +201,8 @@
             <ul class="nav nav-treeview">
       
               <li class="nav-item">
-                <a href="{% url 'register_user_dentista'  %}" class="nav-link {% if seccion == 'ver_dentistas' %}active {% endif %}">
+                
+                <a href="{% url 'DentistaListView'  %}" class="nav-link {% if seccion == 'ver_dentistas' %}active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dentista</p>
                 </a>
@@ -210,21 +211,24 @@
 
               
               <li class="nav-item">
-                <a href="{% url "UserCreateViewAsistente" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
+                <a href="{% url "AsistenteListView" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Asistente</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url "UserCreateViewPaciente" %}" class="nav-link  {% if seccion == 'ver_pacientes' %}active {% endif %}">
+
+                <a href="{% url "ver_pacientes" %}" class="nav-link  {% if seccion == 'ver_pacientes' %}active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Paciente</p>
                 </a>
+              
               </li>
 
               {% if es_administrador %}
                   <li class="nav-item">
-                    <a href="{% url "UserCreateViewResponsable" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
+                    
+                    <a href="{% url "ResponsableListView" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Responsable</p>
                     </a>
@@ -319,8 +323,8 @@
           </li>
 
           <li class="nav-header">Gestión de Pacientes </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link  first-li">  
+          <li class="nav-item {% if navbar == 'gestion_pacientes' %}menu-is-opening menu-open{% endif %}">
+            <a href="#" class="nav-link {% if navbar == 'gestion_pacientes' %}active first-li{% endif %}">  
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Pacientes
@@ -329,10 +333,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url "ver_pacientes" %}" class="nav-link">
+
+
+                <a href="{% url "ver_pacientes" %}" class="nav-link {% if seccion == 'ver_list_pacientes' %}active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ver Pacientes</p>
                 </a>
+
               </li>
               <li class="nav-item">
                 <a href="./index2.html" class="nav-link">

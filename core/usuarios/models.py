@@ -36,11 +36,11 @@ class CustomUser(AbstractUser):
     )
 
     SEX_CHOICES = [
-        ('M', 'Hombre'),
-        ('F', 'Mujer'),
+        ('Hombre', 'Hombre'),
+        ('Mujer', 'Mujer'),
         # Puedes agregar más opciones si es necesario
     ]
-    sexo = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
+    sexo = models.CharField(max_length=10, choices=SEX_CHOICES, blank=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
 
     def __str__(self):
