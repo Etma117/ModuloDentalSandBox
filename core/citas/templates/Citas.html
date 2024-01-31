@@ -12,6 +12,8 @@ Citas
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
 
+
+
 {%endblock link%}
 
 {% block dashboard %}
@@ -59,12 +61,15 @@ Citas
                             {{ cita.fecha|date:"d/m/Y"  }}
                         </td>
                         <td>
-                            {{ cita.hora_inicio| time:"H:i"}}
+                            {{ cita.hora_trabajo| time:"H:i"}}
                         </td>
                         <td>
                             {{ cita.estado_cita }}
                         </td>
                         <td>
+                            <a href="#" class="bi bi-check-circle-fill text-success" style="padding-left: 10px; text-decoration: none;">
+                                <i class="fas fa-edit"></i>
+                            </a>
                             <a href="{% url 'Editar_Cita' pk=cita.id%}" class="text-primary" style="padding-left: 10px; text-decoration: none;">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -108,7 +113,7 @@ Citas
 <script src="{% static 'fullcalendar/lib/main.js' %}"></script>
 <script src="{% static 'fullcalendar/lib/locales-all.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+<!--FullCalendar-->
     <script>
         document.addEventListener('DOMContentLoaded', function(){
             var calendarUI = document.getElementById('calendar');
@@ -124,8 +129,8 @@ Citas
                 {%for cita in cita%}
                     {
                         title: 'Consulta {{cita.paciente}}',
-                        start: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_inicio | time:"H:i:s"}}', 
-                        end: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_termino | time:"H:i:s"}}',
+                        start: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_trabajo.hora_inicio| time:"H:i:s"}}', 
+                        end: '{{cita.fecha | date:"Y-m-d"}}T{{cita.hora_trabajo.hora_fin | time:"H:i:s"}}',
                         url: '{% url 'Detalle_Cita' pk=cita.id %}'
                     },
                 {% endfor %}

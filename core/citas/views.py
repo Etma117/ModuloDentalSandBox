@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Cita
-from .forms import CitaForm
+from .forms import CitaForm, CitaEditarForm
 
 class CitaListar(LoginRequiredMixin, ListView):  #Lista de todas las citas
     model = Cita
@@ -28,6 +28,8 @@ class CitaCrearView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageM
     permission_required = 'citas.add_cita'
     raise_exception = True 
 
+   
+
 
 class CitaDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView): #Vista para los detalles de una cita especifica
     model = Cita 
@@ -37,15 +39,15 @@ class CitaDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView): #
     login_url = 'login'  # URL de inicio de sesión
     redirect_field_name = 'next'  # Nombre del campo de redireccionamiento  agenda.change_evento
 
-    permission_required = 'agenda.view_evento'
+    permission_required = 'citas.view_cita'
     raise_exception = True 
 
 
 class CitaUpdateView (LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView): #Vista para actualizar la cita
     model=Cita
-    template_name='Agendar_Cita.html'
+    template_name='EditarCita.html'
     context_object_name= 'cita'
-    form_class= CitaForm    
+    form_class= CitaEditarForm    
     success_url = reverse_lazy('Citas') #Nombre de la url, no la url en si
 
     success_message ='Cita modificada...'
