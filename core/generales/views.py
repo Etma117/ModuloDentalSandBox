@@ -29,6 +29,7 @@ class home(LoginRequiredMixin, TemplateView):
         context['total_clinicas'] = Clinica.objects.count()
         context['total_dentistas'] = CustomUser.objects.filter(tipo_usuario="dentista").count()
         context['total_responsables'] = CustomUser.objects.filter(tipo_usuario="responsable").count()
+        context['total_pacientes'] = CustomUser.objects.filter(tipo_usuario="paciente").count()
         context['navbar'] = 'home'  
         return context
 
