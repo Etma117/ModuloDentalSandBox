@@ -82,7 +82,7 @@ Ver Pacientes
 
 <div class="card card1">
     <div class="card-header">
-        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de pacientes </strong>
+        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de Pacientes </strong>
     </div>
     <div class="card-body">
         {% if grupo_paciente_existe %}
@@ -158,28 +158,6 @@ Ver Pacientes
 
 
 
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <!-- Agrega más columnas según lo que desees mostrar -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for paciente in pacientes %}
-        <tr>
-            <td>{{ paciente.get_full_name }}</td>
-            <td>{{ paciente.email }}</td>
-            <!-- Más campos de paciente si es necesario -->
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="2">No hay pacientes registrados.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
 {% endblock contenido %}
 

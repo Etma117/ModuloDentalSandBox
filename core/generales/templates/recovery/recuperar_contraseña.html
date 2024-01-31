@@ -24,8 +24,9 @@
                         <form id="userRecoveryForm">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Nombre de usuario</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
                             </div>
+                            
                             <button type="submit" class="btn btn-primary">Enviar</button>
                         </form>
                     </div>
@@ -49,12 +50,25 @@
                         <form id="passwordResetForm">
                             <div class="mb-3">
                                 <label for="new_password1" class="form-label">Nueva Contraseña</label>
-                                <input type="password" class="form-control" id="new_password1" name="new_password1" required>
+                                <input type="password" class="form-control" id="new_password1" name="new_password1" placeholder="Ingresa tu nueva contraseña" required>
                             </div>
                             <div class="mb-3">
                                 <label for="new_password2" class="form-label">Confirmar Nueva Contraseña</label>
-                                <input type="password" class="form-control" id="new_password2" name="new_password2" required>
+                                <input type="password" class="form-control" id="new_password2" name="new_password2" placeholder="Confirma tu nueva contraseña" required>
                             </div>
+                            
+
+                            <div id="password-criteria">
+                                <p>La contraseña debe cumplir los siguientes requerimientos:</p>
+                                <ul>
+                                    <li id="criteria-length" class="text-danger">Al menos 8 caracteres</li>
+                                    <li id="criteria-uppercase" class="text-danger">Al menos una letra mayúscula</li>
+                                    <li id="criteria-number" class="text-danger">Al menos un número</li>
+                                    <li id="criteria-match" class="text-danger">Las contraseñas deben coincidir</li>
+                                    <li id="criteria-nospaces" class="text-danger">La contraseña no debe tener espacios</li>
+                                </ul>
+                            </div>
+    
                             <button type="submit" class="btn btn-primary">Establecer Contraseña</button>
                         </form>
                     </div>
@@ -65,6 +79,7 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         document.getElementById('userRecoveryForm').addEventListener('submit', function(event) {
@@ -85,16 +100,16 @@
                     document.getElementById('security-questions-container').style.display = 'block';
                     let form = document.getElementById('securityQuestionsForm');
                     form.innerHTML = `
-                        <div class="mb-3">
-                            <label for="security_question_1" class="form-label">${data.pregunta_seguridad_1}</label>
-                            <input type="text" class="form-control" id="security_answer_1" name="security_answer_1" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="security_question_2" class="form-label">${data.pregunta_seguridad_2}</label>
-                            <input type="text" class="form-control" id="security_answer_2" name="security_answer_2" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Verificar Respuestas</button>
-                    `;
+                    <div class="mb-3">
+                        <label for="security_question_1" class="form-label">${data.pregunta_seguridad_1}</label>
+                        <input type="text" class="form-control" id="security_answer_1" name="security_answer_1" placeholder="Respuesta a la pregunta 1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="security_question_2" class="form-label">${data.pregunta_seguridad_2}</label>
+                        <input type="text" class="form-control" id="security_answer_2" name="security_answer_2" placeholder="Respuesta a la pregunta 2" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Verificar Respuestas</button>
+                `;
                 } else {
                     alert(data.message);
                 }
@@ -139,34 +154,85 @@
         });
     });
 
-    document.getElementById('passwordResetForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        let formData = new FormData(this);
-        formData.append('username', document.getElementById('username').value);
+</script>
 
-        fetch('/set-new-password/', {  // Cambia a tu URL de actualización de contraseña
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',  // Asegúrate de obtener el token CSRF
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const newPassword1 = document.getElementById('new_password1');
+        const newPassword2 = document.getElementById('new_password2');
+        const submitButton = document.querySelector('#passwordResetForm button[type="submit"]');
+    
+        function updateCriteria(id, isValid) {
+            document.getElementById(id).className = isValid ? 'text-success' : 'text-danger';
+        }
+    
+        function validatePassword() {
+            const criteria = {
+                length: newPassword1.value.length >= 8,
+                uppercase: /[A-Z]/.test(newPassword1.value),
+                number: /[0-9]/.test(newPassword1.value),
+                match: newPassword1.value === newPassword2.value,
+                nospaces: !/\s/.test(newPassword1.value)
+            };
+    
+            updateCriteria('criteria-length', criteria.length);
+            updateCriteria('criteria-uppercase', criteria.uppercase);
+            updateCriteria('criteria-number', criteria.number);
+            updateCriteria('criteria-match', criteria.match);
+            updateCriteria('criteria-nospaces', criteria.nospaces);
+    
+            return Object.values(criteria).every(criterion => criterion);
+        }
+    
+        newPassword1.addEventListener('keyup', validatePassword);
+        newPassword2.addEventListener('keyup', validatePassword);
+    
+        document.getElementById('passwordResetForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (validatePassword()) {
+                let formData = new FormData(this);
+                formData.append('username', document.getElementById('username').value);
+    
+                fetch('/set-new-password/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: 'Tu contraseña ha sido actualizada exitosamente.',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            // Redirigir al usuario o realizar otra acción
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Se produjo un error en la solicitud.',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                });
             }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Contraseña actualizada correctamente
-                alert('Tu contraseña ha sido actualizada exitosamente.');
-                // Aquí puedes redirigir al usuario al login o realizar alguna otra acción
-            } else {
-                // Manejar errores
-                alert(data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
     });
-</script>
+    </script>
 
 </body>
 </html>

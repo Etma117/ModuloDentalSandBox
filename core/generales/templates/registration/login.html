@@ -51,9 +51,25 @@
 
               <br>
               <br>
+              <style>
+                .recuperar-contrasena {
+                    color: #5c6bc0; /* Cambia el color a uno más llamativo */
+                    font-weight: bold; /* Hace que la fuente sea negrita */
+                    text-decoration: none; /* Elimina el subrayado del enlace */
+                    margin-top: 10px; /* Añade un poco de margen en la parte superior */
+                    display: inline-block; /* Hace que el enlace sea en bloque para controlar mejor los márgenes */
+                    transition: color 0.3s; /* Efecto de transición suave para los cambios de color */
+                }
+                
+                .recuperar-contrasena:hover {
+                    color: #7e57c2; /* Cambia el color cuando el mouse está encima */
+                    text-decoration: underline; /* Subraya el enlace al pasar el mouse */
+                }
+                </style>
+      
+             </div>
 
-              <a href=" {% url "recover_password" %} ">Recuperar Contraseña</a>
-            </div>
+
             <input type="submit" value="Iniciar Sesión" class="btn solid" />
             <p class="social-text">O Inicia Sesión con una Red Social</p>
             <div class="social-media">
@@ -70,6 +86,10 @@
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
+
+            <a href="{% url 'recover_password' %}" class="recuperar-contrasena">
+              <i class="fas fa-question-circle"></i> Recuperar Contraseña
+          </a>
           </form>
          
   

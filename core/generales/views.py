@@ -75,3 +75,21 @@ def verify_security_answers(request):
                 return JsonResponse({'error': True, 'message': 'Respuestas de seguridad incorrectas.'})
         except User.DoesNotExist:
             return JsonResponse({'error': True, 'message': 'El usuario no existe.'})
+
+
+def set_new_password(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+
+        if new_password1 and new_password1 == new_password2:
+            try:
+                user = User.objects.get(username=username)
+                user.set_password(new_password1)
+                user.save()
+                return JsonResponse({'success': True, 'message': 'Contraseña actualizada correctamente.'})
+            except User.DoesNotExist:
+                return JsonResponse({'error': True, 'message': 'Usuario no encontrado.'})
+        else:
+            return JsonResponse({'error': True, 'message': 'Las contraseñas no coinciden o están vacías.'})
