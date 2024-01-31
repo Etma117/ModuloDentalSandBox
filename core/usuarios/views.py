@@ -15,7 +15,7 @@ from django.contrib.auth import update_session_auth_hash
 from core import settings
 # Local imports
 from .models import CustomUser
-from .forms import CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
+from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
 from django.views.generic import TemplateView
 # Create your views here.
 
@@ -154,7 +154,7 @@ class UserCreateViewPaciente(CreateView):
 
 class UserCreateViewAsistente(CreateView):
     model = CustomUser
-    form_class = CustomUserCreationFormTemplate
+    form_class = CustomUserCreationAsistenteFormTemplate
     template_name = 'register/register_user_asistente.html'
     success_url = reverse_lazy('home') 
 

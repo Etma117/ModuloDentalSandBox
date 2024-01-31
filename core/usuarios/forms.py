@@ -7,6 +7,8 @@ from django.contrib.auth.models import Group
 from django.core.validators import MinValueValidator
 from django.contrib.auth.forms import PasswordChangeForm
 from clinicas.models import Clinica
+from .models import AsistenteDentista
+from django.forms import inlineformset_factory
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
@@ -73,6 +75,63 @@ class CustomUserCreationFormTemplate(UserCreationForm):
             if field and isinstance(field.widget, forms.TextInput):
                 field.widget.attrs.update({'class': 'form-control'})
 
+class CustomUserCreationAsistenteFormTemplate(UserCreationForm):
+    
+    fecha_nacimiento = forms.DateField(
+        label="Fecha de Nacimiento:",
+        widget=forms.DateInput(attrs={'type': 'text', 'id': 'date', 'placeholder': "DD/MM/YYYY"}),
+        input_formats=['%d/%m/%Y'],
+    )
+
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'first_name', 'last_name', 'email', 'foto', 
+                 'apellido_materno', 'direccion', 'celular', 'telefono_fijo', 
+                 'sexo', 'fecha_nacimiento','clinicas',)  
+        widgets = {
+            'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento', 'type': 'date'}),
+            'sexo': forms.Select(attrs={'placeholder': 'Sexo'}),
+
+            }
+             
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationAsistenteFormTemplate, self).__init__(*args, **kwargs)
+
+       
+        self.fields['username'].widget.attrs['placeholder'] = 'Nombre de usuario'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Nombre'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Apellido Paterno'
+        self.fields['email'].widget.attrs['placeholder'] = 'Correo electrónico'
+        self.fields['apellido_materno'].widget.attrs['placeholder'] = 'Apellido Materno'
+        self.fields['last_name'].label = 'Apellido Paterno'
+        self.fields['apellido_materno'].label = 'Apellido Materno'
+        self.fields['direccion'].widget.attrs['placeholder'] = 'Ej. Av Moctezuma'
+        self.fields['celular'].widget.attrs['placeholder'] = 'Numero de Celular'
+        self.fields['telefono_fijo'].widget.attrs['placeholder'] = 'Numero de Teléfono'
+
+        self.fields['clinicas'].widget.attrs['class'] = 'select2'
+
+        campos_no_requeridos = ['telefono_fijo', 'foto']
+        for field_name in self.fields:
+            if field_name in campos_no_requeridos:
+                self.fields[field_name].required = False
+            else:
+                self.fields[field_name].required = True
+
+        for field_name in self.fields:
+            field = self.fields.get(field_name)  
+            if field and isinstance(field.widget, forms.TextInput):
+                field.widget.attrs.update({'class': 'form-control'})
+
+AsistenteDentistaFormSet = inlineformset_factory(
+    CustomUser, 
+    AsistenteDentista, 
+    fields=('dentista',), 
+    extra=1, 
+    can_delete=True,
+    fk_name='asistente'  # Especifica que se utilizará la clave foránea 'asistente'
+)
 
 
 class CustomUserCreationFormDentista(UserCreationForm):
