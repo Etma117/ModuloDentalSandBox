@@ -24,7 +24,15 @@ Editar datos del Usuario
 {% block contenido %}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
+{% if not preguntas_configuradas %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    No has configurado tus preguntas de seguridad. Te recomendamos hacerlo para mejorar la seguridad de tu cuenta.
+    <!-- Aquí puedes agregar un enlace o botón para configurar preguntas de seguridad -->
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}  
 <style>
 
     .centered-container {
@@ -125,6 +133,21 @@ Editar datos del Usuario
         width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
         height: 4px; /* Ajusta el grosor de la línea aquí */
         background-color: #239db9; /* Ajusta el color de la línea aquí */
+    }
+
+    .card-error {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card-error:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #F6C344; /* Ajusta el color de la línea aquí */
     }
 
 </style>
@@ -262,7 +285,7 @@ Editar datos del Usuario
                         </div>
              
 
-                        <button type="submit" class="btn btn-custom2">Registrar Usuario</button>
+                        <button type="submit" class="btn btn-custom2">Actualizar datos</button>
 
                     </div>
 
@@ -310,6 +333,9 @@ Editar datos del Usuario
                     </div>
                 </div>
             </div>
+
+    
+
             <!-- Confirmar Nueva Contraseña -->
             <div class="form-group">
                 <label for="id_new_password2">Confirmar Nueva Contraseña</label>
@@ -322,9 +348,109 @@ Editar datos del Usuario
                     </div>
                 </div>
             </div>
+
+            <div id="password-criteria">
+                <p>La contraseña debe cumplir los siguientes requerimientos:</p>
+                <ul>
+                    <li id="criteria-length" class="text-danger">Al menos 8 caracteres</li>
+                    <li id="criteria-uppercase" class="text-danger">Al menos una letra mayúscula</li>
+                    <li id="criteria-number" class="text-danger">Al menos un número</li>
+                    <li id="criteria-match" class="text-danger">Las contraseñas deben coincidir</li>
+                    <li id="criteria-nospaces" class="text-danger">La contraseña no debe tener espacios</li>
+                </ul>
+            </div>
             <button type="submit" class="btn btn-custom2">Cambiar Contraseña</button>
         </form>
     </div>
+    <!-- /.card-body -->
+</div>
+
+
+{% if not preguntas_configuradas %}
+    <div class="card card-error collapsed-card">
+{% else %}
+    <div class="card card1 collapsed-card">
+{% endif %}
+    <div class="card-header">
+
+        {% if not preguntas_configuradas %}
+        <i class="fas fa-solid fa-question fa-2x" style="color: #F6C344;"></i> <strong>Preguntas de Seguridad</strong>
+
+        {% else %}
+        <i class="fas fa-solid fa-question fa-2x" style="color: #239db9;"></i> <strong>Preguntas de Seguridad</strong>
+
+        {% endif %}
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+
+        {% if preguntas_configuradas %}
+        <div class="card mt-3">
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Pregunta de Seguridad 1: {{ user.get_pregunta_seguridad_1_display }}</li>
+                <li class="list-group-item">Pregunta de Seguridad 2: {{ user.get_pregunta_seguridad_2_display }}</li>
+            </ul>
+        </div>
+        
+        {% else %}
+                <form id="security-questions-form" method="post" class="needs-validation mt-3" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="pregunta_seguridad_1" class="form-label">Pregunta de Seguridad 1:</label>
+                        <select name="pregunta_seguridad_1" id="pregunta_seguridad_1" class="form-select" required>
+                            <option value="" selected>Selecciona una pregunta</option>
+                            {% for value, text in preguntas_seguridad_1 %}
+                                <option value="{{ value }}">{{ text }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona una pregunta.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="respuesta_seguridad_1" class="form-label">Respuesta:</label>
+                        <input type="text" name="respuesta_seguridad_1" id="respuesta_seguridad_1" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Por favor, proporciona una respuesta.
+                        </div>
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="pregunta_seguridad_2" class="form-label">Pregunta de Seguridad 2:</label>
+                        <select name="pregunta_seguridad_2" id="pregunta_seguridad_2" class="form-select" required>
+                            <option value="" selected>Selecciona una pregunta</option>
+                            {% for value, text in preguntas_seguridad_2 %}
+                                <option value="{{ value }}">{{ text }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona una pregunta.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="respuesta_seguridad_2" class="form-label">Respuesta:</label>
+                        <input type="text" name="respuesta_seguridad_2" id="respuesta_seguridad_2" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Por favor, proporciona una respuesta.
+                        </div>
+                    </div>
+            
+                    <button type="submit" class="btn btn-primary">Actualizar Preguntas</button>
+                </form>      
+        {% endif %}
+
+
+
+        
+    
+    
+    </div>
+    
     <!-- /.card-body -->
 </div>
 
@@ -538,56 +664,6 @@ Editar datos del Usuario
 
 
   <script>
- // Para evitar el envío normal del formulario
- function changePasswordAjax() {
-    let formData = new FormData(document.getElementById('passwordChangeForm'));
-    formData.append('change_password', '1'); // Identificador para el backend
-
-    fetch(window.location.href, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': '{{ csrf_token }}',  // Asegúrate de obtener el token CSRF
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Mostrar mensaje de éxito con SweetAlert
-            Swal.fire({
-                title: 'Éxito!',
-                text: data.message,
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Colapsar la tarjeta
-                    $('.card2').CardWidget('collapse');
-                }
-            });
-        } else {
-            // Mostrar errores con SweetAlert
-            Swal.fire({
-                title: 'Error!',
-                text: 'Error al cambiar la contraseña.',
-                icon: 'error',
-                confirmButtonText: 'Ok'
-            });
-        }
-    })
-    .catch(error => {
-        // Manejar error
-        console.error('Error:', error);
-        Swal.fire({
-            title: 'Error!',
-            text: 'Se produjo un error en la solicitud.',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-        });
-    });
-
-    return false; // Para evitar el envío normal del formulario
-}
 
 function togglePassword(fieldId) {
     var field = document.getElementById(fieldId);
@@ -598,5 +674,164 @@ function togglePassword(fieldId) {
     }
 }
 
+
+$(document).ready(function() {
+    $('#security-questions-form').on('submit', function(e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        $.ajax({
+            url: '',  // Coloca aquí la URL de la vista UserUpdateView
+            type: 'POST',
+            data: data + '&update_security_questions=True',
+            success: function(response) {
+                if (response.success) {
+                    // Si se guardaron las preguntas de seguridad exitosamente, muestra Sweet Alert
+                    Swal.fire({
+                        title: 'Éxito!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        window.location.reload();  // Recarga la página
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Manejar error genérico de AJAX
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Se produjo un error al guardar las preguntas de seguridad.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
+        });
+    });
+});
+
+
+
 </script>
+
+<script>
+    // Ejemplo de inicialización de validación de Bootstrap
+    (function () {
+        'use strict'
+
+        var forms = document.querySelectorAll('.needs-validation')
+
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const newPassword1 = document.getElementById('id_new_password1');
+        const newPassword2 = document.getElementById('id_new_password2');
+        const submitButton = document.querySelector('button[type="submit"]');
+    
+        function updateCriteria(id, isValid) {
+            document.getElementById(id).className = isValid ? 'text-success' : 'text-danger';
+        }
+    
+        function validatePassword() {
+            const criteria = {
+                length: newPassword1.value.length >= 8,
+                uppercase: /[A-Z]/.test(newPassword1.value),
+                number: /[0-9]/.test(newPassword1.value),
+                match: newPassword1.value === newPassword2.value,
+                nospaces: !/\s/.test(newPassword1.value)
+            };
+    
+            updateCriteria('criteria-length', criteria.length);
+            updateCriteria('criteria-uppercase', criteria.uppercase);
+            updateCriteria('criteria-number', criteria.number);
+            updateCriteria('criteria-match', criteria.match);
+            updateCriteria('criteria-nospaces', criteria.nospaces);
+    
+            // Devuelve true si todos los criterios son válidos, de lo contrario false
+            return Object.values(criteria).every(criterion => criterion);
+        }
+    
+        newPassword1.addEventListener('keyup', validatePassword);
+        newPassword2.addEventListener('keyup', validatePassword);
+    
+        document.getElementById('passwordChangeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir la acción por defecto del formulario
+            if (validatePassword()) {
+                changePasswordAjax();
+            }
+        });
+    
+        function changePasswordAjax() {
+            let formData = new FormData(document.getElementById('passwordChangeForm'));
+            formData.append('change_password', '1'); // Identificador para el backend
+    
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value, // Asegúrate de obtener el token CSRF
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Éxito!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        document.getElementById('id_old_password').value = '';
+                        document.getElementById('id_new_password1').value = '';
+                        document.getElementById('id_new_password2').value = '';
+                        if (result.isConfirmed) {
+                            $('.card2').CardWidget('collapse');
+                        }
+                    });
+                } else {
+                    let errorMessages = Object.values(data.errors).map(errorList => {
+                        return errorList.map(error => error.message).join(' ');
+                    }).join(' ');
+                    Swal.fire({
+                        title: 'Error al cambiar la contraseña',
+                        html: errorMessages,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Se produjo un error en la solicitud.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            });
+        }
+    });
+    </script>
+    
+    
+
 {% endblock script2 %}

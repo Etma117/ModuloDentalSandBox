@@ -1,7 +1,7 @@
 {% extends "general/base.html" %}
 {% load static %}
 {% block titulo %}
-Ver Pacientes
+Ver Dentistas
 {% endblock titulo %}
 {% block link%}
     <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
@@ -58,6 +58,20 @@ Ver Pacientes
         background-color: #4C9BB6;
         color: white;
         border-radius: 100%;
+    }
+    .card1 {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card1:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
     }
 </style>
 
@@ -124,7 +138,7 @@ Ver Pacientes
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="5">No hay pacientes registrados.</td>
+                    <td colspan="5">No hay dentistas registrados.</td>
                 </tr>
                 {% endfor %}
             </tbody>
