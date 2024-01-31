@@ -198,8 +198,9 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-      
+            <ul class="nav nav-treeview"> 
+              
+              {% if es_responsable %}
               <li class="nav-item">
                 
                 <a href="{% url 'DentistaListView'  %}" class="nav-link {% if seccion == 'ver_dentistas' %}active {% endif %}">
@@ -208,14 +209,21 @@
                 </a>
               </li>
 
+              {% endif %}
+         
 
-              
+              {% if es_responsable or es_dentista %}
+
               <li class="nav-item">
                 <a href="{% url "AsistenteListView" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Asistente</p>
                 </a>
               </li>
+              {% endif %}
+
+
+              {% if  es_dentista or es_responsable%}
               <li class="nav-item">
 
                 <a href="{% url "ver_pacientes" %}" class="nav-link  {% if seccion == 'ver_pacientes' %}active {% endif %}">
@@ -225,7 +233,12 @@
               
               </li>
 
-              {% if es_administrador %}
+
+              {% endif %}
+        
+
+
+              {% if es_administrador or  es_superusuario%}
                   <li class="nav-item">
                     
                     <a href="{% url "ResponsableListView" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
@@ -261,6 +274,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{%url "Citas"%}" class="nav-link  second-li"> 
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Todas las Citas</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="#" class="nav-link  second-li"> 
                   <i class="far fa-circle nav-icon"></i>

@@ -130,3 +130,7 @@ class CustomUserCreationForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'pregunta_seguridad_1', 'respuesta_seguridad_1', 'pregunta_seguridad_2', 'respuesta_seguridad_2')
+
+
+class UserRecoveryForm(forms.Form):
+    username = forms.CharField(label='Nombre de usuario', max_length=150)
