@@ -135,14 +135,19 @@ Añadir Clínica
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div style="margin: 0 20px;">
-                                {{ form.responsable|as_crispy_field }}
+                                {{ form.responsables|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div style="margin: 0 20px;">
-                                {{ form.horario|as_crispy_field }}
+                                {{ form.hora_inicio|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="margin: 0 20px;">
+                                {{ form.hora_fin|as_crispy_field }}
                             </div>
                         </div>
                     </div>
