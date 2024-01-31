@@ -8,20 +8,31 @@ from django.contrib.auth.models import Group
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+
+from core import settings
 # Local imports
 from .models import CustomUser
-from .forms import CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
+from .forms import CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
 from django.views.generic import TemplateView
 # Create your views here.
 
-class UserCreateViewDentista(CreateView):
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
+
+class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin,CreateView):
     model = CustomUser
-    form_class = CustomUserCreationFormTemplate
+    form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_dentista.html'
     success_url = reverse_lazy('home') 
+
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name__in=['Administrador','Responsable']).exists()
+    
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -33,6 +44,19 @@ class UserCreateViewDentista(CreateView):
         user.groups.add(admin_group)
         messages.success(self.request, "Usuario creado con éxito.")
         return super().form_valid(form)
+    
+ 
+    def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            return redirect(settings.LOGIN_URL)
+        else:
+            return redirect('denegado')
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()  # Llamada correcta a super()
+        kwargs['current_user'] = self.request.user  # Añade el usuario actual a los argumentos del formulario
+        return kwargs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'  # Cambia esto según la página activa
@@ -180,17 +204,19 @@ class UserCreateViewResponsable(CreateView):
     
     
 # lista de usuarios 
-class ResponsableListView(ListView):
+class ResponsableListView(LoginRequiredMixin,  UserPassesTestMixin,ListView):
     model = CustomUser
     template_name = 'listas/listResponsable.html'  # Actualiza con tu ruta de plantilla
     context_object_name = 'responsables'
 
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name__in=['Administrador']).exists()
+    
     def get_queryset(self):
         try:
             paciente_group = Group.objects.get(name='Responsable')
             return CustomUser.objects.filter(groups=paciente_group)
         except Group.DoesNotExist:
-            # Si no existe el grupo, devolver un queryset vacío
             return CustomUser.objects.none()
 
     def get_context_data(self, **kwargs):
@@ -198,8 +224,13 @@ class ResponsableListView(ListView):
         context['navbar'] = 'gestion_usuarios'
         context['seccion'] = 'ver_responsable'
         context['grupo_responsable_existe'] = Group.objects.filter(name='Responsable').exists()
-
         return context
+    
+    def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            return redirect(settings.LOGIN_URL)
+        else:
+            return redirect('denegado')
     
 class PacienteListView(ListView):
     model = CustomUser

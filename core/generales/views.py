@@ -93,3 +93,9 @@ def set_new_password(request):
                 return JsonResponse({'error': True, 'message': 'Usuario no encontrado.'})
         else:
             return JsonResponse({'error': True, 'message': 'Las contraseñas no coinciden o están vacías.'})
+        
+
+# Plantilla de denegado 
+
+class templeteDenegado(TemplateView):
+    template_name = 'denegado/denied.html'
