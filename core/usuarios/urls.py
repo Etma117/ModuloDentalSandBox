@@ -2,7 +2,7 @@
 
 
 from django.urls import path
-from usuarios.views import AsistenteListView, DentistaListView, PacienteDetailView, PacienteListView, UserCreateViewAsistente, UserCreateViewDentista, UserCreateViewPaciente, UserCreateViewResponsable, UserUpdateView,ResponsableListView
+from usuarios.views import AsistenteListView, DentistaListView, PacienteDetailView, PacienteListView, UserCreateViewAsistente, UserCreateViewDentista, UserCreateViewPaciente, UserCreateViewResponsable, UserUpdateView,ResponsableListView, verOdontograma
 
 urlpatterns = [
     path('registrar-usuario-dentista/', UserCreateViewDentista.as_view(), name='register_user_dentista'),
@@ -22,5 +22,5 @@ urlpatterns = [
 
 
     path('pacientes/<int:pk>/', PacienteDetailView.as_view(), name='paciente_detail'),
-
+    path('odontograma/', verOdontograma.as_view(), name="verOdontograma"),
 ]

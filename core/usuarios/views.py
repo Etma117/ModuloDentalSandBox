@@ -14,7 +14,7 @@ from django.contrib.auth import update_session_auth_hash
 # Local imports
 from .models import CustomUser
 from .forms import CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
-
+from django.views.generic import TemplateView
 # Create your views here.
 
 class UserCreateViewDentista(CreateView):
@@ -287,3 +287,7 @@ class PacienteDetailView(DetailView):
         context['navbar'] = 'gestion_usuarios'
         context['seccion'] = 'ver_pacientes'
         return context
+    
+
+class verOdontograma(TemplateView):
+    template_name = 'detalles/odontograma.html'

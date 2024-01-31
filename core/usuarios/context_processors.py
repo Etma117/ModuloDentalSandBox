@@ -29,6 +29,7 @@ def group_context(request):
         'es_responsable': request.user.groups.filter(name='Responsable').exists(),
         'es_asistente': request.user.groups.filter(name='Asistente').exists(),
         'es_administrador': request.user.groups.filter(name='Administrador').exists(),
+        'es_superusuario': request.user.is_superuser,  # Verificación para superusuario
 
     }
     return context
