@@ -100,8 +100,8 @@ Citas
             <div class="card card1">
                 <div class="card-body">
                     <h1 class="card-title">Paciente: {{ cita.paciente.first_name}} {{cita.paciente.last_name}} {{cita.paciente.apellido_materno}}</h1>
-                    <p class="card-text">Fecha y hora: {{ cita.fecha }} {{ cita.hora_trabajo.hora_inicio| time:"H:i"}}</p>
-                    <p class="card-text">Dentista: {{ cita.dentista }}</p>
+                    <p class="card-text">Fecha y hora: {{ cita.fecha }}, {{ cita.hora_trabajo.hora_inicio| time:"H:i"}}</p>
+                    <p class="card-text">Dentista: {{ cita.dentista }}</p> <!--Añadir mas detalles del dentista, especializacion, clinica, etc-->
                     
                 </div>
             </div>
@@ -110,7 +110,7 @@ Citas
                 <div class="col-md-4 mb-3">
                     <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; position: relative; font-size: 1.5vw;">
                     <div class="card-body">
-                        <i class="fa-regular fa-calendar-plus fa-3x" ></i>
+                        <i class="fa-regular fa-user fa-3x" ></i>
                         <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Ultimos Tratamientos</h2>
                     </div>
                     </a>
@@ -120,8 +120,8 @@ Citas
 
                     <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; position: relative; font-size: 1.5vw; ">
                         <div class="card-body">
-                        <i class="fa-regular fa-calendar-plus fa-3x" ></i>
-                        <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Historial Clinica</h2>
+                        <i class="fa-regular fa-id-card fa-3x" ></i>
+                        <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Historial Clinico</h2>
                         </div>
                     </a>
                 </div>
@@ -129,8 +129,8 @@ Citas
                 <div class="col-md-4 mb-3">
                     <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; position: relative; font-size: 1.5vw;">
                         <div class="card-body">
-                            <i class="fa-regular fa-calendar-plus fa-3x" ></i>
-                            <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Odontograma Gráfico</h2>
+                            <i class="fa-solid fa-tooth fa-3x" ></i> 
+                            <h2 style="font-size: x-large;  margin-bottom: 0;">Ver Odontograma</h2>
                         </div>
                     </a>
                 </div>

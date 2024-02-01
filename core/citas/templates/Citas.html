@@ -11,21 +11,111 @@ Citas
 <!--link rel="stylesheet" href=" https://bootswatch.com/5/minty/bootstrap.min.css"-->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
+<style>
 
+    .centered-container {
+        margin-top:20px;
+        margin-bottom:40px;
 
+        display: flex;
+        align-items: center; /* Centrar verticalmente */
+        justify-content: center; /* Centrar horizontalmente */
+        height: 20vh; /* Altura total de la ventana de visualización, ajusta según necesites */
+    }
 
+       
+    /* ... Resto del CSS ... */
+
+    
+    .btn-primary {
+        border: none;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.2s ease-in-out;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    .card1 {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card1:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
+    }
+
+    .card-error {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card-error:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #F6C344; /* Ajusta el color de la línea aquí */
+    }
+
+</style>
 {%endblock link%}
 
 {% block dashboard %}
-        <h1>Citas</h1> 
+
+<div class="container" >
+    <h1>Citas</h1>
+    <a href="{% url 'CitaCrear'%}" class="btn bg-info align-right" style="text-decoration: none; border-radius: 15px; margin-bottom: 1px ">
+        <div class="card-body">
+            <i class="fa-regular fa-calendar-plus fa-2x"></i>
+            <h2 style="font-size: 15px; margin-bottom: 0;">Añadir cita</h2>
+        </div>
+    </a>
+</div>
+
+
 {% endblock dashboard %}
 
 {% block content %}
 <div class = "conteiner-lg">
     <div class = "row">
-        <div class="col-lg-6" style = "border-radius: 15px;">
+        <div class="card col-lg-5" style="border: 2px solid #ccc; border-radius: 15px;">
+            {%for cita in cita%}
+            <div class="card-header">
+                <i class="fa-solid fa-calendar-days" style="color: #239db9;"></i> <strong>Cita del {{cita.fecha}}</strong>
+            </div>
+            <div class="card card1">
+                <div class="card-body">
+                    <h1 class="card-title">Paciente: {{ cita.paciente.first_name}} {{cita.paciente.last_name}} {{cita.paciente.apellido_materno}}</h1>
+                    <p class="card-text">Fecha y hora: {{ cita.fecha }}, {{ cita.hora_trabajo.hora_inicio| time:"H:i"}}</p>
+                    <p class="card-text">Dentista: {{ cita.dentista }}</p> <!--Añadir mas detalles del dentista, especializacion, clinica, etc-->
+                    
+                </div>
+            </div>
+            {%endfor%}
+
+            
+        </div>
+      
                 
-            <table class="table table-primary " id = "tabla-eventos">
+            <!--table class="table table-primary " id = "tabla-eventos">
                 <thead>
                     <tr>
                         <th>
@@ -83,23 +173,16 @@ Citas
                     {% endfor %}
 
                 </tbody>
-            </table> 
+            </table-> 
 
-            <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; ">
+            <a href="{% url 'CitaCrear'%}" class="btn bg-info" style="text-decoration: none; border-radius: 15px; margin-bottom: 10px ">
                 <div class="card-body">
                     <i class="fa-regular fa-calendar-plus fa-6x" ></i>
                     <h2 style="font-size: x-large;  margin-bottom: 0;">Añadir cita</h2>
                 </div>
-            </a>
-
-
-        </div>
-
-        <div class="col-lg-6" style="border: 2px solid #ccc; padding: 10px; border-radius: 15px;">
+            </a-->
+        <div class="col-lg-6" style="border: 2px solid #ccc; padding: 10px; border-radius: 15px; margin-left: 10px">
             <div id="calendar" ></div>
-        </div>
-        <div class="col-md-3">
-            
         </div>
     </div>
     
@@ -107,8 +190,6 @@ Citas
 
 {% endblock content %}
     
-
-
 {% block script%}
 <script src="{% static 'fullcalendar/lib/main.js' %}"></script>
 <script src="{% static 'fullcalendar/lib/locales-all.js' %}"></script>
@@ -149,5 +230,3 @@ Citas
         });
     </script>
 {%endblock script%}
-
-
