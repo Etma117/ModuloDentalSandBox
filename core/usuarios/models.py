@@ -63,7 +63,12 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
     
+class AsistenteDentista(models.Model):
+    asistente = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='asistente_dentistas')
+    dentista = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='dentista_asistentes')
 
+    def __str__(self):
+        return f"{self.asistente.username} asiste a {self.dentista.username}"
 
 class Administrador(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)

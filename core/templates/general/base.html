@@ -200,7 +200,7 @@
             </a>
             <ul class="nav nav-treeview"> 
               
-              {% if es_responsable %}
+              {% if es_responsable  or es_administrador or es_superusuario%}
               <li class="nav-item">
                 
                 <a href="{% url 'DentistaListView'  %}" class="nav-link {% if seccion == 'ver_dentistas' %}active {% endif %}">

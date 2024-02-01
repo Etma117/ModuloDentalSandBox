@@ -101,7 +101,7 @@ Ver Responsables
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Teléfono</th>
-                    <th>Tipo Usuario</th>
+                    <th>Clinicas</th>
 
                 </tr>
             </thead>
@@ -133,7 +133,12 @@ Ver Responsables
                     <td>{{ paciente.get_full_name }}</td>
                     <td>{{ paciente.email }}</td>
                     <td>{{ paciente.celular }}</td>
-                    <td>{{ paciente.get_tipo_usuario_display }}</td>
+                    <td>
+                        {% for clinica in paciente.clinicas.all %}
+                        {{ clinica.nombre }}<br>  <!-- Asumiendo que el modelo Clinica tiene un campo nombre -->
+                        {% endfor %}
+
+                    </td>
 
                     <!-- Más campos de paciente si es necesario -->
                 </tr>
