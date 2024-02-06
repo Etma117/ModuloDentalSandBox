@@ -79,7 +79,6 @@ Ver Responsables
 
 
 
-
 <div class="card card1">
     <div class="card-header">
         <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de Responsables </strong>
@@ -88,7 +87,7 @@ Ver Responsables
        {% if grupo_responsable_existe %}
 
         {% else %}
-            <a href="{% url "register_user_dentista" %}" class="btn btn-custom2">Agregar nuevo Responsable</a>
+            <a href="{% url "UserCreateViewResponsable" %}" class="btn btn-custom2">Agregar nuevo Responsable</a>
 
         {% endif %}
         

@@ -67,7 +67,7 @@ class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin,CreateView)
 
 class UserUpdateView(UpdateView):
     model = CustomUser
-    form_class = CustomUserUpdateDentistaFormTemplate  
+    form_class = CustomUserCreationFormDentista  
     template_name = 'editar/edit_user_profile.html'  
     success_url = reverse_lazy('home')  
 
@@ -130,7 +130,7 @@ class UserUpdateView(UpdateView):
     
 class UserCreateViewPaciente(CreateView):
     model = CustomUser
-    form_class = CustomUserCreationFormTemplate
+    form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_paciente.html'
     success_url = reverse_lazy('home') 
 
@@ -144,6 +144,13 @@ class UserCreateViewPaciente(CreateView):
         user.groups.add(admin_group)
         messages.success(self.request, "Usuario creado con éxito.")
         return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()  # Llamada correcta a super()
+        kwargs['current_user'] = self.request.user  # Añade el usuario actual a los argumentos del formulario
+        return kwargs
+    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'  
@@ -154,7 +161,7 @@ class UserCreateViewPaciente(CreateView):
 
 class UserCreateViewAsistente(CreateView):
     model = CustomUser
-    form_class = CustomUserCreationAsistenteFormTemplate
+    form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_asistente.html'
     success_url = reverse_lazy('home') 
 
@@ -168,6 +175,13 @@ class UserCreateViewAsistente(CreateView):
         user.groups.add(admin_group)
         messages.success(self.request, "Usuario creado con éxito.")
         return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()  # Llamada correcta a super()
+        kwargs['current_user'] = self.request.user  # Añade el usuario actual a los argumentos del formulario
+        return kwargs
+    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios' 
@@ -178,7 +192,7 @@ class UserCreateViewAsistente(CreateView):
 
 class UserCreateViewResponsable(CreateView):
     model = CustomUser
-    form_class = CustomUserCreationFormTemplate
+    form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_responsable.html'
     success_url = reverse_lazy('home') 
 
@@ -193,7 +207,10 @@ class UserCreateViewResponsable(CreateView):
         messages.success(self.request, "Usuario Responsable creado con éxito.")
         return super().form_valid(form)
     
-
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()  # Llamada correcta a super()
+        kwargs['current_user'] = self.request.user  # Añade el usuario actual a los argumentos del formulario
+        return kwargs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
