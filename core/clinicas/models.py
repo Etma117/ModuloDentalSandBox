@@ -17,7 +17,14 @@ class Clinica(models.Model):
     logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg')
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
-    numero_consultorios = models.IntegerField(null=True , validators=[MinValueValidator(1)],help_text="Número de consultorios en la clínica (debe ser no negativo)")
+    numero_consultorios = models.IntegerField(null=True, help_text="Número de consultorios en la clínica (debe ser no negativo)")
+    
+    lunes = models.BooleanField(default=False)
+    martes = models.BooleanField(default=False)
+    miercoles = models.BooleanField(default=False)
+    jueves = models.BooleanField(default=False)
+    viernes = models.BooleanField(default=False)
+    sabado = models.BooleanField(default=False)
 
     def generar_horas_entre(self):
         hora_actual = datetime.combine(datetime.today(), self.hora_inicio)
