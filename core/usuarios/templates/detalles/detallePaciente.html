@@ -1,6 +1,11 @@
 {% extends "general/base.html" %}
 {% load static %}
 
+
+{% block link %}
+    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v2">
+{% endblock link %}
+
 {% block dashboard %}
 
 
@@ -10,197 +15,9 @@
       </button>  
 </a>
 {% endblock dashboard %}
+
 {% block content %}
 
-<style>
-    .card1 {
-        /* Estilos existentes para tu tarjeta */
-        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
-    }
-    
-    .card1:before {
-        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
-        height: 4px; /* Ajusta el grosor de la línea aquí */
-        background-color: #239db9; /* Ajusta el color de la línea aquí */
-    }
-
-    .card-body {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        background-color: #f8f9fa; /* Fondo claro */
-    }
-    
-    .profile-image {
-        border-radius: 50%;
-        width: 100px; /* Ajusta según el tamaño deseado */
-        height: 100px; /* Ajusta según el tamaño deseado */
-        margin-right: 20px; /* Espacio entre la imagen y el texto */
-        background-color: #eff2f7; /* Fondo del contenedor de la imagen */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .profile-details {
-        flex-grow: 1;
-    }
-    
-    .profile-details h3 {
-        margin: 0;
-        color: #333; /* Color del texto */
-    }
-    
-    .profile-details p {
-        margin: 0;
-        color: #555; /* Color del texto secundario */
-        font-size: 0.9em; /* Tamaño de fuente más pequeño */
-    }
-    
-    .action-buttons {
-        display: flex;
-        justify-content: flex-end;
-    }
-    
-    .action-button {
-        margin-left: 10px; /* Espacio entre botones */
-        padding: 5px 10px; /* Ajusta el espacio interno */
-        border: none; /* Sin bordes */
-        background-color: #e7e7e7; /* Fondo neutro */
-        color: #333; /* Color del texto */
-        border-radius: 5px; /* Esquinas redondeadas */
-        cursor: pointer;
-        transition: background-color 0.2s; /* Transición suave */
-    }
-    
-    .action-button.edit {
-        background-color: #007bff; /* Fondo azul para editar */
-        color: white;
-    }
-    
-    .action-button.delete {
-        background-color: #dc3545; /* Fondo rojo para eliminar */
-        color: white;
-    }
-    
-    .action-button i {
-        margin-right: 5px; /* Espacio entre ícono y texto */
-    }
-    
-    /* Media query para pantallas pequeñas */
-    @media (max-width: 768px) {
-        .action-buttons {
-            justify-content: space-between; /* Distribuye el espacio uniformemente */
-            flex-wrap: wrap; /* Permite que los elementos se envuelvan en la siguiente línea */
-        }
-    
-        .action-button {
-            margin-left: 0; /* Elimina el margen izquierdo en pantallas pequeñas */
-            margin-top: 10px; /* Agrega un margen superior para cuando se envuelvan */
-            flex: 1 1 auto; /* Permite que los botones se expandan para llenar el espacio disponible */
-        }
-    }
-    
-    /* Media query para pantallas muy pequeñas */
-    @media (max-width: 480px) {
-        .profile-details {
-            /* Ajusta la disposición y el tamaño del texto para pantallas pequeñas */
-            font-size: 0.8em;
-        }
-    
-        .profile-image {
-            width: 80px; /* Reduce el tamaño de la imagen de perfil */
-            height: 80px; /* Reduce el tamaño de la imagen de perfil */
-        }
-    
-        .card-body {
-            flex-direction: column; /* Alinea los elementos verticalmente */
-            align-items: center; /* Centra los elementos */
-        }
-    
-        .action-buttons {
-            width: 100%; /* Permite que los botones ocupen todo el ancho disponible */
-            margin-top: 10px; /* Añade un margen superior entre los detalles y los botones */
-        }
-    }
-
-    /* Estilos existentes */
-/* ... tu CSS existente ... */
-
-/* Estilos existentes */
-
-/* ... tu CSS existente ... */
-
-/* Estilos para la sección de Información Adicional */
-.additional-info {
-    display: flex;
-    justify-content: space-between; /* Separa las dos columnas */
-    padding: 20px;
-    background-color: #f8f9fa; /* Mismo fondo que el .card-body */
-}
-
-.info-column {
-    display: flex;
-    flex-direction: column;
-    width: 48%; /* Aproximadamente la mitad del contenedor para cada columna */
-}
-
-.info-block {
-    background-color: #fff; /* Fondo blanco para los bloques de información */
-    margin-bottom: 10px; /* Espacio entre bloques */
-    padding: 10px;
-    border-radius: 5px; /* Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave para consistencia */
-}
-
-.info-block h3 {
-    color: #333;
-    margin: 0;
-    font-size: 1em; /* Ajusta según necesidades */
-}
-
-.info-block p {
-    color: #555;
-    margin: 0;
-    font-size: 0.9em;
-}
-
-/* Asegúrate de probar la responsividad y ajustar con media queries si es necesario */
-@media (max-width: 768px) {
-    .additional-info {
-        flex-direction: column;
-    }
-
-    .info-column {
-        width: 100%; /* Cada columna toma todo el ancho en pantallas pequeñas */
-    }
-}
-
-@media (max-width: 480px) {
-    /* Ajustes adicionales para pantallas aún más pequeñas si es necesario */
-}
-
-
-.info-block h3 {
-    display: flex;
-    align-items: center; /* Alinea el icono con el texto */
-    color: #333;
-    font-size: 1em;
-    margin-bottom: 5px;
-}
-
-.info-block h3 i {
-    margin-right: 5px; /* Espacio entre el icono y el texto */
-    color: #239db9; /* O el color que prefieras para los iconos */
-}
-    
-
-    
-</style>
 
 <div class="container mt-4">
     <div class="card card1">
@@ -209,8 +26,18 @@
         </div>
         <div class="card-body">
             <div class="profile-image">
-                <!-- Placeholder para la imagen de perfil -->
-                <i class="fas fa-user fa-3x" style="color: #adb5bd;"></i>
+                        <!-- Placeholder para la imagen de perfil -->
+                        {% if paciente.foto %}
+                        <img src="{{ paciente.foto.url }}"  alt="Foto del paciente">
+                    {% elif paciente.sexo == "Hombre"%}
+                        <img src="{% static 'img/users/user_male.png' %}" alt="Foto del paciente">
+                    {% elif paciente.sexo == "Mujer" %}
+                        <img src="{% static 'img/users/user_female.png' %}"  alt="Foto del paciente">
+                    {% else %}
+                        <img src="{% static 'img/usuariono.png' %}"  alt="Foto del paciente">
+
+                    {% endif %}           
+        
             </div>
             <div class="profile-details">
                 <h3>{{paciente.get_full_name}}</h3>
@@ -247,7 +74,7 @@
                     <p>ivansz123@gmail.com</p>
                 </div>
                 <div class="info-block">
-                    <h3><i class="fas fa-home"></i> Address:</h3>
+                    <h3><i class="fas fa-home"></i> Dirección:</h3>
                     <p>jesus carranza apizaco</p>
                 </div>
                 <!-- Agrega más bloques de información según sea necesario -->
@@ -256,11 +83,11 @@
             <!-- Columna derecha -->
             <div class="info-column">
                 <div class="info-block">
-                    <h3><i class="fas fa-user"></i> Gender:</h3>
+                    <h3><i class="fas fa-user"></i> Genero:</h3>
                     <p>Male</p>
                 </div>
                 <div class="info-block">
-                    <h3><i class="fas fa-birthday-cake"></i> Birthdate:</h3>
+                    <h3><i class="fas fa-birthday-cake"></i> Fecha de nacimiento:</h3>
                     <p>Jan 09, 1998</p>
                 </div>
                 <!-- Agrega más bloques de información según sea necesario -->
@@ -300,7 +127,7 @@
 <div class="container mt-4">
     <div class="card card1 card2 collapsed-card">
         <div class="card-header">
-            <i class="fas fa-chart-bar" style="color: #239db9;"></i> <strong>Gráficas dentales</strong>
+            <i class="fas fa-chart-bar" style="color: #239db9;"></i> <strong>Odontograma</strong>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
             </div>

@@ -106,7 +106,7 @@ Ver Responsables
             </thead>
             <tbody>
                 {% for paciente in responsables %}
-                <tr>
+                <tr onclick="window.location='{% url 'responsable_detail' paciente.id %}'" style="cursor:pointer;">
 
                     {% if paciente.foto  %}
                     <td style="text-align: center; vertical-align: middle;">

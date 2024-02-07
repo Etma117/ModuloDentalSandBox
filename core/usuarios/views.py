@@ -349,7 +349,7 @@ class AsistenteDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
-        context['seccion'] = 'ver_pacientes'
+        context['seccion'] = 'ver_asistente'
         return context
     
 class DentistaDetailView(DetailView):
