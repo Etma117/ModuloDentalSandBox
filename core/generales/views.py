@@ -31,6 +31,17 @@ class home(LoginRequiredMixin, TemplateView):
         context['total_responsables'] = CustomUser.objects.filter(tipo_usuario="responsable").count()
         context['total_pacientes'] = CustomUser.objects.filter(tipo_usuario="paciente").count()
         context['navbar'] = 'home'  
+
+        responsables = CustomUser.objects.filter(tipo_usuario="responsable")
+        for responsable in responsables:
+            clinicas_asignadas = responsable.clinicas.count()
+            context[f'clinicas_asignadas_{responsable.id}'] = clinicas_asignadas
+
+        #dentistas
+        #clinicas = Clinica.objects.all()
+        #for clinica in clinicas:
+         #   dentistas_asignados = clinica.dentistas.count()
+          #  context[f'dentistas_asignados_{clinica.id}'] = dentistas_asignados
         return context
 
 
