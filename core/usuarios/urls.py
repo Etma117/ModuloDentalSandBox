@@ -2,7 +2,7 @@
 
 
 from django.urls import path
-from usuarios.views import AsistenteListView, DentistaListView, PacienteDetailView, PacienteListView, UserCreateViewAsistente, UserCreateViewDentista, UserCreateViewPaciente, UserCreateViewResponsable, UserUpdateView,ResponsableListView, verOdontograma
+from usuarios.views import AsistenteDetailView, AsistenteListView, DentistaDetailView, DentistaListView, PacienteDetailView, PacienteListView, ResponsableDetailView, UserCreateViewAsistente, UserCreateViewDentista, UserCreateViewPaciente, UserCreateViewResponsable, UserUpdateView,ResponsableListView, verOdontograma
 
 urlpatterns = [
     path('registrar-usuario-dentista/', UserCreateViewDentista.as_view(), name='register_user_dentista'),
@@ -21,6 +21,11 @@ urlpatterns = [
     path('ver-dentistas/', DentistaListView.as_view(), name='DentistaListView'),
 
 
-    path('pacientes/<int:pk>/', PacienteDetailView.as_view(), name='paciente_detail'),
+    # DETALLES DE USUARIOS
+    path('paciente/<int:pk>/', PacienteDetailView.as_view(), name='paciente_detail'),
+    path('dentista/<int:pk>/', DentistaDetailView.as_view(), name='dentista_detail'),
+    path('responsable/<int:pk>/', ResponsableDetailView.as_view(), name='responsable_detail'),
+    path('asistente/<int:pk>/', AsistenteDetailView.as_view(), name='asistente_detail'),
+
     path('odontograma/', verOdontograma.as_view(), name="verOdontograma"),
 ]

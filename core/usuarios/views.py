@@ -67,7 +67,7 @@ class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin,CreateView)
 
 class UserUpdateView(UpdateView):
     model = CustomUser
-    form_class = CustomUserCreationFormDentista  
+    form_class = CustomUserUpdateDentistaFormTemplate  
     template_name = 'editar/edit_user_profile.html'  
     success_url = reverse_lazy('home')  
 
@@ -336,6 +336,54 @@ class PacienteDetailView(DetailView):
         context['seccion'] = 'ver_pacientes'
         return context
     
+class AsistenteDetailView(DetailView):
+    model = CustomUser
+    template_name = 'detalles/detalleAsistente.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'paciente'
 
+    def get_object(self, queryset=None):
+        # Obtén el paciente por su id
+        paciente_id = self.kwargs.get('pk')
+        return get_object_or_404(CustomUser, id=paciente_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_pacientes'
+        return context
+    
+class DentistaDetailView(DetailView):
+    model = CustomUser
+    template_name = 'detalles/detalleDentista.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'paciente'
+
+    def get_object(self, queryset=None):
+        # Obtén el paciente por su id
+        paciente_id = self.kwargs.get('pk')
+        return get_object_or_404(CustomUser, id=paciente_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_pacientes'
+        return context
+    
+
+class ResponsableDetailView(DetailView):
+    model = CustomUser
+    template_name = 'detalles/detalleResponsable.html'  # Actualiza con tu ruta de plantilla
+    context_object_name = 'paciente'
+
+    def get_object(self, queryset=None):
+        # Obtén el paciente por su id
+        paciente_id = self.kwargs.get('pk')
+        return get_object_or_404(CustomUser, id=paciente_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_pacientes'
+        return context
+    
 class verOdontograma(TemplateView):
     template_name = 'detalles/odontograma.html'
