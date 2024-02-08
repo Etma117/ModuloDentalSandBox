@@ -25,7 +25,7 @@
             </div>
             <p></p>
             <div>
-                <a style="font-size: large;">Responsable de la Clínica: {{ clinica.responsables }}</a>
+                <a style="font-size: large;">Responsable de la Clínica: {{ clinica.responsables.first_name }}</a>
             </div>
         </div>
     </div>
@@ -46,16 +46,27 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>Hora</th>
-                            {% if clinica.lunes == 1 %}
-                            <th>Lunes</th>
-                            {% endif %}
+                            {% for dia in clinica.dias_true %}
+                                <th>{{ dia }}</th>
+                            {% endfor %}
+                        </tr>
                     </thead>
                     <tbody>
                         {% for hora in clinica.generar_horas_entre %}
-                        <tr>
-                            <td>{{ hora|time:"H:i" }}</td>
+                        <tr style="text-align: center;">
+                            <td >{{ hora|time:"H:i" }}</td>
+                            {% for dia in clinica.dias_true %}
+                                {% if hora|time:"H" <= "10" %}
+                                    <td>Dentista 1</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endfor %}
                         </tr>
                         {% endfor %}
+                        <tr>
+                            
+                        </tr>
                     </tbody>
                 </table>
             </div>
