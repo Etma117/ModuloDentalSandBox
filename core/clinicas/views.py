@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView 
 from .models import Clinica

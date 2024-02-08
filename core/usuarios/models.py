@@ -35,6 +35,12 @@ class CustomUser(AbstractUser):
         verbose_name='Creado por'
     )
 
+    def contar_clinicas_asignadas(self):
+        if self.tipo_usuario == 'responsable':
+            return self.clinicas.count()
+        else:
+            return 0
+
     SEX_CHOICES = [
         ('Hombre', 'Hombre'),
         ('Mujer', 'Mujer'),

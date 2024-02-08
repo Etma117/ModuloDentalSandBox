@@ -30,5 +30,11 @@ class Clinica(models.Model):
 
         return horas_entre
     
+    def contar_clinicas_asignadas(cls, responsable):
+        if responsable.tipo_usuario == 'responsable':
+            return cls.objects.filter(responsable=responsable).count()
+        else:
+            return 0
+    
     def __str__(self):
         return self.nombre
