@@ -256,12 +256,28 @@
           {% if es_administrador %}    
           <li class="nav-header">Gestion de Clinicas </li>
           <li class="nav-item">
-            <a href="{% url "clinicas" %}" class="nav-link  first-li">  
-              <i class="nav-icon fas fa-calendar"></i>
+            <a href="#" class="nav-link  first-li">  
+              <i class="nav-icon fas fa-hospital-alt"></i>
               <p>
                 Clinicas
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url "clinicas" %}" class="nav-link  second-li"> 
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ver Clínicas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'nuevaClinica' %}" class="nav-link  second-li"> 
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Añadir Clínica</p>
+                </a>
+              </li>
+            </ul>
           </li>  
           {% endif %}
 

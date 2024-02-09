@@ -1,11 +1,22 @@
 {% extends 'general/base.html' %}
 
+{% block dashboard %}
+
+
+<a class="btn btn-sm  " href="{% url "home" %}">      
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>  
+</a>
+{% endblock dashboard %}
+
 {% block titulo %}
 Clinicas
 {% endblock %}
 
 {%block content%}
 
+{% if es_administrador %}
 <div class="row justify-content-end">
     <div class="col-auto">
         <a class="btn btn-success" style="font-size: 18px; " href="{% url 'nuevaClinica' %}">
@@ -13,6 +24,7 @@ Clinicas
         </a>
     </div>
 </div>
+{% endif %}
 
 <div class="row mt-2">
     {% for clinica in clinica %}
@@ -21,7 +33,7 @@ Clinicas
         <div class="card" style="background: #0289A8; border-radius: 25px;">
             <a href="{% url 'vistaClinicas' pk=clinica.id %}">
                 <div class="card-body text-center">
-                    <i class="fas fa-hospital fa-7x" style="color: white;"></i>
+                    <img src="{{ clinica.logo.url }}" alt="Logo de la Clinica" style="width: 230px; height: 230px; max-width:100%;">
                     <h3 class="text-white mt-3">{{ clinica.nombre }}</h3>
                 </div>
             </a>

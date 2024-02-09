@@ -25,32 +25,44 @@
             </div>
             <p></p>
             <div>
-                <a style="font-size: large;">Responsable de la Clínica: {{ clinica.responsable }}</a>
+                <a style="font-size: large;">Responsable de la Clínica: {{ responsable_clinica }}</a>
             </div>
         </div>
     </div>
 
+    {% if es_administrador %}
     <div class="row justify-content-end">
         <div class="col-md-2" style="padding-left: 7%;">
-            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px;"> Editar </a>
+            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'editarClinica' pk=clinica.id %}"> Editar </a>
             <a class="btn btn-danger" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'eliminarClinica' pk=clinica.id %}"> Eliminar </a>
         </div>
     </div>
+    {% endif %}
 
     <div class="row mt-4">
         <div class="col-12">
             <div class="table-responsive">
                 <table class="table table-hover" style="width: 100%;">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>Hora</th>
+                            <th>Lunes</th>
+                            <th>Martes</th>
+                            <th>Miércoles</th>
+                            <th>Jueves</th>
+                            <th>Viernes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hora in clinica.generar_horas_entre %}
+                        <tr>
+                            <td>{{ hora|time:"H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <!--
                     <tr style="text-align: center;">
-                        <th>Hora</th>
-                        <th>Lunes</th>
-                        <th>Martes</th>
-                        <th>Miércoles</th>
-                        <th>Jueves</th>
-                        <th>Viernes</th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>10:00 - 11:00</td>
+                        <td>{{clinica.hora_inicio}}</td>
                         <td>Dentista 1</td>
                         <td>Dentista 1</td>
                         <td>Dentista 2</td>
@@ -66,7 +78,7 @@
                         <td></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>12:00 - 1:00</td>
+                        <td>{{clinica.hora_fin}}</td>
                         <td>Dentista 1</td>
                         <td>Dentista 1</td>
                         <td>Dentista 2</td>
@@ -88,7 +100,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                    </tr>
+                    </tr> -->
                 </table>
             </div>
         </div>
