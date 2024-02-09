@@ -10,7 +10,12 @@ class clinicaForm(forms.ModelForm):
         labels = {
             'nombre' : 'Nombre de la Clínica',
             'telefono' : 'Telefono de la Clínica',
-            'responsables' : 'Responsable'
+            'responsables' : 'Responsable',
+            'correo_electronico' : 'Correo Electrónico',
+            'hora_inicio' : 'Hora de Apertura',
+            'hora_fin' : 'Hora de Cierre',
+            'numero_consultorios' : 'Número de Consultorios',
+            'logo' : 'Logo de la Clínica'
         }
         widgets = {
             'responsables': forms.Select(attrs={'class':'form-control'}),

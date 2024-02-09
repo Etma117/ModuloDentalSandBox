@@ -1,7 +1,7 @@
 {% extends 'general/base.html' %}
 
 {% block titulo %}
-Añadir Clínica
+Editar Clínica
 {% endblock %}
 
 {%block content%}
@@ -85,7 +85,7 @@ Añadir Clínica
 
 <div class="card">
     <div class="card-header">
-        <h3>Añadir Nueva Clínica</h3>
+        <h3>Editar Clínica</h3>
     </div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
@@ -136,7 +136,7 @@ Añadir Clínica
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div>
+                            <div style="margin: 0 20px">
                                 {{form.numero_consultorios|as_crispy_field}}
                             </div>
                         </div>
@@ -156,7 +156,7 @@ Añadir Clínica
                             Servicios Ofrecidos
                         </div>
                         <div class="col-md-6">
-                            <div>
+                            <div style="margin: 0 20px">
                                 {{form.equipamiento|as_crispy_field}}
                             </div>
                         </div>
@@ -172,7 +172,7 @@ Añadir Clínica
                         </div>
                     </div>
                     <div class="row">
-                       <label>  Dias Laborables </label>
+                       <label style="margin: 0 20px">  Dias Laborables </label>
                     </div>
                     <div class="row">
                         <div class="col-md-2">
