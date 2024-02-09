@@ -11,8 +11,12 @@ from django.views.generic.detail import DetailView
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from clinicas.models import Clinica
 from core import settings
+from django.views.decorators.http import require_POST
+
 # Local imports
 from .models import CustomUser
 from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
@@ -221,7 +225,10 @@ class UserCreateViewResponsable(CreateView):
     
     
 # lista de usuarios 
-class ResponsableListView(LoginRequiredMixin,  UserPassesTestMixin,ListView):
+from django.db.models import Count, Case, When, Value
+from django.db import models  # Asegúrate de añadir esta línea al inicio de tu archivo
+
+class ResponsableListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = CustomUser
     template_name = 'listas/listResponsable.html'  # Actualiza con tu ruta de plantilla
     context_object_name = 'responsables'
@@ -232,7 +239,17 @@ class ResponsableListView(LoginRequiredMixin,  UserPassesTestMixin,ListView):
     def get_queryset(self):
         try:
             paciente_group = Group.objects.get(name='Responsable')
-            return CustomUser.objects.filter(groups=paciente_group)
+            # Filtra usuarios en el grupo 'Responsable'
+            queryset = CustomUser.objects.filter(groups=paciente_group).annotate(
+                num_clinicas=Count('clinicas'),
+                # Añade un campo 'has_clinica' que es falso si el número de clínicas es 0 (indicando que no tiene clínicas)
+                has_clinica=Case(
+                    When(num_clinicas=0, then=Value(False)),
+                    default=Value(True),
+                    output_field=models.BooleanField(),
+                )
+            ).order_by('has_clinica', 'first_name')  # Ordena primero por 'has_clinica' y luego por 'first_name'
+            return queryset
         except Group.DoesNotExist:
             return CustomUser.objects.none()
 
@@ -242,13 +259,12 @@ class ResponsableListView(LoginRequiredMixin,  UserPassesTestMixin,ListView):
         context['seccion'] = 'ver_responsable'
         context['grupo_responsable_existe'] = Group.objects.filter(name='Responsable').exists()
         return context
-    
+
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
             return redirect(settings.LOGIN_URL)
         else:
             return redirect('denegado')
-    
 class PacienteListView(ListView):
     model = CustomUser
     template_name = 'listas/listPacientes.html'  # Actualiza con tu ruta de plantilla
@@ -334,6 +350,7 @@ class PacienteDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
         context['seccion'] = 'ver_pacientes'
+        
         return context
     
 class AsistenteDetailView(DetailView):
@@ -365,7 +382,7 @@ class DentistaDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
-        context['seccion'] = 'ver_pacientes'
+        context['seccion'] = 'ver_asistente'
         return context
     
 
@@ -382,8 +399,42 @@ class ResponsableDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
-        context['seccion'] = 'ver_pacientes'
+        context['seccion'] = 'ver_responsable'
+     
+        # Obtén el paciente actual
+        paciente = self.get_object()
+        
+        # Obtén las clínicas que NO están asociadas con el paciente
+        clinicas_no_asociadas = Clinica.objects.exclude(id__in=paciente.clinicas.all())
+        
+        context['clinicas'] = clinicas_no_asociadas
         return context
     
+@login_required
+def eliminar_relacion_clinica(request, user_id, clinica_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    clinica = get_object_or_404(Clinica, id=clinica_id)
+    if request.method == "POST":
+        usuario.clinicas.remove(clinica)
+        messages.success(request, 'Relación con clínica removida con éxito.')
+        return HttpResponseRedirect(reverse('responsable_detail', args=[usuario.id]))
+    else:
+        # Si el método no es POST, redirige a la vista de detalle usando 'pk'
+        return redirect('responsable_detail', pk=usuario.id)
+
+@login_required
+@require_POST  # Asegura que esta vista solo se pueda acceder mediante una solicitud POST.
+def agregar_clinica_a_usuario(request, user_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    clinicas_ids = request.POST.getlist('clinicas')  # 'clinicas' es el nombre del campo <select> en tu formulario HTML.
+
+    for clinica_id in clinicas_ids:
+        clinica = get_object_or_404(Clinica, id=clinica_id)
+        usuario.clinicas.add(clinica)
+
+    messages.success(request, 'Clínicas añadidas con éxito.')
+    return redirect('responsable_detail', pk=usuario.id)
+
+
 class verOdontograma(TemplateView):
     template_name = 'detalles/odontograma.html'

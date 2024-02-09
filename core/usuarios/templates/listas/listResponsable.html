@@ -22,6 +22,30 @@ Ver Responsables
 
 
 {% block contenido %}
+<style>
+    .clinica-nombre {
+        display: inline-block;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 5px 10px;
+        margin: 2px;
+        font-size: 14px;
+        color: #333;
+        box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        transition: all 0.2s ease-in-out;
+    }
+    .clinica-nombre:hover {
+        transform: scale(1.05);
+        background-color: #e2e6ea;
+    }
+    .sin-clinica {
+        display: inline-block;
+        color: #dc3545;
+        font-weight: bold;
+        font-size: 14px;
+    }
+</style>
+``
 
 <style>
     #example {
@@ -106,7 +130,7 @@ Ver Responsables
             </thead>
             <tbody>
                 {% for paciente in responsables %}
-                <tr onclick="window.location='{% url 'responsable_detail' paciente.id %}'" style="cursor:pointer;">
+                <tr data-id="{{ paciente.id }}" style="cursor:pointer;">
 
                     {% if paciente.foto  %}
                     <td style="text-align: center; vertical-align: middle;">
@@ -133,11 +157,15 @@ Ver Responsables
                     <td>{{ paciente.email }}</td>
                     <td>{{ paciente.celular }}</td>
                     <td>
-                        {% for clinica in paciente.clinicas.all %}
-                        {{ clinica.nombre }}<br>  <!-- Asumiendo que el modelo Clinica tiene un campo nombre -->
-                        {% endfor %}
-
+                        {% if paciente.clinicas.all %}
+                            {% for clinica in paciente.clinicas.all %}
+                                <span class="clinica-nombre">{{ clinica.nombre }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="sin-clinica">Sin clínica asignada</span>
+                        {% endif %}
                     </td>
+                    
 
                     <!-- Más campos de paciente si es necesario -->
                 </tr>
@@ -254,8 +282,24 @@ Ver Responsables
       }
     });
     $("#example_wrapper .btn").css("margin-bottom", "40px"); // Ajusta el margen según tus necesidades
-    $("#example_info").css("margin-bottom", "40px"); // Ajusta el margen según tus necesidades
+    $("#example_info").css("margin-bottom", "40px"); 
+    
+    $("#example tbody tr").css("cursor", "pointer");
 
+    // Ajusta el margen según tus necesidades
+    $('#example tbody').on('click', 'tr', function(e) {
+        var index = $(e.target).closest('td').index(); // Obtiene el índice de la celda clickeada
+        var totalCells = $(this).children('td').length; // Obtiene el total de celdas en la fila
+    
+        // Excluye el clic en la primera celda (foto) y la última celda (clínicas)
+        if (index !== 0 && index !== (totalCells - 1)) {
+            var pacienteId = $(this).data('id'); // Obtiene el ID del paciente
+            if (pacienteId) {
+                window.location.href = `/usuarios/responsable/${pacienteId}/`; // Asegúrate de que esta URL sea correcta según tu configuración de URLs en Django
+            }
+        }
+    });
+    
     
   });
 

@@ -56,10 +56,17 @@
 .action-buttons {
     display: flex;
     justify-content: flex-end;
+    gap: 10px; /* Espacio entre botones para todas las pantallas */
+}
+
+/* Espacio entre botones para pantallas medianas en adelante */
+@media (min-width: 768px) {
+    .action-button {
+        margin-left: 10px; /* Espacio entre botones */
+    }
 }
 
 .action-button {
-    margin-left: 10px; /* Espacio entre botones */
     padding: 5px 10px; /* Ajusta el espacio interno */
     border: none; /* Sin bordes */
     background-color: #e7e7e7; /* Fondo neutro */
