@@ -194,9 +194,19 @@ class CustomUserCreationFormDentista(UserCreationForm):
 
 class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
     fecha_nacimiento = forms.DateField(
-        label="Fecha de Nacimiento:",
+        label="Fecha de nacimiento:",
         widget=forms.DateInput(attrs={'type': 'text', 'id': 'date', 'placeholder': "DD/MM/YYYY"}),
         input_formats=['%d/%m/%Y'],
+    )
+
+    last_name = forms.CharField(
+        label="Apellido paterno:",
+        widget=forms.TextInput(attrs={'placeholder': "Apellido Paterno", 'class': 'alguna-clase'}),
+    )
+
+    celular = forms.CharField(
+        label="No. celular:",
+        widget=forms.TextInput(),
     )
 
     class Meta:
@@ -206,7 +216,7 @@ class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
                   'sexo', 'fecha_nacimiento')
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Apellido paterno'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
             'apellido_materno': forms.TextInput(attrs={'placeholder': 'Apellido Materno'}),
             'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),

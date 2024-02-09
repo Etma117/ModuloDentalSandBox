@@ -42,7 +42,7 @@ class home(LoginRequiredMixin, TemplateView):
 
 def exit(request):
     logout(request)
-    return redirect('home')
+    return redirect('homePage')
 
 
 class homePageView(TemplateView):
