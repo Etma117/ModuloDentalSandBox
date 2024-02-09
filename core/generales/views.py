@@ -45,6 +45,10 @@ def exit(request):
     return redirect('home')
 
 
+class homePageView(TemplateView):
+    template_name= 'homepage/index.html'
+
+
 
 
 def recover_password(request):
