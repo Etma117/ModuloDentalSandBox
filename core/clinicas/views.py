@@ -1,5 +1,6 @@
+from typing import Any
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView, DeleteView 
+from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView 
 from .models import Clinica
 from .forms import clinicaForm
 from django.urls import reverse_lazy
@@ -24,4 +25,11 @@ class vistaClinica(DetailView):
 class eliminarClinica(DeleteView):
     model = Clinica
     template_name = 'eliminarClinica.html'
+    success_url = reverse_lazy('clinicas')
+
+class editarClinica(UpdateView):
+    model = Clinica
+    template_name = 'nuevaClinica.html'
+    form_class = clinicaForm
+    context_object_name = 'clinica'
     success_url = reverse_lazy('clinicas')

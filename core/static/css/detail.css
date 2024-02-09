@@ -1,0 +1,215 @@
+.card1 {
+    /* Estilos existentes para tu tarjeta */
+    position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+}
+
+.card1:before {
+    content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+    height: 4px; /* Ajusta el grosor de la línea aquí */
+    background-color: #239db9; /* Ajusta el color de la línea aquí */
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa; /* Fondo claro */
+}
+.profile-image {
+    border-radius: 50%;
+    width: 100px; /* Ajusta según el tamaño deseado */
+    height: 100px; /* Ajusta según el tamaño deseado */
+    margin-right: 20px; /* Espacio entre la imagen y el texto */
+    background-color: #eff2f7; /* Fondo del contenedor de la imagen si es necesario */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Asegura que la imagen se recorte para formar un círculo */
+}
+
+.profile-image img {
+    width: 100%;
+    height: auto; /* Mantiene la proporción de la imagen */
+    object-fit: cover; /* Cubre el área del contenedor sin estirar la imagen */
+}
+
+
+.profile-details {
+    flex-grow: 1;
+}
+
+.profile-details h3 {
+    margin: 0;
+    color: #333; /* Color del texto */
+}
+
+.profile-details p {
+    margin: 0;
+    color: #555; /* Color del texto secundario */
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Espacio entre botones para todas las pantallas */
+}
+
+/* Espacio entre botones para pantallas medianas en adelante */
+@media (min-width: 768px) {
+    .action-button {
+        margin-left: 10px; /* Espacio entre botones */
+    }
+}
+
+.action-button {
+    padding: 5px 10px; /* Ajusta el espacio interno */
+    border: none; /* Sin bordes */
+    background-color: #e7e7e7; /* Fondo neutro */
+    color: #333; /* Color del texto */
+    border-radius: 5px; /* Esquinas redondeadas */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Transición suave */
+}
+
+.action-button.edit {
+    background-color: #007bff; /* Fondo azul para editar */
+    color: white;
+}
+
+.action-button.delete {
+    background-color: #dc3545; /* Fondo rojo para eliminar */
+    color: white;
+}
+
+.action-button i {
+    margin-right: 5px; /* Espacio entre ícono y texto */
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .action-buttons {
+        justify-content: space-between; /* Distribuye el espacio uniformemente */
+        flex-wrap: wrap; /* Permite que los elementos se envuelvan en la siguiente línea */
+    }
+
+    .action-button {
+        margin-left: 0; /* Elimina el margen izquierdo en pantallas pequeñas */
+        margin-top: 10px; /* Agrega un margen superior para cuando se envuelvan */
+        flex: 1 1 auto; /* Permite que los botones se expandan para llenar el espacio disponible */
+    }
+}
+
+/* Media query para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .profile-details {
+        /* Ajusta la disposición y el tamaño del texto para pantallas pequeñas */
+        font-size: 0.8em;
+    }
+
+
+
+
+    .profile-image {
+        border-radius: 50%;
+        width: 100px; /* Ajusta según el tamaño deseado */
+        height: 100px; /* Ajusta según el tamaño deseado */
+        margin-right: 20px; /* Espacio entre la imagen y el texto */
+        background-color: #eff2f7; /* Fondo del contenedor de la imagen si es necesario */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden; /* Asegura que la imagen se recorte para formar un círculo */
+    }
+    
+    .profile-image img {
+        width: 100%;
+        height: auto; /* Mantiene la proporción de la imagen */
+        object-fit: cover; /* Cubre el área del contenedor sin estirar la imagen */
+    }
+    
+    .card-body {
+        flex-direction: column; /* Alinea los elementos verticalmente */
+        align-items: center; /* Centra los elementos */
+    }
+
+    .action-buttons {
+        width: 100%; /* Permite que los botones ocupen todo el ancho disponible */
+        margin-top: 10px; /* Añade un margen superior entre los detalles y los botones */
+    }
+}
+
+/* Estilos existentes */
+/* ... tu CSS existente ... */
+
+/* Estilos existentes */
+
+/* ... tu CSS existente ... */
+
+/* Estilos para la sección de Información Adicional */
+.additional-info {
+display: flex;
+justify-content: space-between; /* Separa las dos columnas */
+padding: 20px;
+background-color: #f8f9fa; /* Mismo fondo que el .card-body */
+}
+
+.info-column {
+display: flex;
+flex-direction: column;
+width: 48%; /* Aproximadamente la mitad del contenedor para cada columna */
+}
+
+.info-block {
+background-color: #fff; /* Fondo blanco para los bloques de información */
+margin-bottom: 10px; /* Espacio entre bloques */
+padding: 10px;
+border-radius: 5px; /* Bordes redondeados */
+box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave para consistencia */
+}
+
+.info-block h3 {
+color: #333;
+margin: 0;
+font-size: 1em; /* Ajusta según necesidades */
+}
+
+.info-block p {
+color: #555;
+margin: 0;
+font-size: 0.9em;
+}
+
+/* Asegúrate de probar la responsividad y ajustar con media queries si es necesario */
+@media (max-width: 768px) {
+.additional-info {
+    flex-direction: column;
+}
+
+.info-column {
+    width: 100%; /* Cada columna toma todo el ancho en pantallas pequeñas */
+}
+}
+
+@media (max-width: 480px) {
+/* Ajustes adicionales para pantallas aún más pequeñas si es necesario */
+}
+
+
+.info-block h3 {
+display: flex;
+align-items: center; /* Alinea el icono con el texto */
+color: #333;
+font-size: 1em;
+margin-bottom: 5px;
+}
+
+.info-block h3 i {
+margin-right: 5px; /* Espacio entre el icono y el texto */
+color: #239db9; /* O el color que prefieras para los iconos */
+}
+

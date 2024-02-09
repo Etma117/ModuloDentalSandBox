@@ -1,119 +1,170 @@
 {% extends "general/base.html" %}
 {% load static %}
+
+
+{% block link %}
+    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v2">
+{% endblock link %}
+
+{% block dashboard %}
+
+
+<a class="btn btn-sm  " href="{% url "ver_pacientes" %}">      
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>  
+</a>
+{% endblock dashboard %}
+
 {% block content %}
 
-<style>
-    .card1 {
-        /* Estilos existentes para tu tarjeta */
-        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
-    }
-
-    .card1:before {
-        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
-        height: 10px; /* Ajusta el grosor de la línea aquí */
-        background-color: #239db9; /* Ajusta el color de la línea aquí */
-    }
-
-    .rounded-image-container {
-        width: 150px; /* Ajusta al tamaño deseado */
-        height: 150px; /* Ajusta al tamaño deseado */
-        overflow: hidden;
-        border-radius: 50%;
-        background-color: #239db9; /* Color de fondo de la bolita */
-        margin-right: 20px; /* Espaciado entre la bolita y la lista */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .rounded-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .list-group {
-        background-color: #239db9; /* Fondo de la lista */
-        border: none;
-        border-radius: 10px; /* Borde redondeado de la lista */
-        padding: 10px; /* Espaciado interno de la lista */
-    }
-
-    .list-group-item {
-        background-color: #239db9; /* Fondo de las list items */
-        border: none; /* Borde de las list items */
-        border-bottom: 1px solid #ddd; /* Borde inferior de las list items */
-        color: #fff; /* Color del texto en las list items */
-    }
-
-    .list-group-item:last-child {
-        border-bottom: none; /* Elimina el borde inferior del último list item */
-    }
-
-    .back-button, .edit-button {
-        border: 1px solid #fff; /* Bordes blancos */
-        padding: 5px 10px; /* Ajusta el espacio interno del botón */
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.2s ease-in-out;
-    }
-
-    .back-button {
-        background: linear-gradient(#239db9, #0056b3); /* Degradado en tonos azules */
-        color: #fff;
-        margin-right: 10px; /* Espaciado entre los botones */
-    }
-
-    .edit-button {
-        background: linear-gradient(#800020, #4B0082); /* Degradado en tonos vino */
-        color: #fff;
-    }
-
-    .back-button:hover, .edit-button:hover {
-        background: #003366; /* Cambia el tono en el hover */
-    }
-</style>
 
 <div class="container mt-4">
     <div class="card card1">
         <div class="card-header">
-            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Detalles del Paciente</strong>
+            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del Paciente</strong>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="rounded-image-container">
-
+            <div class="profile-image">
+                        <!-- Placeholder para la imagen de perfil -->
                         {% if paciente.foto %}
-                            <img src="{{ paciente.foto.url }}" class="rounded-image" alt="Foto del paciente">
-                        {% elif paciente.sexo == "Hombre"%}
-                            <img src="{% static 'img/users/user_male.png' %}" class="rounded-image" alt="Foto del paciente">
-                        {% elif paciente.sexo == "Mujer" %}
-                            <img src="{% static 'img/users/user_female.png' %}" class="rounded-image" alt="Foto del paciente">
-                        {% else %}
-                            <img src="{% static 'img/usuariono.png' %}" class="rounded-image" alt="Foto del paciente">
+                        <img src="{{ paciente.foto.url }}"  alt="Foto del paciente">
+                    {% elif paciente.sexo == "Hombre"%}
+                        <img src="{% static 'img/users/user_male.png' %}" alt="Foto del paciente">
+                    {% elif paciente.sexo == "Mujer" %}
+                        <img src="{% static 'img/users/user_female.png' %}"  alt="Foto del paciente">
+                    {% else %}
+                        <img src="{% static 'img/usuariono.png' %}"  alt="Foto del paciente">
 
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <ul class="list-group">
-                        <li class="list-group-item"><strong>Nombre:</strong> {{ paciente.get_full_name }}</li>
-                        <li class="list-group-item"><strong>Email:</strong> {{ paciente.email }}</li>
-                        <li class="list-group-item"><strong>Teléfono:</strong> {{ paciente.celular }}</li>
-                        <li class="list-group-item"><strong>Tipo de usuario:</strong> {{ paciente.get_tipo_usuario_display }}</li>
-                        <!-- Agrega más detalles según tus necesidades -->
-                    </ul>
-                </div>
+                    {% endif %}           
+        
             </div>
-            <button class="back-button" onclick="window.location.href='{% url 'ver_pacientes' %}'">Regresar</button>
-            <button class="edit-button" onclick="window.location.href='{% url 'editar_usuario' paciente.id %}'">Editar</button>
+            <div class="profile-details">
+                <h3>{{paciente.get_full_name}}</h3>
+                <p><i class="fas fa-phone"></i> +52 {{paciente.celular}}</p>
+                <p><i class="fas fa-envelope"></i> {{paciente.email}}</p>
+            </div>
+            <div class="action-buttons">
+                <button class="action-button edit">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="action-button delete">
+                    <i class="fas fa-trash-alt"></i> Desactivar
+                </button>
+            </div>
+        
+
+
         </div>
     </div>
 </div>
+
+
+<!-- Contenedor principal -->
+<div class="container mt-2">
+    <div class="card card1">
+        <!-- ... Encabezado y cuerpo de la tarjeta existente ... -->
+
+        <!-- Nueva sección de Información Adicional -->
+        <div class="additional-info">
+            <!-- Columna izquierda -->
+            <div class="info-column">
+                <div class="info-block">
+                    <h3><i class="fas fa-envelope"></i> Email:</h3>
+                    <p>ivansz123@gmail.com</p>
+                </div>
+                <div class="info-block">
+                    <h3><i class="fas fa-home"></i> Dirección:</h3>
+                    <p>jesus carranza apizaco</p>
+                </div>
+                <!-- Agrega más bloques de información según sea necesario -->
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="info-column">
+                <div class="info-block">
+                    <h3><i class="fas fa-user"></i> Genero:</h3>
+                    <p>Male</p>
+                </div>
+                <div class="info-block">
+                    <h3><i class="fas fa-birthday-cake"></i> Fecha de nacimiento:</h3>
+                    <p>Jan 09, 1998</p>
+                </div>
+                <!-- Agrega más bloques de información según sea necesario -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-notes-medical" style="color: #239db9;"></i> <strong>Historial médico</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Contenido del Historial médico -->
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-tooth" style="color: #239db9;"></i> <strong>Plan de tratamiento</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Contenido del Plan de tratamiento -->
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-chart-bar" style="color: #239db9;"></i> <strong>Odontograma</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Contenido de Gráficas dentales -->
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-pencil-alt" style="color: #239db9;"></i> <strong>Notas dentales</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Contenido de Notas dentales -->
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-images" style="color: #239db9;"></i> <strong>Fotos</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Contenido de Fotos -->
+        </div>
+    </div>
+</div>
+
 
 {% endblock content %}
