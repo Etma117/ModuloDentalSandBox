@@ -10,7 +10,7 @@ class clinicaForm(forms.ModelForm):
         labels = {
             'nombre' : 'Nombre de la Clínica',
             'telefono' : 'Telefono de la Clínica',
-            'responsables' : 'Responsable',
+            #'responsables' : 'Responsable',
             'correo_electronico' : 'Correo Electrónico',
             'hora_inicio' : 'Hora de Apertura',
             'hora_fin' : 'Hora de Cierre',
@@ -18,18 +18,24 @@ class clinicaForm(forms.ModelForm):
             'logo' : 'Logo de la Clínica'
         }
         widgets = {
-            'responsables': forms.Select(attrs={'class':'form-control'}),
-            'numero_consultorios': forms.NumberInput(attrs={'min': '1'}),
+            #'responsables': forms.Select(attrs={'class':'form-control'}),
+            'nombre' : forms.TextInput(attrs={'placeholder' : 'Ej: Clinica San Juan'}),
+            'telefono': forms.TextInput(attrs={'placeholder' : '2411152829'}),
+            'correo_electronico' : forms.TextInput(attrs={'placeholder' : 'Ej: correo@gmail.com'}),
+            'direccion' : forms.TextInput(attrs={'placeholder' : 'Ej: Av. Tecnologico'}),
+            'numero_consultorios': forms.NumberInput(attrs={'min': '1', 'placeholder' : '2'}),
             'lunes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'martes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'miercoles': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'jueves': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'viernes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'sabado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'hora_inicio' : forms.TextInput(attrs={'placeholder':'Ej: 12:00:00'}),
+            'hora_fin' : forms.TextInput(attrs={'placeholder':'Ej: 18:00:00'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+   # def __init__(self, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
 
-        responsables_group = Group.objects.get(name='Responsable')
-        self.fields['responsables'].queryset = CustomUser.objects.filter(groups=responsables_group)
+     #   responsables_group = Group.objects.get(name='Responsable')
+      #  self.fields['responsable'].queryset = CustomUser.objects.filter(groups=responsables_group)
