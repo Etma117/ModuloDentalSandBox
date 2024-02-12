@@ -36,9 +36,6 @@ Editar datos del Usuario
 <style>
 
     .centered-container {
-        margin-top:20px;
-        margin-bottom:40px;
-
         display: flex;
         align-items: center; /* Centrar verticalmente */
         justify-content: center; /* Centrar horizontalmente */
@@ -56,7 +53,6 @@ Editar datos del Usuario
         justify-content: center;
         background-color: #f8f9fa; /* Color de fondo mientras no hay imagen */
         border-radius: 50%; /* Esto hace que la imagen sea redonda */
-
 
     }
     
@@ -202,7 +198,7 @@ Editar datos del Usuario
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-12 centered-container">
-                                        <div class="image-upload-container mt-5 ">
+                                        <div class="image-upload-container">
                                             <!-- El icono de usuario se mostrará inicialmente -->
                                             {% if customuser.foto %}
                                                 <script>
@@ -232,7 +228,7 @@ Editar datos del Usuario
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 mt-2">
+                                    <div class="col-md-12">
                                         {{ form.foto|as_crispy_field }}
 
                                     </div>
