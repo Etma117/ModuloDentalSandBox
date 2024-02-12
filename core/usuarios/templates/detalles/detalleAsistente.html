@@ -1,10 +1,10 @@
 {% extends "general/base.html" %}
 {% load static %}
 
-
 {% block link %}
     <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v2">
 {% endblock link %}
+
 
 {% block dashboard %}
 
@@ -15,30 +15,32 @@
       </button>  
 </a>
 {% endblock dashboard %}
-
 {% block content %}
+
 
 
 <div class="container mt-4">
     <div class="card card1">
         <div class="card-header">
-            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del Paciente</strong>
+            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del Asistente</strong>
         </div>
         <div class="card-body">
             <div class="profile-image">
-                        <!-- Placeholder para la imagen de perfil -->
-                        {% if paciente.foto %}
-                        <img src="{{ paciente.foto.url }}"  alt="Foto del paciente">
-                    {% elif paciente.sexo == "Hombre"%}
-                        <img src="{% static 'img/users/user_male.png' %}" alt="Foto del paciente">
-                    {% elif paciente.sexo == "Mujer" %}
-                        <img src="{% static 'img/users/user_female.png' %}"  alt="Foto del paciente">
-                    {% else %}
-                        <img src="{% static 'img/usuariono.png' %}"  alt="Foto del paciente">
+                <!-- Placeholder para la imagen de perfil -->
+                {% if paciente.foto %}
+                <img src="{{ paciente.foto.url }}" class="rounded-image" alt="Foto del asistente">
+            {% elif paciente.sexo == "Hombre"%}
+                <img src="{% static 'img/users/user_male.png' %}" class="rounded-image" alt="Foto del asistente">
+            {% elif paciente.sexo == "Mujer" %}
+                <img src="{% static 'img/users/user_female.png' %}" class="rounded-image" alt="Foto del asistente">
+            {% else %}
+                <img src="{% static 'img/usuariono.png' %}" class="rounded-image" alt="Foto del asistente">
 
-                    {% endif %}           
+            {% endif %}
+
+            
         
-            </div>
+        </div>
             <div class="profile-details">
                 <h3>{{paciente.get_full_name}}</h3>
                 <p><i class="fas fa-phone"></i> +52 {{paciente.celular}}</p>
@@ -74,7 +76,7 @@
                     <p>ivansz123@gmail.com</p>
                 </div>
                 <div class="info-block">
-                    <h3><i class="fas fa-home"></i> Dirección:</h3>
+                    <h3><i class="fas fa-home"></i> Address:</h3>
                     <p>jesus carranza apizaco</p>
                 </div>
                 <!-- Agrega más bloques de información según sea necesario -->
@@ -83,11 +85,11 @@
             <!-- Columna derecha -->
             <div class="info-column">
                 <div class="info-block">
-                    <h3><i class="fas fa-user"></i> Genero:</h3>
+                    <h3><i class="fas fa-user"></i> Gender:</h3>
                     <p>Male</p>
                 </div>
                 <div class="info-block">
-                    <h3><i class="fas fa-birthday-cake"></i> Fecha de nacimiento:</h3>
+                    <h3><i class="fas fa-birthday-cake"></i> Birthdate:</h3>
                     <p>Jan 09, 1998</p>
                 </div>
                 <!-- Agrega más bloques de información según sea necesario -->
@@ -127,7 +129,7 @@
 <div class="container mt-4">
     <div class="card card1 card2 collapsed-card">
         <div class="card-header">
-            <i class="fas fa-chart-bar" style="color: #239db9;"></i> <strong>Odontograma</strong>
+            <i class="fas fa-chart-bar" style="color: #239db9;"></i> <strong>Gráficas dentales</strong>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
             </div>

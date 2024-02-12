@@ -5,6 +5,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import get_user_model
+from clinicas.models import Clinica
+from usuarios.models import CustomUser
 
 #Importamos los decoradores para crear que cada vista tenga su login required 
 from django.http import JsonResponse
@@ -24,13 +26,27 @@ class home(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['navbar'] = 'home'  
+        context['total_clinicas'] = Clinica.objects.count()
+        context['total_dentistas'] = CustomUser.objects.filter(tipo_usuario="dentista").count()
+        context['total_responsables'] = CustomUser.objects.filter(tipo_usuario="responsable").count()
+        context['total_pacientes'] = CustomUser.objects.filter(tipo_usuario="paciente").count()
+        context['navbar'] = 'home' 
+
+        usuario_conectado = self.request.user
+        if usuario_conectado.tipo_usuario == 'responsable':
+            clinicas_responsable = usuario_conectado.contar_clinicas_asignadas()
+            context['clinicas_responsable'] = clinicas_responsable
+
         return context
 
 
 def exit(request):
     logout(request)
-    return redirect('home')
+    return redirect('homePage')
+
+
+class homePageView(TemplateView):
+    template_name= 'homepage/index.html'
 
 
 

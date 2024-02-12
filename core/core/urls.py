@@ -25,11 +25,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include('generales.urls')),
     path("usuarios/", include('usuarios.urls')),
-    path("citas/", include('citas.urls'), name='Citas'),
+    path("agenda/", include('agenda.urls'), name='Agenda'),
     path("clinicas/", include('clinicas.urls')),
 
     path('accounts/', include('django.contrib.auth.urls')),
-
+    path('citas/', include('citas.urls')),
 
 ]
 if settings.DEBUG:

@@ -11,8 +11,6 @@ Ver Asistentes
 
 
 {% block dashboard %}
-
-
 <a class="btn btn-sm  " href="{% url "home" %}">      
       <button class="btn-custom">
         <i class="fas fa-chevron-left"></i>
@@ -87,7 +85,7 @@ Ver Asistentes
        {% if grupo_asistente_existe %}
 
         {% else %}
-            <a href="{% url "register_user_dentista" %}" class="btn btn-custom2">Agregar nuevo asistente</a>
+            <a href="{% url "UserCreateViewAsistente" %}" class="btn btn-custom2">Agregar nuevo asistente</a>
 
         {% endif %}
         
@@ -106,7 +104,7 @@ Ver Asistentes
             </thead>
             <tbody>
                 {% for paciente in asistentes %}
-                <tr>
+                <tr onclick="window.location='{% url 'asistente_detail' paciente.id %}'" style="cursor:pointer;">
 
                     {% if paciente.foto  %}
                     <td style="text-align: center; vertical-align: middle;">

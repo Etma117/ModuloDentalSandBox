@@ -39,7 +39,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{% static "plugins/summernote/summernote-bs4.min.css" %}">
   <script src="https://kit.fontawesome.com/78350df3d2.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v2">
+  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v23">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
 
@@ -188,7 +188,8 @@
         </li>
 
        
-    
+        {% if es_responsable  or es_administrador or es_superusuario or es_dentista%}
+
           <li class="nav-header">Gestión de Usuarios</li>
           <li class="nav-item {% if navbar == 'gestion_usuarios' %}menu-is-opening menu-open{% endif %}">
             <a href="#" class="nav-link   {% if navbar == 'gestion_usuarios' %}active first-li{% endif %}">  
@@ -279,19 +280,19 @@
             </ul>
           </li>  
           {% endif %}
-          <li class="nav-header">Gestión de Citas</li>
+          <li class="nav-header">Agendas</li>
 
           <li class="nav-item">
             <a href="#" class="nav-link  first-li">  
               <i class="nav-icon fas fa-calendar"></i>
               <p>
-                Citas
+                Agendas
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{%url "Citas"%}" class="nav-link  second-li"> 
+                <a href="{%url "Agenda" %}" class="nav-link  second-li"> 
                   <i class="far fa-circle nav-icon"></i>
                   <p>Todas las Citas</p>
                 </a>
@@ -340,7 +341,13 @@
               </li>
             </ul>
           </li>
+          {% else %}
 
+
+          {% endif %}
+          
+
+          {% if es_dentista or es_responsable or es_asistente %}
           <li class="nav-header">Gestión de Pacientes </li>
           <li class="nav-item {% if navbar == 'gestion_pacientes' %}menu-is-opening menu-open{% endif %}">
             <a href="#" class="nav-link {% if navbar == 'gestion_pacientes' %}active first-li{% endif %}">  
@@ -561,6 +568,56 @@
               </li>
             </ul>
           </li>
+
+
+
+
+          {% endif %}
+
+          {% if es_paciente %}
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-plus"></i>
+                <p>
+                  Añadir cita
+                </p>
+              </a>
+              
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-hospital-alt"></i>
+                <p>
+                  Reagendar cita
+                </p>
+              </a>
+              
+            </li>
+            
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-hospital-alt"></i>
+                <p>
+                  Historial clinico
+                </p>
+              </a>
+              
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-hospital-alt"></i>
+                <p>
+                  Tratamiento
+                </p>
+              </a>
+              
+            </li>
+            
+            
+          {% endif %}
+
+
 
 
 
@@ -833,34 +890,7 @@
 
 <script>
   // Detectar inactividad y mostrar un mensaje con SweetAlert
-  $(document).ready(function() {
-    var inactivityTimeout = 600000;  // 10 minutos en milisegundos
 
-    function showSessionExpiredMessage() {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Tu sesión ha expirado',
-        text: 'Por favor, vuelve a iniciar sesión.',
-        confirmButtonText: 'OK',
-        allowOutsideClick: false,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "{% url 'login' %}";  // Redirigir a la página de inicio de sesión
-        }
-      });
-    }
-
-    var timeout;
-
-    function resetTimeout() {
-      clearTimeout(timeout);
-      timeout = setTimeout(showSessionExpiredMessage, inactivityTimeout);
-    }
-
-    $(document).on('mousemove keydown scroll', resetTimeout);
-
-    resetTimeout();  // Iniciar el temporizador cuando la página se carga
-  });
 
   function mostrarAlertaActualizacion() {
     Swal.fire({
