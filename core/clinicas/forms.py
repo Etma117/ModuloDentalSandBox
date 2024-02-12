@@ -9,10 +9,23 @@ class clinicaForm(forms.ModelForm):
         fields = '__all__'
         labels = {
             'nombre' : 'Nombre de la Clínica',
-            'telefono' : 'Telefono de la Clínica'
+            'telefono' : 'Telefono de la Clínica',
+            'responsables' : 'Responsable',
+            'correo_electronico' : 'Correo Electrónico',
+            'hora_inicio' : 'Hora de Apertura',
+            'hora_fin' : 'Hora de Cierre',
+            'numero_consultorios' : 'Número de Consultorios',
+            'logo' : 'Logo de la Clínica'
         }
         widgets = {
-            'responsables': forms.Select(attrs={'class':'form-control'})
+            'responsables': forms.Select(attrs={'class':'form-control'}),
+            'numero_consultorios': forms.NumberInput(attrs={'min': '1'}),
+            'lunes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'martes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'miercoles': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'jueves': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'viernes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'sabado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
     def __init__(self, *args, **kwargs):

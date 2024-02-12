@@ -35,7 +35,7 @@ class eliminarClinica(DeleteView):
 
 class editarClinica(UpdateView):
     model = Clinica
-    template_name = 'nuevaClinica.html'
+    template_name = 'editarClinica.html'
     form_class = clinicaForm
     context_object_name = 'clinica'
     success_url = reverse_lazy('clinicas')
