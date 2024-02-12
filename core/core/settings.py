@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'generales',
     'horarios',
     'usuarios',
+    'citas',
 
     
 ]
