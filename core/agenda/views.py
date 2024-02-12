@@ -1,6 +1,6 @@
 #Django clases
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import ListView, CreateView
 #Models
 from schedule.models import Calendar, Event
 from .models import Cita
@@ -11,8 +11,14 @@ import pytz
 
 
 
-class EventosView(TemplateView):
+class EventosView(ListView):
+    model=Cita
+    context_object_name = 'citas'
     template_name = 'agenda.html'
+
+    def get_queryset(self):
+        return Cita.objects.all().order_by('start') #user=self.request.user clinica, dentista filtro 
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         calendars = Calendar.objects.all()
@@ -30,7 +36,7 @@ class EventosView(TemplateView):
 
         for event in events:
 
-            for occurrence in event.get_occurrences(datetime.datetime(2024,1,1,0,0, tzinfo=tz), datetime.datetime(2044,1,1,0,0, tzinfo=tz) ):
+            for occurrence in event.get_occurrences(datetime.datetime(2024,1,1,0,0, tzinfo=tz), datetime.datetime(2025,1,1,0,0, tzinfo=tz) ): #marcar limites de fecha para motrar
                # print(occurrence, event.title)   
 
                 serialized_event = {
@@ -49,6 +55,7 @@ class EventosView(TemplateView):
                     serialized_event['backgroundColor'] = 'red'   
 
                 if dentista_calendario.event_set.filter(id=event.id).exists():
+                    serialized_event['title'] = ' '
                     serialized_event['allDay'] = 'allDay'
                     serialized_event['display'] = 'background' 
 
