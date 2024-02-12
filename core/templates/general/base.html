@@ -280,23 +280,19 @@
             </ul>
           </li>  
           {% endif %}
-
-        {% endif %}
-
-          {% if es_dentista or es_asistente or es_responsable %}
-          <li class="nav-header">Gestión de Citas</li>
+          <li class="nav-header">Agendas</li>
 
           <li class="nav-item">
             <a href="#" class="nav-link  first-li">  
               <i class="nav-icon fas fa-calendar"></i>
               <p>
-                Citas
+                Agendas
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{%url "Citas"%}" class="nav-link  second-li"> 
+                <a href="{%url "Agenda" %}" class="nav-link  second-li"> 
                   <i class="far fa-circle nav-icon"></i>
                   <p>Todas las Citas</p>
                 </a>
@@ -894,34 +890,7 @@
 
 <script>
   // Detectar inactividad y mostrar un mensaje con SweetAlert
-  $(document).ready(function() {
-    var inactivityTimeout = 600000;  // 10 minutos en milisegundos
 
-    function showSessionExpiredMessage() {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Tu sesión ha expirado',
-        text: 'Por favor, vuelve a iniciar sesión.',
-        confirmButtonText: 'OK',
-        allowOutsideClick: false,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "{% url 'login' %}";  // Redirigir a la página de inicio de sesión
-        }
-      });
-    }
-
-    var timeout;
-
-    function resetTimeout() {
-      clearTimeout(timeout);
-      timeout = setTimeout(showSessionExpiredMessage, inactivityTimeout);
-    }
-
-    $(document).on('mousemove keydown scroll', resetTimeout);
-
-    resetTimeout();  // Iniciar el temporizador cuando la página se carga
-  });
 
   function mostrarAlertaActualizacion() {
     Swal.fire({
