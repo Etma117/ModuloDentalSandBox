@@ -50,5 +50,11 @@ class Clinica(models.Model):
             dias_true.append('sábado')
         return dias_true
 
+    def contar_clinicas_asignadas(cls, responsable):
+        if responsable.tipo_usuario == 'responsable':
+            return cls.objects.filter(responsable=responsable).count()
+        else:
+            return 0
+    
     def __str__(self):
         return self.nombre
