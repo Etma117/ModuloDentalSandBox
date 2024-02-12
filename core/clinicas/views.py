@@ -10,6 +10,12 @@ class Clinicas(ListView):
     template_name = 'clinicas.html'
     context_object_name = 'clinica'
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated and self.request.user.tipo_usuario == 'responsable':
+            return Clinica.objects.filter(responsables=self.request.user)
+        else:
+            return Clinica.objects.all()
+
 class clinicaCrear(CreateView):
     model = Clinica
     template_name = 'nuevaClinica.html'
