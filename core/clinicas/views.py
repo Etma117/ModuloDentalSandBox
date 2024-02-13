@@ -4,6 +4,7 @@ from django.views.generic import CreateView, ListView, DetailView, DeleteView, U
 from .models import Clinica
 from .forms import clinicaForm
 from django.urls import reverse_lazy
+from usuarios.models import CustomUser
 
 class Clinicas(ListView):
     model = Clinica
@@ -11,10 +12,13 @@ class Clinicas(ListView):
     context_object_name = 'clinica'
 
     def get_queryset(self):
-        if self.request.user.is_authenticated and self.request.user.tipo_usuario == 'responsable':
-            return Clinica.objects.filter(responsables=self.request.user)
-        else:
-            return Clinica.objects.all()
+        if self.request.user.is_authenticated:
+            usuario_actual = self.request.user
+            if usuario_actual.tipo_usuario == 'responsable':
+                return usuario_actual.clinicas.all()
+            elif usuario_actual.tipo_usuario == 'administrador':
+                return Clinica.objects.all()
+        return Clinica.objects.none()
 
 class clinicaCrear(CreateView):
     model = Clinica
