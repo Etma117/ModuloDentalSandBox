@@ -18,9 +18,11 @@ class clinicaCrear(CreateView):
     success_url = reverse_lazy('clinicas')
 
 class vistaClinica(DetailView):
-    model = Clinica
     template_name = 'vistaClinicas.html'
-    context_object_name = 'clinica'
+
+    def get(self, request, clinica_id, *args, **kwargs):
+        clinica = Clinica.objects.get(id=clinica_id)
+        return render(request, self.template_name, {'clinica': clinica})
 
 class eliminarClinica(DeleteView):
     model = Clinica

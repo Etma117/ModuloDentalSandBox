@@ -4,7 +4,7 @@ from .views import clinicaCrear, Clinicas, vistaClinica, eliminarClinica, editar
 
 urlpatterns = [
     path('verClinicas/', Clinicas.as_view(), name='clinicas'),
-    path('clinica/<int:pk>', vistaClinica.as_view(), name='vistaClinicas'),
+    path('clinica/<int:clinica_id>', vistaClinica.as_view(), name='vistaClinicas'),
     path('crearClinica/', clinicaCrear.as_view(), name='nuevaClinica'),
     path('eliminarClinica/<int:pk>', eliminarClinica.as_view(), name='eliminarClinica'),
     path('editarClinica/<int:pk>', editarClinica.as_view(), name='editarClinica'),

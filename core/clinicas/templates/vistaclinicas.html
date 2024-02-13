@@ -25,7 +25,13 @@
             </div>
             <p></p>
             <div>
-                <a style="font-size: large;">Responsable de la Clínica: {{ clinica.responsables.first_name }}</a>
+                <a style="font-size: large;">Responsable de la Clínica: 
+                    <ul>
+                        {% for responsable in clinica.responsables.all %}
+                            <li>{{ responsable }}</li>
+                        {% endfor %}
+                    </ul>
+                </a>
             </div>
         </div>
     </div>

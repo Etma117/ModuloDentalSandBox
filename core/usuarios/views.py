@@ -208,6 +208,10 @@ class UserCreateViewResponsable(CreateView):
         admin_group, created = Group.objects.get_or_create(name='Responsable')
         user.groups.add(admin_group)
 
+        clinicas = form.cleaned_data['clinicas']
+        for clinica in clinicas:
+                clinica.responsables.add(user)
+
         messages.success(self.request, "Usuario Responsable creado con éxito.")
         return super().form_valid(form)
     
@@ -220,6 +224,7 @@ class UserCreateViewResponsable(CreateView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios' 
         context['seccion'] = 'ver_responsable' 
+        context['responsables'] = CustomUser.objects.all()
 
         return context
     

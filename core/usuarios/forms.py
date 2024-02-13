@@ -10,6 +10,7 @@ from clinicas.models import Clinica
 from .models import AsistenteDentista
 from django.forms import inlineformset_factory
 
+  
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     pass  # Personaliza si es necesario
@@ -135,6 +136,9 @@ AsistenteDentistaFormSet = inlineformset_factory(
 
 
 class CustomUserCreationFormDentista(UserCreationForm):
+
+    clinicas = forms.ModelMultipleChoiceField(queryset=Clinica.objects.all(), required=False)
+
     
     fecha_nacimiento = forms.DateField(
         label="Fecha de Nacimiento:",
@@ -191,6 +195,9 @@ class CustomUserCreationFormDentista(UserCreationForm):
             field = self.fields.get(field_name)  
             if field and isinstance(field.widget, forms.TextInput):
                 field.widget.attrs.update({'class': 'form-control'})
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
     fecha_nacimiento = forms.DateField(

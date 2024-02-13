@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
     fecha_nacimiento = models.DateField(null=True, blank=True)
     numero = models.CharField(max_length=15, null=True, blank=True, verbose_name='No. celular')
     foto = models.ImageField(upload_to='usuarios/fotos/', null=True, blank=True)
-    clinicas = models.ManyToManyField(Clinica)
+    clinicas = models.ManyToManyField(Clinica, related_name='usuarios_asignados')
     
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
