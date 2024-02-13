@@ -74,14 +74,16 @@ class CitaCrearView(CreateView):
         # Obtén los datos del formulario
         start = form.cleaned_data['start']
         end = form.cleaned_data['end']
+        dentista = form.cleaned_data['dentista']
 
         # Verifica si hay una cita existente en el mismo horario con estado 'aprobado'
-        if Cita.objects.filter( #usar el calendario de citas de clinca y/o dentista
+        if Cita.objects.filter( #usar el calendario de citas de clinca 
                 start__lt=end,
                 end__gt=start,
+                dentista=dentista, #puede haber citas en el mismo horario pero con dentista diferente
                 estado_cita='Aprobada'
         ).exists():
-            form.add_error(None, 'Ya hay una cita aprobada en ese horario.')
+            form.add_error(None, 'Ya hay una cita aprobada en ese horario con ese dentista.')
             return self.form_invalid(form)
 
         # Llama al método form_valid del padre para guardar la cita
