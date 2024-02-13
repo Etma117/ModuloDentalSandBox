@@ -18,7 +18,7 @@
   <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="{% static "homepage/css/style.css" %}?v1.1">
+  <link rel="stylesheet" href="{% static "homepage/css/style.css" %}?v1.2">
 
   <!-- 
     - google font link
@@ -122,7 +122,7 @@
           </ul>
         </nav>
 
-        <a href="{% url "login" %}" class="btn">Inicia Sesión</a>
+        <a href="{% url "login_redirect" %}" class="btn">Inicia Sesión</a>
 
         <button class="nav-toggle-btn" aria-label="Toggle menu" data-nav-toggler>
           <ion-icon name="menu-sharp" aria-hidden="true" class="menu-icon"></ion-icon>
