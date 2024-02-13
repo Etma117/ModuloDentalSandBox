@@ -1,6 +1,7 @@
 from django.db import models
 from schedule.models import Calendar, Event
 
+
 from usuarios.models import CustomUser
 from clinicas.models import Clinica
 
@@ -14,14 +15,23 @@ class CitasDentalesCalendar(Calendar):
     clinica = models.ForeignKey(Clinica, related_name='clinica_agenda', on_delete=models.CASCADE, null=True, blank=True) #obtener clinica usuario posterior
    
 class Cita(Event):
+
+    ESTADOS_CITA = (
+        ('Aprobada', 'Aprobada'),
+        ('Rechazada', 'Rechazada'),
+        ('Espera', 'En Espera'),
+        ('Concluida', 'Concluida')
+    )
      
     dentista = models.ForeignKey(CustomUser, related_name='agenda_dentista_citas', on_delete=models.CASCADE, null=True, blank=True)
     paciente = models.ForeignKey(CustomUser, related_name='agenda_paciente_citas', on_delete=models.CASCADE)
 
     clinica = models.ForeignKey(Clinica, related_name='agenda_clinica_cita', on_delete=models.CASCADE)
-    
+
+    estado_cita = models.CharField(choices=ESTADOS_CITA, max_length=40, default='Espera')
 
     def save(self, *args, **kwargs):
+                               
         slug_prefix = "citas_dentales_"
         # Intentar obtener el calendario por slug
         citas_dentales_calendar = CitasDentalesCalendar.objects.filter(slug=f"{slug_prefix}{self.clinica.id}").first()#calendario por clinica

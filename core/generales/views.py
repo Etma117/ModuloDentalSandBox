@@ -9,6 +9,7 @@ from clinicas.models import Clinica
 from usuarios.models import CustomUser
 from django.shortcuts import redirect
 from django.urls import reverse
+from agenda.models import Cita
 
 #Importamos los decoradores para crear que cada vista tenga su login required 
 from django.http import JsonResponse
@@ -23,7 +24,10 @@ from .forms import UserRecoveryForm
 # Create your views here.
 
 class home(LoginRequiredMixin, TemplateView):
+    model= Cita
+    context_object_name = 'citas'    
     template_name = 'menu.html'
+    
 
 
     def get_context_data(self, **kwargs):
