@@ -678,6 +678,7 @@
       
       {% endblock contenido %}
         
+
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -938,6 +939,51 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function iniciarTemporizadorDeExpiracion() {
+      var tiempoExpiracion = 10800; // Tiempo de expiración en segundos
+      var tiempoAviso = 10500; // Avisar 5 segundos antes de expirar
+  
+      setTimeout(function() {
+        // Mostrar SweetAlert aquí usando Swal.fire()
+        Swal.fire({
+          title: "Tu sesión está a punto de expirar",
+          text: "¿Deseas mantenerla activa?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: 'Sí, renovar sesión',
+          cancelButtonText: 'No, cerrar sesión',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Llamar a un endpoint para renovar la sesión
+            fetch("/menu/")
+              .then(response => {
+                if(response.ok) {
+                  Swal.fire("¡Tu sesión ha sido renovada!", "", "success");
+                  // Reiniciar el temporizador de expiración después de renovar la sesión
+                  iniciarTemporizadorDeExpiracion();
+                } else {
+                  throw new Error('La renovación de la sesión falló');
+                }
+              })
+              .catch(error => {
+                console.error("Error al renovar la sesión:", error);
+                Swal.fire("Error", "No se pudo renovar la sesión.", "error");
+              });
+          }
+        });
+      }, (tiempoExpiracion - tiempoAviso) * 1000); // Convertir a milisegundos
+    }
+  
+    // Iniciar el temporizador al cargar la página
+    iniciarTemporizadorDeExpiracion();
+  });
+  
+  
 </script>
 </body>
 </html>

@@ -11,11 +11,85 @@
 <body>
 
 
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .left-side {
+            flex: 1;
+            background: url('{% static "img/imagen-izquierda.jpg" %}') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50%;
+        }
+
+        .left-side img {
+            max-width: 100%; /* Asegura que la imagen sea responsiva */
+            height: auto;
+            object-fit: cover; /* Ajusta la imagen para cubrir el contenedor */
+        }
+
+        .right-side {
+            flex: 1;
+            background: linear-gradient(to right, #239db9 50%, white 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50%;
+        }
+
+        .container {
+            max-width: 600px;
+        }
+
+        .card {
+            max-width: 500px;
+        }
+
+        .card-header {
+            background-color: #239db9;
+            color: white;
+        }
+
+        .recuperar-contrasena {
+            color: #239db9;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        .recuperar-contrasena:hover {
+            color: #239db9;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            /* Estilos específicos para dispositivos con un ancho máximo de 768px (tamaño típico de teléfono) */
+            .left-side {
+                min-width: 100%;
+            }
+     }
+    </style>
+</head>
+
+    <div class="left-side">
+        <!-- Contenido específico del lado izquierdo si es necesario -->
+        <img src="{% static "img/plantilla/contraseña.png" %}" alt="Imagen Izquierda">
+    </div>
+
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
+                <div class="card" id"contenedor1" style="display: block;" >
+                    <div class="card-header  text-white">
                         <h3 class="card-title">Recuperación de Contraseña</h3>
                     </div>
                     <div class="card-body">
@@ -26,8 +100,8 @@
                                 <label for="username" class="form-label">Nombre de usuario</label>
                                 <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
                             </div>
-                            
-                            <button type="submit" class="btn btn-primary">Enviar</button>
+                            <button type="submit" class="btn btn-primary" style="background: #239db9; background: linear-gradient(to right, #239db9, #5c6bc0);">Enviar</button>
+
                         </form>
                     </div>
                 </div>
@@ -97,6 +171,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    document.getElementById('contenedor1').style.display = 'none';
+
                     document.getElementById('security-questions-container').style.display = 'block';
                     let form = document.getElementById('securityQuestionsForm');
                     form.innerHTML = `
@@ -108,7 +184,8 @@
                         <label for="security_question_2" class="form-label">${data.pregunta_seguridad_2}</label>
                         <input type="text" class="form-control" id="security_answer_2" name="security_answer_2" placeholder="Respuesta a la pregunta 2" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Verificar Respuestas</button>
+                    <button type="submit" class="btn btn-primary" style="background: #239db9; background: linear-gradient(to right, #239db9, #5c6bc0);">Verificar Respuesta</button>
+
                 `;
                 } else {
                     alert(data.message);

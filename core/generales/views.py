@@ -7,6 +7,8 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import get_user_model
 from clinicas.models import Clinica
 from usuarios.models import CustomUser
+from django.shortcuts import redirect
+from django.urls import reverse
 
 #Importamos los decoradores para crear que cada vista tenga su login required 
 from django.http import JsonResponse
@@ -115,3 +117,10 @@ def set_new_password(request):
 
 class templeteDenegado(TemplateView):
     template_name = 'denegado/denied.html'
+
+
+def login_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('home')  # O el nombre de la URL del menú
+    else:
+        return redirect(reverse('login'))  
