@@ -1,10 +1,10 @@
 #Django clases
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
 #Models
 from schedule.models import Calendar, Event
 from .models import Cita
-from .forms import CitaForm
+from .forms import CitaForm, CitaEditarForm
 #librerias externas
 import datetime
 import pytz
@@ -77,3 +77,14 @@ class CitaCrearView(CreateView):
         return super().form_valid(form)
 
 
+class CitaEditarView(UpdateView):
+    model = Cita
+    form_class = CitaEditarForm
+    template_name = 'editar_cita.html'  # Reemplaza con el nombre de tu plantilla
+    success_url = reverse_lazy('Agenda')
+
+    def form_valid(self, form):
+        # Asignar la clínica al calendario de citas
+        #clinica = self.request.user.clinica  # Ajusta según cómo obtienes la clínica del usuario
+        #form.instance.calendar = clinica.citas_dentales_calendar  # Ajusta según la relación real en tu modelo
+        return super().form_valid(form)

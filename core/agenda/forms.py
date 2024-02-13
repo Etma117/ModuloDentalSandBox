@@ -24,11 +24,9 @@ from datetime import datetime, timedelta
 class CitaForm(forms.ModelForm):
     class Meta:
         model = Cita
-        fields = ['paciente','clinica','dentista','start', 'end', 'title', 'description', 'creator',
+        fields = ['paciente','clinica','dentista','start', 'end', 'title', 'description', 'creator', 'estado_cita',
                   'color_event'] 
-        fields = [
-    'paciente', 'clinica', 'dentista', 'start', 'end', 'title', 'description', 'creator', 'color_event'
-        ]
+      
 
         labels = {
             'paciente': 'Paciente',
@@ -39,6 +37,7 @@ class CitaForm(forms.ModelForm):
             'title': 'Título',
             'description': 'Descripción',
             'creator': 'Creador',
+            'estado_cita' :'Estado de la cita',
             'color_event': 'Color',
         }
 
@@ -51,17 +50,12 @@ class CitaForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'creator': forms.Select(attrs={'class': 'form-control'}),
+            'estado_cita': forms.Select(attrs={'class': 'form-control'}),
             'color_event': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
-        request = kwargs.pop('request')
-
-        
-
-    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
 
         # Filtrar opciones del campo paciente según el grupo "pacientes"
         pacientes_group = Group.objects.get(name='Paciente')
@@ -71,13 +65,57 @@ class CitaForm(forms.ModelForm):
         dentista_group = Group.objects.get(name='Dentista')
         self.fields['dentista'].queryset = CustomUser.objects.filter(groups=dentista_group)
 
-        # Calcula la fecha de mañana y establece como valor predeterminado
-        #tomorrow = (datetime.now() + timedelta(days=1)).date()
-        #self.initial['fecha'] = tomorrow
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(CitaForm, self).__init__(*args, **kwargs)
+
+        # Verificar el tipo de usuario y ajustar el estado de la cita en consecuencia
+        if self.user:
+            if  self.request.user.groups.filter(name='Dentista').exists():
+                self.fields['estado_cita'].initial = 'Aprobada'
+            elif self.request.user.groups.filter(name='Paciente').exists():
+                self.fields['estado_cita'].initial = 'Espera' #corregir
 
 
-        # Filtrar los horarios de trabajo que no están ocupados
-       # self.fields['hora_trabajo'].queryset = HoraTrabajo.objects.filter(ocupada=False)
+class CitaEditarForm(forms.ModelForm):
+    class Meta:
+        model = Cita
+        fields = ['paciente','clinica','dentista','start', 'end', 'title', 'description', 'creator', 'estado_cita',
+                  'color_event'] 
+        
+        labels = {
+            'paciente': 'Paciente',
+            'clinica': 'Clínica',
+            'dentista': 'Dentista',
+            'start': 'Fecha',
+            'end': 'Fecha de Fin',
+            'title': 'Título',
+            'description': 'Descripción',
+            'creator': 'Creador',
+            'estado_cita' :'Estado de la cita',
+            'color_event': 'Color',
+        }
 
-   
+        widgets = {
+            'paciente': forms.Select(attrs={'class': 'form-control'}),
+            'clinica': forms.Select(attrs={'class': 'form-control'}),
+            'dentista': forms.Select(attrs={'class': 'form-control'}),
+            'start': SplitDateTimeWidgetCustom(attrs={'class': 'datetime-input'}),
+            'end': SplitDateTimeWidgetCustom(attrs={'class': 'datetime-input'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'creator': forms.Select(attrs={'class': 'form-control'}),
+            'estado_cita': forms.Select(attrs={'class': 'form-control'}),
+            'color_event': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+            # Filtrar opciones del campo paciente según el grupo "pacientes"
+            pacientes_group = Group.objects.get(name='Paciente')
+            self.fields['paciente'].queryset = CustomUser.objects.filter(groups=pacientes_group)
+
+            # Filtrar opciones del campo doctor según el grupo "doctores"
+            dentista_group = Group.objects.get(name='Dentista')
+            self.fields['dentista'].queryset = CustomUser.objects.filter(groups=dentista_group)

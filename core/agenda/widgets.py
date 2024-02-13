@@ -11,8 +11,8 @@ class SplitDateTimeWidgetCustom(forms.MultiWidget):
         hour_options = [(str(i), f'{i:02d}:00') for i in range(24)]
 
         widgets = (
-            DateInput(attrs=date_attrs),
-            Select(attrs=time_attrs, choices=[('', 'Seleciona una hora')] + hour_options),
+            DateInput(attrs=date_attrs, format='%Y-%m-%d'), 
+            Select(attrs=time_attrs, choices=[('', 'Selecciona una hora')] + hour_options),
         )
         super().__init__(widgets, attrs)
 
