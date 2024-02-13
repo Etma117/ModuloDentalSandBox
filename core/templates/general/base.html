@@ -39,7 +39,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{% static "plugins/summernote/summernote-bs4.min.css" %}">
   <script src="https://kit.fontawesome.com/78350df3d2.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v2">
+  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v23">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
 
@@ -188,7 +188,8 @@
         </li>
 
        
-    
+        {% if es_responsable  or es_administrador or es_superusuario or es_dentista%}
+
           <li class="nav-header">Gestión de Usuarios</li>
           <li class="nav-item {% if navbar == 'gestion_usuarios' %}menu-is-opening menu-open{% endif %}">
             <a href="#" class="nav-link   {% if navbar == 'gestion_usuarios' %}active first-li{% endif %}">  
@@ -198,8 +199,9 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-      
+            <ul class="nav nav-treeview"> 
+              
+              {% if es_responsable  or es_administrador or es_superusuario%}
               <li class="nav-item">
                 
                 <a href="{% url 'DentistaListView'  %}" class="nav-link {% if seccion == 'ver_dentistas' %}active {% endif %}">
@@ -208,14 +210,21 @@
                 </a>
               </li>
 
+              {% endif %}
+         
 
-              
+              {% if es_responsable or es_dentista %}
+
               <li class="nav-item">
                 <a href="{% url "AsistenteListView" %}" class="nav-link  {% if seccion == 'ver_asistente' %}active {% endif %} ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Asistente</p>
                 </a>
               </li>
+              {% endif %}
+
+
+              {% if  es_dentista or es_responsable%}
               <li class="nav-item">
 
                 <a href="{% url "ver_pacientes" %}" class="nav-link  {% if seccion == 'ver_pacientes' %}active {% endif %}">
@@ -225,7 +234,12 @@
               
               </li>
 
-              {% if es_administrador %}
+
+              {% endif %}
+        
+
+
+              {% if es_administrador or  es_superusuario%}
                   <li class="nav-item">
                     
                     <a href="{% url "ResponsableListView" %}" class="nav-link  {% if seccion == 'ver_responsable' %}active {% endif %}">
@@ -242,12 +256,28 @@
           {% if es_administrador %}    
           <li class="nav-header">Gestion de Clinicas </li>
           <li class="nav-item">
-            <a href="{% url "clinicas" %}" class="nav-link  first-li">  
-              <i class="nav-icon fas fa-calendar"></i>
+            <a href="#" class="nav-link  first-li">  
+              <i class="nav-icon fas fa-hospital-alt"></i>
               <p>
                 Clinicas
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url "clinicas" %}" class="nav-link  second-li"> 
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ver Clínicas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'nuevaClinica' %}" class="nav-link  second-li"> 
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Añadir Clínica</p>
+                </a>
+              </li>
+            </ul>
           </li>  
           {% endif %}
           <li class="nav-header">Agendas</li>
@@ -311,7 +341,13 @@
               </li>
             </ul>
           </li>
+          {% else %}
 
+
+          {% endif %}
+          
+
+          {% if es_dentista or es_responsable or es_asistente %}
           <li class="nav-header">Gestión de Pacientes </li>
           <li class="nav-item {% if navbar == 'gestion_pacientes' %}menu-is-opening menu-open{% endif %}">
             <a href="#" class="nav-link {% if navbar == 'gestion_pacientes' %}active first-li{% endif %}">  
@@ -536,6 +572,56 @@
 
 
 
+          {% endif %}
+
+          {% if es_paciente %}
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-plus"></i>
+                <p>
+                  Añadir cita
+                </p>
+              </a>
+              
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-hospital-alt"></i>
+                <p>
+                  Reagendar cita
+                </p>
+              </a>
+              
+            </li>
+            
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-hospital-alt"></i>
+                <p>
+                  Historial clinico
+                </p>
+              </a>
+              
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">  
+                <i class="nav-icon fas fa-hospital-alt"></i>
+                <p>
+                  Tratamiento
+                </p>
+              </a>
+              
+            </li>
+            
+            
+          {% endif %}
+
+
+
+
+
+
 
         </ul>
       </nav>
@@ -592,6 +678,7 @@
       
       {% endblock contenido %}
         
+
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -804,34 +891,7 @@
 
 <script>
   // Detectar inactividad y mostrar un mensaje con SweetAlert
-  $(document).ready(function() {
-    var inactivityTimeout = 600000;  // 10 minutos en milisegundos
 
-    function showSessionExpiredMessage() {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Tu sesión ha expirado',
-        text: 'Por favor, vuelve a iniciar sesión.',
-        confirmButtonText: 'OK',
-        allowOutsideClick: false,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "{% url 'login' %}";  // Redirigir a la página de inicio de sesión
-        }
-      });
-    }
-
-    var timeout;
-
-    function resetTimeout() {
-      clearTimeout(timeout);
-      timeout = setTimeout(showSessionExpiredMessage, inactivityTimeout);
-    }
-
-    $(document).on('mousemove keydown scroll', resetTimeout);
-
-    resetTimeout();  // Iniciar el temporizador cuando la página se carga
-  });
 
   function mostrarAlertaActualizacion() {
     Swal.fire({
@@ -879,6 +939,51 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function iniciarTemporizadorDeExpiracion() {
+      var tiempoExpiracion = 10800; // Tiempo de expiración en segundos
+      var tiempoAviso = 10500; // Avisar 5 segundos antes de expirar
+  
+      setTimeout(function() {
+        // Mostrar SweetAlert aquí usando Swal.fire()
+        Swal.fire({
+          title: "Tu sesión está a punto de expirar",
+          text: "¿Deseas mantenerla activa?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: 'Sí, renovar sesión',
+          cancelButtonText: 'No, cerrar sesión',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Llamar a un endpoint para renovar la sesión
+            fetch("/menu/")
+              .then(response => {
+                if(response.ok) {
+                  Swal.fire("¡Tu sesión ha sido renovada!", "", "success");
+                  // Reiniciar el temporizador de expiración después de renovar la sesión
+                  iniciarTemporizadorDeExpiracion();
+                } else {
+                  throw new Error('La renovación de la sesión falló');
+                }
+              })
+              .catch(error => {
+                console.error("Error al renovar la sesión:", error);
+                Swal.fire("Error", "No se pudo renovar la sesión.", "error");
+              });
+          }
+        });
+      }, (tiempoExpiracion - tiempoAviso) * 1000); // Convertir a milisegundos
+    }
+  
+    // Iniciar el temporizador al cargar la página
+    iniciarTemporizadorDeExpiracion();
+  });
+  
+  
 </script>
 </body>
 </html>

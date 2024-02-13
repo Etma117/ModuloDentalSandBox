@@ -1,7 +1,7 @@
 {% extends "general/base.html" %}
 {% load static %}
 {% block titulo %}
-Ver Pacientes
+Ver Responsables
 {% endblock titulo %}
 {% block link%}
     <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" %}">
@@ -22,6 +22,30 @@ Ver Pacientes
 
 
 {% block contenido %}
+<style>
+    .clinica-nombre {
+        display: inline-block;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 5px 10px;
+        margin: 2px;
+        font-size: 14px;
+        color: #333;
+        box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        transition: all 0.2s ease-in-out;
+    }
+    .clinica-nombre:hover {
+        transform: scale(1.05);
+        background-color: #e2e6ea;
+    }
+    .sin-clinica {
+        display: inline-block;
+        color: #dc3545;
+        font-weight: bold;
+        font-size: 14px;
+    }
+</style>
+``
 
 <style>
     #example {
@@ -59,8 +83,22 @@ Ver Pacientes
         color: white;
         border-radius: 100%;
     }
-</style>
 
+    .card1 {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card1:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
+    }
+</style>
 
 
 
@@ -73,7 +111,7 @@ Ver Pacientes
        {% if grupo_responsable_existe %}
 
         {% else %}
-            <a href="{% url "register_user_dentista" %}" class="btn btn-custom2">Agregar nuevo Responsable</a>
+            <a href="{% url "UserCreateViewResponsable" %}" class="btn btn-custom2">Agregar nuevo Responsable</a>
 
         {% endif %}
         
@@ -86,13 +124,13 @@ Ver Pacientes
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Teléfono</th>
-                    <th>Tipo Usuario</th>
+                    <th>Clinicas</th>
 
                 </tr>
             </thead>
             <tbody>
                 {% for paciente in responsables %}
-                <tr>
+                <tr data-id="{{ paciente.id }}" style="cursor:pointer;">
 
                     {% if paciente.foto  %}
                     <td style="text-align: center; vertical-align: middle;">
@@ -118,7 +156,16 @@ Ver Pacientes
                     <td>{{ paciente.get_full_name }}</td>
                     <td>{{ paciente.email }}</td>
                     <td>{{ paciente.celular }}</td>
-                    <td>{{ paciente.get_tipo_usuario_display }}</td>
+                    <td>
+                        {% if paciente.clinicas.all %}
+                            {% for clinica in paciente.clinicas.all %}
+                                <span class="clinica-nombre">{{ clinica.nombre }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="sin-clinica">Sin clínica asignada</span>
+                        {% endif %}
+                    </td>
+                    
 
                     <!-- Más campos de paciente si es necesario -->
                 </tr>
@@ -235,8 +282,24 @@ Ver Pacientes
       }
     });
     $("#example_wrapper .btn").css("margin-bottom", "40px"); // Ajusta el margen según tus necesidades
-    $("#example_info").css("margin-bottom", "40px"); // Ajusta el margen según tus necesidades
+    $("#example_info").css("margin-bottom", "40px"); 
+    
+    $("#example tbody tr").css("cursor", "pointer");
 
+    // Ajusta el margen según tus necesidades
+    $('#example tbody').on('click', 'tr', function(e) {
+        var index = $(e.target).closest('td').index(); // Obtiene el índice de la celda clickeada
+        var totalCells = $(this).children('td').length; // Obtiene el total de celdas en la fila
+    
+        // Excluye el clic en la primera celda (foto) y la última celda (clínicas)
+        if (index !== 0 && index !== (totalCells - 1)) {
+            var pacienteId = $(this).data('id'); // Obtiene el ID del paciente
+            if (pacienteId) {
+                window.location.href = `/usuarios/responsable/${pacienteId}/`; // Asegúrate de que esta URL sea correcta según tu configuración de URLs en Django
+            }
+        }
+    });
+    
     
   });
 

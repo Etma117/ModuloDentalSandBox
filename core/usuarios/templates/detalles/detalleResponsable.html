@@ -1,0 +1,251 @@
+{% extends "general/base.html" %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">  
+    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v23">
+{% endblock link %}
+
+{% block dashboard %}
+
+
+<a class="btn btn-sm  " href="{% url "ResponsableListView" %}">      
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>  
+</a>
+{% endblock dashboard %}
+{% block content %}
+
+
+<div class="container mt-4">
+    <div class="card card1">
+        <div class="card-header">
+            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del Responsable</strong>
+        </div>
+        <div class="card-body">
+            <div class="profile-image">
+                <!-- Placeholder para la imagen de perfil -->
+                   <!-- Placeholder para la imagen de perfil -->
+                   {% if paciente.foto %}
+                   <img src="{{ paciente.foto.url }}"  alt="Foto del paciente">
+               {% elif paciente.sexo == "Hombre"%}
+                   <img src="{% static 'img/users/user_male.png' %}" alt="Foto del paciente">
+               {% elif paciente.sexo == "Mujer" %}
+                   <img src="{% static 'img/users/user_female.png' %}"  alt="Foto del paciente">
+               {% else %}
+                   <img src="{% static 'img/usuariono.png' %}"  alt="Foto del paciente">
+
+               {% endif %} 
+            
+            </div>
+            <div class="profile-details">
+                <h3>{{paciente.get_full_name}}</h3>
+                <p><i class="fas fa-phone"></i> +52 {{paciente.celular}}</p>
+                <p><i class="fas fa-envelope"></i> {{paciente.email}}</p>
+            </div>
+            <div class="action-buttons">
+                <button class="action-button edit">
+                    <i class="fas fa-edit"></i> 
+                    <span class="d-none d-md-inline">Editar</span>
+                </button>
+                <button class="action-button delete">
+                    <i class="fas fa-trash-alt"></i> 
+                    <span class="d-none d-md-inline">Desactivar</span>
+                </button>
+            </div>
+            
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Contenedor principal -->
+<div class="container mt-2">
+    <div class="card card1">
+        <!-- ... Encabezado y cuerpo de la tarjeta existente ... -->
+
+        <!-- Nueva sección de Información Adicional -->
+        <div class="additional-info">
+            <!-- Columna izquierda -->
+            <div class="info-column">
+                <div class="info-block">
+                    <h3><i class="fas fa-envelope"></i> Email:</h3>
+                    <p>ivansz123@gmail.com</p>
+                </div>
+                <div class="info-block">
+                    <h3><i class="fas fa-home"></i> Dirección:</h3>
+                    <p>jesus carranza apizaco</p>
+                </div>
+                <!-- Agrega más bloques de información según sea necesario -->
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="info-column">
+                <div class="info-block">
+                    <h3><i class="fas fa-user"></i> Genero:</h3>
+                    <p>Male</p>
+                </div>
+                <div class="info-block">
+                    <h3><i class="fas fa-birthday-cake"></i> Fecha de nacimiento:</h3>
+                    <p>Jan 09, 1998</p>
+                </div>
+                <!-- Agrega más bloques de información según sea necesario -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-house-chimney-medical" style="color: #239db9;"></i> <strong>Clinicas Asociadas</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarPlan">
+                <i class="fas fa-plus-circle"></i>
+                <span class="d-none d-md-inline">Añadir Clínica</span> 
+            </button>
+            
+
+      
+            
+            <div class="table-responsive mt-3"> <!-- Contenedor responsivo para la tabla -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Horario</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for clinica in paciente.clinicas.all %}
+                            <tr>
+                                <td>{{ clinica.nombre }}</td>
+                                <td>{{ clinica.direccion }}</td>
+                                <td>{{ clinica.telefono }}</td>
+                                <td>{{ clinica.horario }}</td>
+                                <td> 
+                                    <form action="{% url 'eliminar_relacion_clinica' user_id=paciente.id clinica_id=clinica.id %}" method="post" class="form-eliminar-relacion">
+                                        {% csrf_token %}
+                                        <button type="button" class="btn btn-sm btn-icon1 btn-eliminar" data-clinicaid="{{ clinica.id }}">
+                                            <i class="fas fa-trash"></i>
+                                            <span class="d-none d-md-inline">Eliminar relación</span>
+                                        </button>
+                                    </form>
+                                
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.btn-eliminar'); // Selecciona todos los botones de eliminar
+        
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    const clinicaId = this.getAttribute('data-clinicaid'); // Obtiene el ID de la clínica desde el atributo data-clinicaid
+        
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.closest('form').submit(); // Encuentra el formulario más cercano y lo envía
+                        }
+                    })
+                });
+            });
+        });
+        </script>
+
+
+        <!-- Modal -->
+
+        <div class="modal fade" id="modalAgregarPlan" tabindex="-1" role="dialog" aria-labelledby="modalAgregarPlanTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAgregarPlanLongTitle">Agregar clinica al responsable</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{% url 'agregar_clinica_responsable' paciente.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <select name="clinicas" multiple="multiple" class="form-control select2">
+                                {% for clinica in clinicas %}
+                                    <option value="{{ clinica.id }}">{{ clinica.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+
+        
+{% endblock content %}
+
+{% block script1 %}
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+<script src="{% static "plugins/select2/js/select2.full.min.js" %}"></script>
+
+<script src="{% static "dist/js/adminlte.min.js" %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+
+<script>
+    $(function () {
+        $('.select2').select2()
+      });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Selecciona una clínica", // Añade el texto del placeholder
+                allowClear: true, // Permite limpiar la selección
+                width: '100%' // Asegura que Select2 ocupe todo el ancho del contenedor
+            });
+        });
+        </script>
+        
+{% endblock script1 %}

@@ -46,46 +46,47 @@
 
 {% if es_dentista or es_asistente%}
     <div class="row">
-        <div class="col-lg-4 col-md-6 mb-4" >
+        <div class="col-lg-4 col-sm-12" >
             <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
-                    <a style="font-size: xx-large;">Número de pacientes</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a style="font-size: xx-large;">Pacientes</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_pacientes }}</a>
+                    <a href="{% url "ver_pacientes" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 mb-4">
+
+        <div class="col-lg-4 col-sm-12">
             <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
-                    <a style="font-size: xx-large;">Citas próximas</a>
+                    <a style="font-size: xx-large;">Citas</a>
                     <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a href="{% url 'Citas'%}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-6">
+        <div class="col-lg-4 col-sm-12">
             <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-solid fa-phone fa-3x" style="margin-bottom: 45px;"></i>
-                    <a style="font-size: xx-large;">Citas reagendadas</a>
+                    <a style="font-size: xx-large;">Citas proximas</a>
                     <a style="font-size: xx-large;margin-left: 5px;">340</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a href="{% url "Citas" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
     </div>
 
 <div class="row">
-    <div class="col-md-3">
-        <a href="{% url "UserCreateViewPaciente" %}" class="card btn bg-info" style="text-decoration: none;">
-            <div class="card-body">
-                <i class="fa-solid fa-user-plus fa-6x" style="float: left;"></i>
-                <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir paciente</h2>
+    <div class="col-lg-3">
+        <a href="{% url "UserCreateViewPaciente" %}" class="card bg-info" style="width: 100%; height: auto;">
+            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                <i class="fa-solid fa-user-plus fa-6x"></i>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Registrar paciente</h2>
             </div>
         </a>
     </div>
@@ -94,7 +95,7 @@
         <a href="{% url 'CrearCita'%}" class="card btn bg-info" style="text-decoration: none;">
             <div class="card-body">
                 <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
-                <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir cita</h2>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Añadir cita</h2>
             </div>
         </a>
     </div>
@@ -144,34 +145,34 @@
 </table>
 {% elif es_administrador%}
     <div class="row">
-        <div class="col-lg-4 col-sm-6">
-            <div class="small-box bg-info" style="box-sizing: content-box;">
+        <div class="col-lg-4 col-sm-12">
+            <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-solid fa-stethoscope fa-3x" style="margin-bottom: 45px;" ></i>
-                    <a style="font-size: xx-large;">Doctores</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a style="font-size: xx-large;">Dentistas</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_dentistas }}</a>
+                    <a href="{% url "DentistaListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-sm-6" >
-            <div class="small-box bg-info" style="box-sizing: content-box;">
+        <div class="col-lg-4 col-sm-12" >
+            <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
                     <a style="font-size: xx-large;">Responsables</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
-                    <a href="#" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_responsables }}</a>
+                    <a href="{% url "ResponsableListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-sm-6" >
-            <div class="small-box bg-info" style="box-sizing: content-box;">
+        <div class="col-lg-4 col-sm-12" >
+            <div class="small-box bg-info">
                 <div class="inner">
                     <i class="fa fa-hospital fa-3x" style="margin-bottom: 45px;" ></i>
-                    <a style="font-size: xx-large;">Número de clínicas</a>
-                    <a style="font-size: xx-large; margin-left: 5px;"> 30</a>
+                    <a style="font-size: xx-large;">Clínicas</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_clinicas }}</a>
                     <a href="{% url "clinicas" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
@@ -179,41 +180,85 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-3">
-            <a href="{% url "register_user_dentista" %}" class="card btn bg-info" style="text-decoration: none;">
-                <div class="card-body">
+        <div class="col-lg-3">
+            <a href="{% url "register_user_dentista" %}" class="card btn bg-info" style="width: 100%; height: auto;">
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
                     <i class="fa-solid fa-stethoscope fa-6x" style="float: left;"></i>
-                    <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir Doctor</h2>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Añadir Dentista</h2>
                 </div>
             </a>
         </div>
 
-        <div class="col-sm-3">
-            <a href="{% url "UserCreateViewResponsable" %}" class="card btn bg-info" style="text-decoration: none;">
-                <div class="card-body">
+        <div class="col-lg-3">
+            <a href="{% url "UserCreateViewResponsable" %}" class="card btn bg-info" style=" width: 100%; height: auto;">
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
                     <i class="fa fa-user-plus fa-6x" style="float: left;"></i>
                     <h2 style="font-size: x-large; margin-bottom: 0;">Añadir Responsable</h2>
                 </div>
             </a>
         </div>
 
-        <div class="col-sm-3">
-            <a href="{% url "clinicas" %}" class="card btn bg-info" style="text-decoration: none;">
-                <div class="card-body">
+        <div class="col-lg-3">
+            <a href="{% url "clinicas" %}" class="card btn bg-info" style="width: 100%; height: auto;">
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
                     <i class="fa-solid fa-hospital fa-6x" style="float: left;"></i>
-                    <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir clínica</h2>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Añadir Clínica</h2>
                 </div>
             </a>
         </div>
     </div>
 
+{% elif es_responsable%}
+<div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <i class="fa-solid fa-stethoscope fa-3x" style="margin-bottom: 45px;" ></i>
+                <a style="font-size: xx-large;">Dentistas</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> {{ total_dentistas }}</a>
+                <a href="{% url "DentistaListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12" >
+        <div class="small-box bg-info">
+            <div class="inner">
+                <i class="fa fa-hospital fa-3x" style="margin-bottom: 45px;" ></i>
+                <a style="font-size: xx-large;">Clínicas</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> {{ clinicas_responsable }} </a>
+                <a href="{% url "clinicas" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <a href="{% url "register_user_dentista" %}" class="card btn bg-info" style="width: 100%; height: auto;">
+            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                <i class="fa-solid fa-stethoscope fa-6x" style="float: left;"></i>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Añadir Dentista</h2>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-lg-3">
+        <a href="{% url "UserCreateViewAsistente" %}" class="card btn bg-info" style=" width: 100%; height: auto;">
+            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                <i class="fa fa-user-plus fa-6x" style="float: left;"></i>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Añadir Asistente</h2>
+            </div>
+        </a>
+    </div>
+</div>
 {% else %}
     <div class="row">
         <div class="col-md-3">
-            <a href="#" class="card btn bg-info" style="text-decoration: none;">
+            <a href="{% url "CitaCrear" %}" class="card btn bg-info" style="text-decoration: none;">
                 <div class="card-body">
                     <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
-                    <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Añadir cita</h2>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Añadir cita</h2>
                 </div>
             </a>
         </div>
@@ -222,7 +267,7 @@
             <a href="#" class="card btn bg-info" style="text-decoration: none;">
                 <div class="card-body">
                     <i class="fa-regular fa-clock fa-6x" style="float: left;"></i>
-                    <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Reagendar cita</h2>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Reagendar cita</h2>
                 </div>
             </a>
         </div>
@@ -231,7 +276,7 @@
             <a href="#" class="card btn bg-info" style="text-decoration: none;">
                 <div class="card-body">
                     <i class="fa fa-notes-medical fa-6x" style="float: left;"></i>
-                    <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Historial clinico</h2>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Historial clinico</h2>
                 </div>
             </a>
         </div>
@@ -240,7 +285,7 @@
             <a href="#" class="card btn bg-info" style="text-decoration: none;">
                 <div class="card-body">
                     <i class="fa-solid fa-prescription-bottle-medical fa-6x" style="float: left;"></i>
-                    <h2 style="font-size: x-large; text-align: end; margin-bottom: 0;">Tratamiento</h2>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Tratamiento</h2>
                 </div>
             </a>
         </div>
@@ -254,7 +299,7 @@
         </div>
     </div>
 
-{%endif%}
+    {%endif%}
 {% endblock content %}
 
 

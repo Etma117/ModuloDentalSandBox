@@ -59,6 +59,21 @@ Ver Pacientes
         color: white;
         border-radius: 100%;
     }
+
+    .card1 {
+        /* Estilos existentes para tu tarjeta */
+        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
+    }
+    
+    .card1:before {
+        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
+        height: 4px; /* Ajusta el grosor de la línea aquí */
+        background-color: #239db9; /* Ajusta el color de la línea aquí */
+    }
 </style>
 
 
@@ -67,13 +82,13 @@ Ver Pacientes
 
 <div class="card card1">
     <div class="card-header">
-        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de pacientes </strong>
+        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de Pacientes </strong>
     </div>
     <div class="card-body">
         {% if grupo_paciente_existe %}
 
         {% else %}
-            <a href="{% url "UserCreateViewPaciente" %}" class="btn btn-custom2">Agregar nuevo dentista</a>
+            <a href="{% url "UserCreateViewPaciente" %}" class="btn btn-custom2">Agregar nuevo paciente</a>
 
         {% endif %}
         
@@ -93,7 +108,7 @@ Ver Pacientes
             </thead>
             <tbody>
                 {% for paciente in pacientes %}
-                <tr>
+                <tr onclick="window.location='{% url 'paciente_detail' paciente.id %}'" style="cursor:pointer;">
 
                     {% if paciente.foto  %}
                     <td style="text-align: center; vertical-align: middle;">
@@ -143,28 +158,6 @@ Ver Pacientes
 
 
 
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <!-- Agrega más columnas según lo que desees mostrar -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for paciente in pacientes %}
-        <tr>
-            <td>{{ paciente.get_full_name }}</td>
-            <td>{{ paciente.email }}</td>
-            <!-- Más campos de paciente si es necesario -->
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="2">No hay pacientes registrados.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
 {% endblock contenido %}
 

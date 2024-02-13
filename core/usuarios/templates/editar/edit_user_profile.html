@@ -36,9 +36,6 @@ Editar datos del Usuario
 <style>
 
     .centered-container {
-        margin-top:20px;
-        margin-bottom:40px;
-
         display: flex;
         align-items: center; /* Centrar verticalmente */
         justify-content: center; /* Centrar horizontalmente */
@@ -56,7 +53,6 @@ Editar datos del Usuario
         justify-content: center;
         background-color: #f8f9fa; /* Color de fondo mientras no hay imagen */
         border-radius: 50%; /* Esto hace que la imagen sea redonda */
-
 
     }
     
@@ -188,7 +184,7 @@ Editar datos del Usuario
 
     <div class="card card1">
         <div class="card-header">
-            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Editar Perfil </strong>
+            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Editar perfil </strong>
         </div>
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
@@ -202,7 +198,7 @@ Editar datos del Usuario
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-12 centered-container">
-                                        <div class="image-upload-container mt-5 ">
+                                        <div class="image-upload-container">
                                             <!-- El icono de usuario se mostrará inicialmente -->
                                             {% if customuser.foto %}
                                                 <script>
@@ -232,7 +228,7 @@ Editar datos del Usuario
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 mt-2">
+                                    <div class="col-md-12">
                                         {{ form.foto|as_crispy_field }}
 
                                     </div>
@@ -289,7 +285,7 @@ Editar datos del Usuario
                         </div>
              
 
-                        <button type="submit" class="btn btn-custom2">Registrar Usuario</button>
+                        <button type="submit" class="btn btn-custom2">Actualizar datos</button>
 
                     </div>
 
@@ -305,7 +301,7 @@ Editar datos del Usuario
 
 <div class="card card1 card2 collapsed-card">
     <div class="card-header">
-        <i class="fas fa-solid fa-key fa-2x" style="color: #239db9;"></i> <strong>Cambiar Contraseña</strong>
+        <i class="fas fa-solid fa-key fa-2x" style="color: #239db9;"></i> <strong>Cambiar contraseña</strong>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
             </button>
@@ -315,7 +311,7 @@ Editar datos del Usuario
         <form id="passwordChangeForm" onsubmit="return changePasswordAjax();">
             <!-- Contraseña Actual -->
             <div class="form-group">
-                <label for="id_old_password">Contraseña Actual</label>
+                <label for="id_old_password">Contraseña actual</label>
                 <div class="input-group">
                     <input type="password" class="form-control" id="id_old_password" name="old_password" required>
                     <div class="input-group-append">
@@ -327,7 +323,7 @@ Editar datos del Usuario
             </div>
             <!-- Nueva Contraseña -->
             <div class="form-group">
-                <label for="id_new_password1">Nueva Contraseña</label>
+                <label for="id_new_password1">Nueva contraseña</label>
                 <div class="input-group">
                     <input type="password" class="form-control" id="id_new_password1" name="new_password1" required>
                     <div class="input-group-append">
@@ -342,7 +338,7 @@ Editar datos del Usuario
 
             <!-- Confirmar Nueva Contraseña -->
             <div class="form-group">
-                <label for="id_new_password2">Confirmar Nueva Contraseña</label>
+                <label for="id_new_password2">Confirmar nueva contraseña</label>
                 <div class="input-group">
                     <input type="password" class="form-control" id="id_new_password2" name="new_password2" required>
                     <div class="input-group-append">
@@ -378,10 +374,10 @@ Editar datos del Usuario
     <div class="card-header">
 
         {% if not preguntas_configuradas %}
-        <i class="fas fa-solid fa-question fa-2x" style="color: #F6C344;"></i> <strong>Preguntas de Seguridad</strong>
+        <i class="fas fa-solid fa-question fa-2x" style="color: #F6C344;"></i> <strong>Preguntas de seguridad</strong>
 
         {% else %}
-        <i class="fas fa-solid fa-question fa-2x" style="color: #239db9;"></i> <strong>Preguntas de Seguridad</strong>
+        <i class="fas fa-solid fa-question fa-2x" style="color: #239db9;"></i> <strong>Preguntas de seguridad</strong>
 
         {% endif %}
 
@@ -396,8 +392,8 @@ Editar datos del Usuario
         <div class="card mt-3">
 
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Pregunta de Seguridad 1: {{ user.get_pregunta_seguridad_1_display }}</li>
-                <li class="list-group-item">Pregunta de Seguridad 2: {{ user.get_pregunta_seguridad_2_display }}</li>
+                <li class="list-group-item">Pregunta de seguridad 1: {{ user.get_pregunta_seguridad_1_display }}</li>
+                <li class="list-group-item">Pregunta de seguridad 2: {{ user.get_pregunta_seguridad_2_display }}</li>
             </ul>
         </div>
         
@@ -405,7 +401,7 @@ Editar datos del Usuario
                 <form id="security-questions-form" method="post" class="needs-validation mt-3" novalidate>
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="pregunta_seguridad_1" class="form-label">Pregunta de Seguridad 1:</label>
+                        <label for="pregunta_seguridad_1" class="form-label">Pregunta de seguridad 1:</label>
                         <select name="pregunta_seguridad_1" id="pregunta_seguridad_1" class="form-select" required>
                             <option value="" selected>Selecciona una pregunta</option>
                             {% for value, text in preguntas_seguridad_1 %}
@@ -425,7 +421,7 @@ Editar datos del Usuario
                     </div>
             
                     <div class="mb-3">
-                        <label for="pregunta_seguridad_2" class="form-label">Pregunta de Seguridad 2:</label>
+                        <label for="pregunta_seguridad_2" class="form-label">Pregunta de seguridad 2:</label>
                         <select name="pregunta_seguridad_2" id="pregunta_seguridad_2" class="form-select" required>
                             <option value="" selected>Selecciona una pregunta</option>
                             {% for value, text in preguntas_seguridad_2 %}
@@ -444,7 +440,7 @@ Editar datos del Usuario
                         </div>
                     </div>
             
-                    <button type="submit" class="btn btn-primary">Actualizar Preguntas</button>
+                    <button type="submit" class="btn btn-primary">Actualizar preguntas</button>
                 </form>      
         {% endif %}
 
@@ -464,7 +460,7 @@ Editar datos del Usuario
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="cameraModalLabel">Captura de Foto</h5>
+          <h5 class="modal-title" id="cameraModalLabel">Captura de foto</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

@@ -212,17 +212,28 @@ color: #63192B;
   margin-bottom: 0;
 }
 
+
+/* COLORES DE BOTONES  */
 .btn-icon1 {
-  background-color: #922E41; 
-  color: white; 
-  border-color: #922E41; 
+  background-color: #CB444B;
+  color: white;
+  border-color: #CB444B;
+  transition: all 0.3s ease; /* Suaviza la transición de colores */
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2); /* Añade una sombra ligera para profundidad */
+  border-radius: 5px; /* Bordes redondeados */
 }
 
-.btn-icon1:hover {
+.btn-icon1:hover, .btn-icon1:focus {
   color: white;
-  background-color: #621e33; 
-  border-color: #621e33; 
+  background-color: #822b30;
+  border-color: #822b30;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Sombra más prominente al pasar el mouse o enfocar */
+  transform: translateY(-2px); /* Eleva ligeramente el botón */
 }
+
+
+
+/* FIN DE BOTONES DE COLORES  */
 
 .select2-container {
   display: block; }

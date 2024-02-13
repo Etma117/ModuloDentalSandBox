@@ -22,7 +22,7 @@ class CustomUser(AbstractUser):
 
     tipo_usuario = models.CharField(choices=TIPOS_USUARIO, max_length=15)
     fecha_nacimiento = models.DateField(null=True, blank=True)
-    numero = models.CharField(max_length=15, null=True, blank=True)
+    numero = models.CharField(max_length=15, null=True, blank=True, verbose_name='No. celular')
     foto = models.ImageField(upload_to='usuarios/fotos/', null=True, blank=True)
     clinicas = models.ManyToManyField(Clinica)
     
@@ -35,13 +35,19 @@ class CustomUser(AbstractUser):
         verbose_name='Creado por'
     )
 
+    def contar_clinicas_asignadas(self):
+        if self.tipo_usuario == 'responsable':
+            return self.clinicas.count()
+        else:
+            return 0
+
     SEX_CHOICES = [
         ('Hombre', 'Hombre'),
         ('Mujer', 'Mujer'),
         # Puedes agregar más opciones si es necesario
     ]
-    sexo = models.CharField(max_length=10, choices=SEX_CHOICES, blank=True)
-    fecha_nacimiento = models.DateField(null=True, blank=True)
+    sexo = models.CharField(max_length=10, choices=SEX_CHOICES, blank=True, verbose_name='Genero')
+    fecha_nacimiento = models.DateField(null=True, blank=True, verbose_name='Fecha de nacimiento')
 
     PREGUNTAS_SEGURIDAD_1 = [
         ('nombre_primera_mascota', '¿Cuál es el nombre de tu primera mascota?'),
@@ -63,7 +69,12 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
     
+class AsistenteDentista(models.Model):
+    asistente = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='asistente_dentistas')
+    dentista = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='dentista_asistentes')
 
+    def __str__(self):
+        return f"{self.asistente.username} asiste a {self.dentista.username}"
 
 class Administrador(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)

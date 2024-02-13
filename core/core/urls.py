@@ -29,7 +29,7 @@ urlpatterns = [
     path("clinicas/", include('clinicas.urls')),
 
     path('accounts/', include('django.contrib.auth.urls')),
-
+    path('citas/', include('citas.urls')),
 
 ]
 if settings.DEBUG:
