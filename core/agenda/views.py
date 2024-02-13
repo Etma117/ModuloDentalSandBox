@@ -71,11 +71,21 @@ class CitaCrearView(CreateView):
     success_url = reverse_lazy('Agenda')
 
     def form_valid(self, form):
-        # Asignar la clínica al calendario de citas
-        #clinica = self.request.user.clinica  # Ajusta según cómo obtienes la clínica del usuario
-        #form.instance.calendar = clinica.citas_dentales_calendar  # Ajusta según la relación real en tu modelo
-        return super().form_valid(form)
+        # Obtén los datos del formulario
+        start = form.cleaned_data['start']
+        end = form.cleaned_data['end']
 
+        # Verifica si hay una cita existente en el mismo horario con estado 'aprobado'
+        if Cita.objects.filter( #usar el calendario de citas de clinca y/o dentista
+                start__lt=end,
+                end__gt=start,
+                estado_cita='Aprobada'
+        ).exists():
+            form.add_error(None, 'Ya hay una cita aprobada en ese horario.')
+            return self.form_invalid(form)
+
+        # Llama al método form_valid del padre para guardar la cita
+        return super().form_valid(form)
 
 class CitaEditarView(UpdateView):
     model = Cita
