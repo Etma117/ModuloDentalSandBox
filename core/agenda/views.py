@@ -23,8 +23,8 @@ class EventosView(ListView):
         context = super().get_context_data(**kwargs)
         calendars = Calendar.objects.all()
         events = Event.objects.filter(calendar__in=calendars)
-        non_working_calendar = Calendar.objects.get(name="Dias No Laborables")
-        dentista_calendario= Calendar.objects.get(name="Horario Dentista")
+        non_working_calendar = Calendar.objects.get(name="Calendario Emill 2") #calendario de la clinica para dias no laborables y horario general - tomar del usuario
+        dentista_calendario= Calendar.objects.get(name="Horario Dentista") #calendario del dentista y horario del mismo - Tomar del campo dentista
 
         context['events_json'] = self.serialize_events(events, non_working_calendar, dentista_calendario)
         return context
