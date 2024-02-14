@@ -1,0 +1,169 @@
+{% load static %}
+{% load allauth account %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="{% static 'css/login/loginStyle.css' %}?V1.1" />
+    <title>Registro e Inicio </title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="forms-container">
+        
+        <div class="signin-signup">
+          
+     
+
+      
+          {% url 'account_login' as login_url %}
+              <form method="post" action="{{ login_url }}" class="sign-in-form">
+                {% if form.errors %}
+                <div  class="alert alert-danger">
+                  Tus credenciales no son válidas. Por favor intenta de nuevo.
+                </div>
+                {% endif %}
+                  {% csrf_token %}
+                  <h2 class="title">Iniciar Sesión</h2>
+                  <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    {{ form.login }}
+                    </div>
+                    <!-- Campo de Contraseña -->
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        {{ form.password }}
+                    </div>
+                    {% if field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ field.errors }}
+                    </div>
+                    {% endif %}
+
+                    <style>
+                        .recuperar-contrasena {
+                            color: #5c6bc0; /* Cambia el color a uno más llamativo */
+                            font-weight: bold; /* Hace que la fuente sea negrita */
+                            text-decoration: none; /* Elimina el subrayado del enlace */
+                            margin-top: 10px; /* Añade un poco de margen en la parte superior */
+                            display: inline-block; /* Hace que el enlace sea en bloque para controlar mejor los márgenes */
+                            transition: color 0.3s; /* Efecto de transición suave para los cambios de color */
+                        }
+                        
+                        .recuperar-contrasena:hover {
+                            color: #7e57c2; /* Cambia el color cuando el mouse está encima */
+                            text-decoration: underline; /* Subraya el enlace al pasar el mouse */
+                        }
+                        </style>
+                  <!-- Renderizar campo oculto si redirect_field_value está presente -->
+                  {% if redirect_field_value %}
+                      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                  {% endif %}
+          
+                  <!-- Botón de envío -->
+                  <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                  <p class="social-text">O Inicia Sesión con una Red Social</p>
+                  <div class="social-media">
+                    <a href="#" class="social-icon">
+                      <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                      <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                      <i class="fab fa-google"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                      <i class="fab fa-linkedin-in"></i>
+                    </a>
+                  </div>
+                  <a href="{% url 'recover_password' %}" class="recuperar-contrasena">
+                    <i class="fas fa-question-circle"></i> Recuperar Contraseña
+                    </a>
+                </form>
+          
+     
+         
+  
+          <form action="#" class="sign-up-form">
+            <h2 class="title">Registrarse</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Nombre de Usuario" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="Correo Electronico" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Contraseña" />
+            </div>
+            <input type="submit" class="btn" value="Registrarse" />
+            <p class="social-text">O Registrate con una Red Social</p>
+            <div class="social-media">
+              <a href="#" class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-google"></i>
+              </a>
+              <a href="#" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+
+      <div class="panels-container">
+        <div class="panel left-panel">
+          <div class="content">
+            <h3>¿ Nuevo Aquí ?</h3>
+            <p>
+              Registrate para empezar una nueva vida con una mejor y espléndida sonrisa
+            </p>
+            <button class="btn transparent" id="sign-up-btn">
+              Registrarse
+            </button>
+          </div>
+          <img src="{% static 'img/register/img1.png' %}" class="image" alt="" />
+        </div>
+        <div class="panel right-panel">
+          <div class="content">
+            <h3>¿ Ya estás Registrado ?</h3>
+            <p>
+              Inicia sesión para continuar maravillando a todos con una gran sonrisa
+            </p>
+            <button class="btn transparent" id="sign-in-btn">
+              Iniciar Sesión
+            </button>
+          </div>
+          <img src="{% static 'img/register/img2.png' %}" class="image" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js//login/app.js' %}"></script>
+  </body>
+
+    
+
+
+</html>
+
+

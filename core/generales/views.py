@@ -127,4 +127,4 @@ def login_redirect(request):
     if request.user.is_authenticated:
         return redirect('home')  # O el nombre de la URL del menú
     else:
-        return redirect(reverse('login'))  
+        return redirect(reverse('account_login'))  
