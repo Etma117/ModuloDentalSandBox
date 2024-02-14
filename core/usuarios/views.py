@@ -215,7 +215,6 @@ class UserCreateViewResponsable(CreateView):
             clinica = Clinica.objects.get(id=clinica_id)
             clinica.responsables.add(user)
         
-        messages.success(self.request, f"El responsable se ha creado y asignado a la clínica {clinica}.")
         messages.success(self.request, "Usuario Responsable creado con éxito.")
         return super().form_valid(form)
     

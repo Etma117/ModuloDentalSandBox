@@ -14,6 +14,15 @@ class Clinicas(ListView):
     template_name = 'clinicas.html'
     context_object_name = 'clinica'
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            usuario_actual = self.request.user
+            if usuario_actual.tipo_usuario == 'responsable':
+                return usuario_actual.clinicas.all()
+            elif usuario_actual.tipo_usuario == 'administrador':
+                return Clinica.objects.all()
+        return Clinica.objects.none()
+
 class clinicaCrear(CreateView):
     model = Clinica
     template_name = 'nuevaClinica.html'
@@ -48,7 +57,7 @@ class eliminarClinica(DeleteView):
 
 class editarClinica(UpdateView):
     model = Clinica
-    template_name = 'nuevaClinica.html'
+    template_name = 'editarClinica.html'
     form_class = clinicaForm
     context_object_name = 'clinica'
     success_url = reverse_lazy('clinicas')

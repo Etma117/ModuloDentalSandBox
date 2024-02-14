@@ -25,7 +25,7 @@
             </div>
             <p></p>
             <div>
-                <a style="font-size: large;">Responsable de la Clínica: {{ responsable_clinica }}</a>
+                <a style="font-size: large;">Responsable de la Clínica: {{ clinica.responsables }}</a>
             </div>
         </div>
     </div>
@@ -46,61 +46,28 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>Hora</th>
-                            <th>Lunes</th>
-                            <th>Martes</th>
-                            <th>Miércoles</th>
-                            <th>Jueves</th>
-                            <th>Viernes</th>
+                            {% for dia in clinica.dias_true %}
+                                <th>{{ dia }}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
                         {% for hora in clinica.generar_horas_entre %}
-                        <tr>
-                            <td>{{ hora|time:"H:i" }}</td>
+                        <tr style="text-align: center;">
+                            <td >{{ hora|time:"H:i" }}</td>
+                            {% for dia in clinica.dias_true %}
+                                {% if hora|time:"H" <= "10" %}
+                                    <td>Dentista 1</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endfor %}
                         </tr>
                         {% endfor %}
+                        <tr>
+                            
+                        </tr>
                     </tbody>
-                    <!--
-                    <tr style="text-align: center;">
-                        <td>{{clinica.hora_inicio}}</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>11:00 - 12:00</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>{{clinica.hora_fin}}</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>1:00 - 2:00</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>2:00 - 3:00</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr> -->
                 </table>
             </div>
         </div>

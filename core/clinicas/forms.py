@@ -3,6 +3,12 @@ from .models import Clinica
 from usuarios.models import CustomUser
 from django.contrib.auth.models import Group
 
+
+from django import forms
+from .models import Clinica
+from usuarios.models import CustomUser
+from django.contrib.auth.models import Group
+
 class clinicaForm(forms.ModelForm):
     class Meta:
         model = Clinica
@@ -41,3 +47,7 @@ class clinicaForm(forms.ModelForm):
             self.fields['responsables'].queryset = CustomUser.objects.none()
 
         self.fields['responsables'].widget.attrs['class'] = 'select2'
+
+
+
+        
