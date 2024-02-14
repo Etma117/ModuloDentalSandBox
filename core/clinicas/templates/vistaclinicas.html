@@ -25,12 +25,17 @@
             </div>
             <p></p>
             <div>
-                <a style="font-size: large;">Responsable de la Clínica: 
-                    <ul>
-                        {% for responsable in clinica.responsables.all %}
-                            <li>{{ responsable }}</li>
-                        {% endfor %}
-                    </ul>
+                <a style="font-size: large;">
+                    {% if clinica.responsables.all|length == 1 %}
+                        Responsable de la Clínica: {{ clinica.responsables.first.get_full_name }}
+                    {% else %}
+                        Responsables de la Clínica: 
+                        <ul>
+                            {% for responsable in clinica.responsables.all %}
+                            <li>{{ responsable.get_full_name }}</li>
+                            {% endfor %}
+                         </ul>
+                    {% endif %}
                 </a>
             </div>
         </div>

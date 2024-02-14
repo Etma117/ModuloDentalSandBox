@@ -31,7 +31,7 @@ Clinicas
     <div class="col-md-3">
         
         <div class="card" style="background: #0289A8; border-radius: 25px;">
-            <a href="{% url 'vistaClinicas'%}">
+            <a href="{% url 'vistaClinicas' clinica_id=clinica.id %}">
                 <div class="card-body text-center">
                     <img src="{{ clinica.logo.url }}" alt="Logo de la Clinica" style="width: 230px; height: 230px; max-width:100%;">
                     <h3 class="text-white mt-3">{{ clinica.nombre }}</h3>

@@ -18,6 +18,7 @@ class clinicaCrear(CreateView):
     success_url = reverse_lazy('clinicas')
 
 class vistaClinica(DetailView):
+    model = Clinica
     template_name = 'vistaClinicas.html'
 
     def get(self, request, clinica_id, *args, **kwargs):
