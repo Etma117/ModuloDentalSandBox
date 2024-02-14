@@ -31,8 +31,8 @@ class clinicaForm(forms.ModelForm):
             'jueves': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'viernes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'sabado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'hora_inicio' : forms.TextInput(attrs={'placeholder':'Ej: 12:00:00'}),
-            'hora_fin' : forms.TextInput(attrs={'placeholder':'Ej: 18:00:00'}),     
+            'hora_inicio' : forms.TextInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),
+            'hora_fin' : forms.TextInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),     
         } 
    # def __init__(self, *args, **kwargs):
     #    super().__init__(*args, **kwargs)
