@@ -70,4 +70,4 @@ class clinicaForm(forms.ModelForm):
 
         responsables_group = Group.objects.get(name='Responsable')
         self.fields['responsables'].queryset = CustomUser.objects.filter(groups=responsables_group)
-        self.fields['res
+        

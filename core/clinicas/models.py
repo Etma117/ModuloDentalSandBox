@@ -14,8 +14,8 @@ class Clinica(models.Model):
     hora_fin = models.TimeField(null=True, blank=True)
     responsables = models.ForeignKey('usuarios.CustomUser', on_delete=models.SET_NULL, null=True, blank=True)
     logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg')
-    responsables = models.ManyToManyField('usuarios.CustomUser')  # Cambio aquí
-    logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg', blank=True, null=True)
+    #responsables = models.ManyToManyField('usuarios.CustomUser')  # Cambio aquí
+    #logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg', blank=True, null=True)
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
     numero_consultorios = models.IntegerField(null=True)
@@ -53,12 +53,6 @@ class Clinica(models.Model):
         if self.sabado:
             dias_true.append('sábado')
         return dias_true
-
-    #def contar_clinicas_asignadas(cls, responsable):
-        #if responsable.tipo_usuario == 'responsable':
-            #return cls.objects.filter(responsable=responsable).count()
-        #else:
-             #return 0
     
     def __str__(self):
         return self.nombre
