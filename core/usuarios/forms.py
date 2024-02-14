@@ -175,6 +175,8 @@ class CustomUserCreationFormDentista(UserCreationForm):
         self.fields['last_name'].label = 'Apellido Paterno'
         self.fields['apellido_materno'].label = 'Apellido Materno'
         self.fields['direccion'].widget.attrs['placeholder'] = 'Ej. Av Moctezuma'
+        self.fields['direccion'].widget.label = 'Ej. Av Moctezuma'
+
         self.fields['celular'].widget.attrs['placeholder'] = 'Numero de Celular'
         self.fields['telefono_fijo'].widget.attrs['placeholder'] = 'Numero de Teléfono'
 
@@ -209,6 +211,18 @@ class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
         widget=forms.TextInput(),
     )
 
+
+
+    direccion = forms.CharField(
+        label="Dirección:",
+        widget=forms.TextInput(),
+    )
+    
+
+    telefono_fijo = forms.CharField(
+        label="Teléfono fijo:",
+        widget=forms.TextInput(),
+    )
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'email', 'foto', 
@@ -220,6 +234,7 @@ class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
             'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
             'apellido_materno': forms.TextInput(attrs={'placeholder': 'Apellido Materno'}),
             'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
+
             'celular': forms.TextInput(attrs={'placeholder': 'Celular'}),
             'telefono_fijo': forms.TextInput(attrs={'placeholder': 'Teléfono Fijo'}),
             'sexo': forms.Select(attrs={'placeholder': 'Sexo'}),
