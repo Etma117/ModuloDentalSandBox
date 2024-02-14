@@ -65,16 +65,7 @@ class CitaForm(forms.ModelForm):
         dentista_group = Group.objects.get(name='Dentista')
         self.fields['dentista'].queryset = CustomUser.objects.filter(groups=dentista_group)
 
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super(CitaForm, self).__init__(*args, **kwargs)
-
-        # Verificar el tipo de usuario y ajustar el estado de la cita en consecuencia
-        if self.user:
-            if  self.request.user.groups.filter(name='Dentista').exists():
-                self.fields['estado_cita'].initial = 'Aprobada'
-            elif self.request.user.groups.filter(name='Paciente').exists():
-                self.fields['estado_cita'].initial = 'Espera' #corregir
+    
 
 
 class CitaEditarForm(forms.ModelForm):
