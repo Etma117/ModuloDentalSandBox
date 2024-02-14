@@ -15,7 +15,7 @@ class Clinica(models.Model):
     hora_inicio = models.TimeField(null=True, blank=True)
     hora_fin = models.TimeField(null=True, blank=True)
     responsables = models.ManyToManyField('usuarios.CustomUser', blank=True)
-    logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg', blank=True, null=True)
+    logo = models.ImageField(upload_to='clinicas/', blank=True, null=True)
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
     numero_consultorios = models.IntegerField(null=True , validators=[MinValueValidator(1)],help_text="Número de consultorios en la clínica (debe ser no negativo)")
