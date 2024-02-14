@@ -41,86 +41,79 @@ Añadir Clínica
                                         <!-- El icono de usuario se mostrará inicialmente -->
                                         <i class="fas fa-user image-icon"></i>
                                         <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
-                                        <div class="image-upload-overlay">
-
-
-                                            <button type="button" id="deletePhoto" class="btn btn-danger">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12 mt-2">
                                     {{ form.logo|as_crispy_field }}
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-6">
-                            <div>
+                            <div style="margin: 0 20px;">
                                 {{ form.nombre|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div >
+                            <div style="margin: 0 20px;">
                                 {{ form.direccion|as_crispy_field }}
                             </div>
                         </div>
                     </div>
-
-
                     <div class="row">
                         <div class="col-md-6">
-                            <div >
+                            <div style="margin: 0 20px;">
                                 {{ form.telefono|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div >
+                            <div style="margin: 0 20px">
                                 {{form.correo_electronico|as_crispy_field}}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div>
+                            <div style="margin: 0 20px">
                                 {{form.numero_consultorios|as_crispy_field}}
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div >
+                        <div class="col-md-4">
+                            <div style="margin: 0 20px;">
                                 {{ form.hora_inicio|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div >
+                        <div class="col-md-4">
+                            <div style="margin: 0 20px;">
                                 {{ form.hora_fin|as_crispy_field }}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <div>
+                            Servicios Ofrecidos
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px">
                                 {{form.equipamiento|as_crispy_field}}
                             </div>
                         </div>
-
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             
                         </div>
                         <div class="col-md-6">
                             <div>
-                                
+                               {{form.responsables|as_crispy_field}} 
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                       <label>  Dias Laborables </label>
+                       <label style="margin: 0 20px">  Dias Laborables </label>
                     </div>
                     <div class="row">
                         <div class="col-md-2">
@@ -164,10 +157,6 @@ Añadir Clínica
                             <a class="btn btn-danger btn-lg" href="{% url 'clinicas' %}" style="width: 108px; margin-top: 5px;">Cancelar</a>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-custom2">Registrar clínica</button>
-                    <a class="btn btn-custom3 " href="{% url 'clinicas' %}" >Cancelar</a>
-
-                 
                 </div>
 
             </div>

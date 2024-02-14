@@ -31,11 +31,18 @@ class clinicaForm(forms.ModelForm):
             'jueves': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'viernes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'sabado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'hora_inicio' : forms.TextInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),
-            'hora_fin' : forms.TextInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),     
+            'hora_inicio' : forms.TimeInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),
+            'hora_fin' : forms.TimeInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),     
         } 
-   # def __init__(self, *args, **kwargs):
-    #    super().__init__(*args, **kwargs)
+   
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-     #   responsables_group = Group.objects.get(name='Responsable')
-      #  self.fields['responsable'].queryset = CustomUser.objects.filter(groups=responsables_group)
+        try:
+            responsables_group = Group.objects.get(name='Responsable')
+            self.fields['responsables'].queryset = CustomUser.objects.filter(groups=responsables_group)
+        except Group.DoesNotExist:
+            # Si el grupo 'Responsable' no existe, se asigna un queryset vacío
+            self.fields['responsables'].queryset = CustomUser.objects.none()
+
+        self.fields['responsables'].widget.attrs['class'] = 'select2'

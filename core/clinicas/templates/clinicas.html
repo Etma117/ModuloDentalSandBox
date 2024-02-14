@@ -4,9 +4,9 @@
 
 
 <a class="btn btn-sm  " href="{% url "home" %}">      
-      <button class="btn-custom">
+    <button class="btn-custom">
         <i class="fas fa-chevron-left"></i>
-      </button>  
+    </button>  
 </a>
 {% endblock dashboard %}
 
@@ -69,8 +69,13 @@ Clinicas
     {% for clinica in clinica %}
     <div class="col-md-3">
         <div class="card card-clinica">
-            <a href="{% url 'vistaClinicas' clinica.id=clinica.id %}" class="text-decoration-none">
+            <a href="{% url 'vistaClinicas' clinica_id=clinica.id %}" class="text-decoration-none">
+                {% if clinica.logo %}
+                <img src="{{clinica.logo.url}}" alt="Logo de la Clínica" class="card-img-top">
+
+                {% else %}
                 <img src="{% static 'img/clinica/clinica.jpg' %}" alt="Logo de la Clínica" class="card-img-top">
+                {% endif %}
                 <div class="card-body text-center">
                     <h3 class="card-title">{{ clinica.nombre }}</h3>
                     <p class="card-text">{{ clinica.direccion }}</p>

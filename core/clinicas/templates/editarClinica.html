@@ -1,8 +1,14 @@
 {% extends 'general/base.html' %}
+{% load static %}   
 
 {% block titulo %}
 Editar Clínica
 {% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">
+<link rel="stylesheet" href="{% static "css/image-upload.css" %}?v1.1">
+{% endblock link %}
 
 {%block content%}
 
@@ -167,7 +173,7 @@ Editar Clínica
                         </div>
                         <div class="col-md-6">
                             <div>
-                                
+                               {{form.responsables|as_crispy_field}} 
                             </div>
                         </div>
                     </div>

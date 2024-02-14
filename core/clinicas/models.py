@@ -10,7 +10,7 @@ class Clinica(models.Model):
     telefono = models.CharField(max_length=20)
     hora_inicio = models.TimeField(null=True, blank=True)
     hora_fin = models.TimeField(null=True, blank=True)
-    responsables = models.ManyToManyField('usuarios.CustomUser', related_name='clinicas_responsables')
+    responsables = models.ManyToManyField('usuarios.CustomUser', related_name='clinicas_responsables', blank=True)
     logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg')
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
