@@ -208,6 +208,14 @@ class UserCreateViewResponsable(CreateView):
         admin_group, created = Group.objects.get_or_create(name='Responsable')
         user.groups.add(admin_group)
 
+
+        # Asigna el usuario a las clínicas seleccionadas
+        clinicas_ids = self.request.POST.getlist('clinicas')  # Asume que recibes los IDs de las clínicas en el POST
+        for clinica_id in clinicas_ids:
+            clinica = Clinica.objects.get(id=clinica_id)
+            clinica.responsables.add(user)
+        
+        messages.success(self.request, f"El responsable se ha creado y asignado a la clínica {clinica}.")
         messages.success(self.request, "Usuario Responsable creado con éxito.")
         return super().form_valid(form)
     
