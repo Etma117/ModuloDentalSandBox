@@ -4,6 +4,7 @@ from clinicas.models import Clinica
 # Create your models here.
 from django.conf import settings
 
+from django.utils.translation import gettext_lazy as _
 
 
 
@@ -19,6 +20,7 @@ class CustomUser(AbstractUser):
     direccion = models.CharField(max_length=255, blank=True)
     celular = models.CharField(max_length=20, blank=True)
     telefono_fijo = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(_('email address'), unique=True)
 
     tipo_usuario = models.CharField(choices=TIPOS_USUARIO, max_length=15)
     fecha_nacimiento = models.DateField(null=True, blank=True)

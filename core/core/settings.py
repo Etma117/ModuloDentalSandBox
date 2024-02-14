@@ -50,9 +50,26 @@ INSTALLED_APPS = [
     'horarios',
     'usuarios',
     'citas',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
     
 ]
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    # backends por defecto de Django
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
@@ -64,14 +81,22 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Agregado aquí
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_auto_logout.middleware.auto_logout',
 
 ]
 
+LOGIN_URL = '/accounts/login/'
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = "home"
+
 ROOT_URLCONF = 'core.urls'
 AUTH_USER_MODEL = 'usuarios.CustomUser'
+
 
 
 TEMPLATES = [
@@ -89,6 +114,10 @@ TEMPLATES = [
                 'usuarios.context_processors.group_context',
                 'usuarios.context_processors.user_profile_picture',
                 'usuarios.context_processors.current_time',
+                
+                'django_auto_logout.context_processors.auto_logout_client',
+                'usuarios.context_processors.auto_logout',
+
 
             ],
         },
@@ -223,7 +252,16 @@ JAZZMIN_SETTINGS = {
 }
 
 
-LOGIN_URL = '/accounts/login/'
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = "home"
+# DJANGO AUTO LOGIN
+AUTO_LOGOUT = {
+    'IDLE_TIME': 20800,  # 10 seconds
+    'SESSION_TIME': 20800,  # 2 minutes
+    'MESSAGE': 'The session has expired. Please login again to continue.',
+    'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+}
+
+SESSION_COOKIE_AGE = 10800  # 30 minutos
+
+# Hacer que la sesión expire al cerrar el navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

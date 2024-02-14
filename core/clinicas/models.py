@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from datetime import datetime, timedelta
 
+
 # Create your models here.
 
 def limitar_opciones():
@@ -13,8 +14,8 @@ class Clinica(models.Model):
     telefono = models.CharField(max_length=20)
     hora_inicio = models.TimeField(null=True, blank=True)
     hora_fin = models.TimeField(null=True, blank=True)
-    responsables = models.ForeignKey('usuarios.CustomUser', on_delete=models.CASCADE, null=True, blank=True,)
-    logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg')
+    responsables = models.ManyToManyField('usuarios.CustomUser', blank=True)
+    logo = models.ImageField(upload_to='clinicas/', blank=True, null=True)
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
     numero_consultorios = models.IntegerField(null=True , validators=[MinValueValidator(1)],help_text="Número de consultorios en la clínica (debe ser no negativo)")
