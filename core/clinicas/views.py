@@ -7,7 +7,7 @@ from .models import Clinica
 from .forms import clinicaForm
 from django.urls import reverse_lazy
 from django.db import transaction
-from usuarios.models import CustomUser
+from django.contrib import messages
 
 class Clinicas(ListView):
     model = Clinica
@@ -40,6 +40,8 @@ class clinicaCrear(CreateView):
             for user_id in responsables_ids:
                 user = CustomUser.objects.get(id=user_id)
                 user.clinicas.add(self.object)
+            
+        messages.success(self.request, 'La clínica ha sido creada con éxito.')
 
         return super().form_valid(form)
 

@@ -68,6 +68,11 @@ class clinicaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        responsables_group = Group.objects.get(name='Responsable')
-        self.fields['responsables'].queryset = CustomUser.objects.filter(groups=responsables_group)
-        
+        try:
+            responsables_group = Group.objects.get(name='Responsable')
+            self.fields['responsables'].queryset = CustomUser.objects.filter(groups=responsables_group)
+        except Group.DoesNotExist:
+            # Si el grupo 'Responsable' no existe, se asigna un queryset vacío
+            self.fields['responsables'].queryset = CustomUser.objects.none()
+
+        self.fields['responsables'].widget.attrs['class'] = 'select2'
