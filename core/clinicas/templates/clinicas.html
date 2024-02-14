@@ -1,5 +1,5 @@
 {% extends 'general/base.html' %}
-
+{% load static %}
 {% block dashboard %}
 
 
@@ -14,9 +14,48 @@
 Clinicas
 {% endblock %}
 
-{%block content%}
+{% block content %}
 
-{% if es_administrador %}
+<style>
+    .card-clinica {
+        border-radius: 25px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        overflow: hidden; /* Asegura que el degradado y la imagen se ajusten a los bordes redondeados */
+        background: linear-gradient(to right, #0289A8, #034f84); /* Degradado de izquierda a derecha */
+    }
+    
+    .card-clinica:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-clinica img {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+    }
+    
+    .card-clinica .card-body {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente para el texto */
+    }
+    
+    .card-clinica .card-title, .card-clinica .card-text {
+        color: #333; /* Color oscuro para contraste */
+    }
+    
+    .card-clinica .card-title {
+        margin-bottom: 5px;
+        font-size: 1.5rem;
+    }
+    
+    .card-clinica .card-text {
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+    </style>
+
+{% if es_administrador  or es_superusuario%}
 <div class="row justify-content-end">
     <div class="col-auto">
         <a class="btn btn-success" style="font-size: 18px; " href="{% url 'nuevaClinica' %}">
@@ -29,17 +68,17 @@ Clinicas
 <div class="row mt-2">
     {% for clinica in clinica %}
     <div class="col-md-3">
-        
-        <div class="card" style="background: #0289A8; border-radius: 25px;">
-            <a href="{% url 'vistaClinicas' clinica_id=clinica.id %}">
+        <div class="card card-clinica">
+            <a href="{% url 'vistaClinicas' clinica.id=clinica.id %}" class="text-decoration-none">
+                <img src="{% static 'img/clinica/clinica.jpg' %}" alt="Logo de la Clínica" class="card-img-top">
                 <div class="card-body text-center">
-                    <img src="{{ clinica.logo.url }}" alt="Logo de la Clinica" style="width: 230px; height: 230px; max-width:100%;">
-                    <h3 class="text-white mt-3">{{ clinica.nombre }}</h3>
+                    <h3 class="card-title">{{ clinica.nombre }}</h3>
+                    <p class="card-text">{{ clinica.direccion }}</p>
                 </div>
             </a>
         </div>
-        
     </div>
     {% endfor %}
-</div>
+</div> 
+
 {% endblock %}

@@ -1,91 +1,32 @@
 {% extends 'general/base.html' %}
+{% load static %}
 
 {% block titulo %}
 Añadir Clínica
 {% endblock %}
 
-{%block content%}
+{% block link %}
+<link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">
+<link rel="stylesheet" href="{% static "css/image-upload.css" %}?v1.1">
+
+{% endblock link %}
+
+{% block dashboard %}
+<a class="btn btn-sm  " href="{% url "home" %}">
+
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>  
+</a>
+{% endblock dashboard %}
+
+{% block content%}
 
 {% load crispy_forms_tags %}
 
-<style>
-    .centered-container {
-        margin-top:20px;
-        margin-bottom:40px;
-
-        display: flex;
-        align-items: center; /* Centrar verticalmente */
-        justify-content: center; /* Centrar horizontalmente */
-        height: 20vh; /* Altura total de la ventana de visualización, ajusta según necesites */
-    }
-    
-    .image-upload-container {
-        position: relative;
-        width: 200px; /* Ajusta al tamaño deseado */
-        height: 200px; /* Ajusta al tamaño deseado */
-        border: 1px solid #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f8f9fa; /* Color de fondo mientras no hay imagen */
-        border-radius: 50%; /* Esto hace que la imagen sea redonda */
-    }
-    
-    .image-icon {
-        font-size: 100px; /* Ajusta al tamaño deseado */
-        color: #6c757d; /* Color del icono */
-        display: block; /* Asegurarse de que se muestre el icono */
-    }
-    
-    .image-preview {
-        display: none; /* Se mostrará después de capturar la foto */
-        width: 100%; /* Ajusta esto si necesitas un tamaño específico */
-        height: 100%; /* Asegúrate de que sea igual al ancho para un círculo perfecto */
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: 50%; /* Esto hace que la imagen sea redonda */
-        border: 5px solid #F0F0F0; /* Ajusta el color y el grosor del borde según sea necesario */
-        object-fit: cover; /* Asegura que la imagen cubra el círculo sin deformarse */
-    }
-    
-    /* ... Resto del CSS ... */
-    
-    .image-upload-overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background: rgba(255, 255, 255, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-        
-    }
-    
-    .card {
-        /* Estilos existentes para tu tarjeta */
-        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
-    }
-    
-    .card:before {
-        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
-        height: 4px; /* Ajusta el grosor de la línea aquí */
-        background-color: #239db9; /* Ajusta el color de la línea aquí */
-    }
-
-</style>
-
 <div class="card">
     <div class="card-header">
-        <h3>Añadir Nueva Clínica</h3>
+        <i class="fas fa-circle-plus " style="color: #239db9;"></i> <strong>Registrar nueva clínica</strong>
     </div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
@@ -100,36 +41,47 @@ Añadir Clínica
                                         <!-- El icono de usuario se mostrará inicialmente -->
                                         <i class="fas fa-user image-icon"></i>
                                         <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
+                                        <div class="image-upload-overlay">
+
+
+                                            <button type="button" id="deletePhoto" class="btn btn-danger">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-12 mt-2">
                                     {{ form.logo|as_crispy_field }}
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="row">
                         <div class="col-md-6">
-                            <div style="margin: 0 20px;">
+                            <div>
                                 {{ form.nombre|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div style="margin: 0 20px;">
+                            <div >
                                 {{ form.direccion|as_crispy_field }}
                             </div>
                         </div>
                     </div>
+
+
                     <div class="row">
                         <div class="col-md-6">
-                            <div style="margin: 0 20px;">
+                            <div >
                                 {{ form.telefono|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div style="margin: 0 20px">
+                            <div >
                                 {{form.correo_electronico|as_crispy_field}}
                             </div>
                         </div>
@@ -140,28 +92,24 @@ Añadir Clínica
                                 {{form.numero_consultorios|as_crispy_field}}
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div style="margin: 0 20px;">
+                        <div class="col-md-6">
+                            <div >
                                 {{ form.hora_inicio|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div style="margin: 0 20px;">
+                        <div class="col-md-6">
+                            <div >
                                 {{ form.hora_fin|as_crispy_field }}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            Servicios Ofrecidos
-                        </div>
-                        <div class="col-md-6">
                             <div>
                                 {{form.equipamiento|as_crispy_field}}
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+
                         <div class="col-md-6">
                             
                         </div>
@@ -216,6 +164,10 @@ Añadir Clínica
                             <a class="btn btn-danger btn-lg" href="{% url 'clinicas' %}" style="width: 108px; margin-top: 5px;">Cancelar</a>
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-custom2">Registrar clínica</button>
+                    <a class="btn btn-custom3 " href="{% url 'clinicas' %}" >Cancelar</a>
+
+                 
                 </div>
 
             </div>
@@ -224,7 +176,32 @@ Añadir Clínica
 </div>
 
 {% endblock %}
+{% block script1 %}
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
+<script src="{% static "plugins/select2/js/select2.full.min.js" %}"></script>
+
+<script src="{% static "dist/js/adminlte.min.js" %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+
+<script>
+    $(function () {
+        $('.select2').select2()
+      });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Selecciona un reponsable", // Añade el texto del placeholder
+                allowClear: true, // Permite limpiar la selección
+                width: '100%' // Asegura que Select2 ocupe todo el ancho del contenedor
+            });
+        });
+        </script>
+{% endblock script1 %}
 {% block script2 %}
 <script>
     document.querySelector('input[name="logo"]').addEventListener('change', function(event) {
@@ -246,6 +223,21 @@ Añadir Clínica
         // Leer el archivo seleccionado y disparar el evento onload después
         reader.readAsDataURL(file);
     });
+    document.getElementById('deletePhoto').addEventListener('click', function() {
+        // Borrar la imagen de la vista previa
+        var photo = document.getElementById('photo');
+        photo.removeAttribute('src');
+        photo.style.display = 'none';
     
+        // Restablecer el valor del campo de entrada de archivo
+        var fileInput = document.querySelector('input[name="logo"]');
+        fileInput.value = '';
+    
+        // Mostrar el icono de usuario predeterminado
+        var imageIcon = document.querySelector('.image-icon');
+        if (imageIcon) {
+            imageIcon.style.display = 'block';
+        }
+    });
 </script>
 {% endblock %}

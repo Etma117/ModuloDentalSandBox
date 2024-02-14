@@ -8,22 +8,23 @@ class clinicaForm(forms.ModelForm):
         model = Clinica
         fields = '__all__'
         labels = {
-            'nombre' : 'Nombre de la Clínica',
-            'telefono' : 'Telefono de la Clínica',
-            #'responsables' : 'Responsable',
-            'correo_electronico' : 'Correo Electrónico',
-            'hora_inicio' : 'Hora de Apertura',
-            'hora_fin' : 'Hora de Cierre',
-            'numero_consultorios' : 'Número de Consultorios',
+            'nombre': 'Nombre de la clínica',
+            'direccion': 'Dirección',
+            'telefono': 'Teléfono',
+            'correo_electronico': 'Correo electrónico',
+            'equipamiento': 'Equipamiento',
+            'numero_consultorios': 'Número de consultorios',
             'logo' : 'Logo de la Clínica'
         }
         widgets = {
-            #'responsables': forms.Select(attrs={'class':'form-control'}),
-            'nombre' : forms.TextInput(attrs={'placeholder' : 'Ej: Clinica San Juan'}),
-            'telefono': forms.TextInput(attrs={'placeholder' : '2411152829'}),
-            'correo_electronico' : forms.TextInput(attrs={'placeholder' : 'Ej: correo@gmail.com'}),
-            'direccion' : forms.TextInput(attrs={'placeholder' : 'Ej: Av. Tecnologico'}),
-            'numero_consultorios': forms.NumberInput(attrs={'min': '1', 'placeholder' : '2'}),
+            'nombre': forms.TextInput(attrs={'placeholder': 'Nombre completo de la clínica'}),
+            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección de la clínica'}),
+            'telefono': forms.TextInput(attrs={'placeholder': 'Número de contacto'}),
+            'hora_inicio': forms.TimeInput(attrs={'placeholder': 'HH:MM', 'type': 'time'}),
+            'hora_fin': forms.TimeInput(attrs={'placeholder': 'HH:MM', 'type': 'time'}),
+            'correo_electronico': forms.EmailInput(attrs={'placeholder': 'ejemplo@clinica.com'}),
+            'equipamiento': forms.TextInput(attrs={'placeholder': 'Descripción del equipamiento'}),
+            'numero_consultorios': forms.NumberInput(attrs={'min': '1', 'placeholder' : 'Cantidad de consultorios'}),
             'lunes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'martes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'miercoles': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
@@ -31,9 +32,8 @@ class clinicaForm(forms.ModelForm):
             'viernes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'sabado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'hora_inicio' : forms.TextInput(attrs={'placeholder':'Ej: 12:00:00'}),
-            'hora_fin' : forms.TextInput(attrs={'placeholder':'Ej: 18:00:00'}),
-        }
-
+            'hora_fin' : forms.TextInput(attrs={'placeholder':'Ej: 18:00:00'}),     
+        } 
    # def __init__(self, *args, **kwargs):
     #    super().__init__(*args, **kwargs)
 

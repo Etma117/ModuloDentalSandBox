@@ -9,6 +9,7 @@ urlpatterns = [
     
     path('menu/', home.as_view(), name="home"),
     path('', homePageView.as_view(), name="homePage"),
+    path('accounts/', include('allauth.urls')),
 
     path('logout/', exit, name='exit'),
     path('recover-password/', recover_password, name='recover_password'),
