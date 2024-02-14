@@ -113,6 +113,13 @@ Añadir Clínica
                     <div class="row">
                         <div class="col-md-6">
                             <div>
+                                {{form.numero_consultorios|as_crispy_field}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
                                 
                             </div>
                         </div>
@@ -147,6 +154,13 @@ Añadir Clínica
                         <div class="col-md-2">
                             <div style="margin: 0 20px;">
                                 {{form.viernes|as_crispy_field}}
+                                
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div style="margin: 0 20px;">
+                                {{form.sabado|as_crispy_field}}
                                 
                             </div>
                         </div>
