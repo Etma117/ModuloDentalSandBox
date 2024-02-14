@@ -91,9 +91,9 @@
         </a>
     </div>
 
-    <div class="col-lg-3">
-        <a href="{% url 'CitaCrear'%}" class="card bg-info" style="width: 100%; height: auto;">
-            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+    <div class="col-md-3">
+        <a href="{% url 'CrearCita'%}" class="card btn bg-info" style="text-decoration: none;">
+            <div class="card-body">
                 <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
                 <h2 style="font-size: x-large; margin-bottom: 0;">Añadir cita</h2>
             </div>
@@ -143,7 +143,7 @@
         
     </tbody>
 </table>
-{% elif es_administrador%}
+{% elif es_administrador or es_superusuario%}
     <div class="row">
         <div class="col-lg-4 col-sm-12">
             <div class="small-box bg-info">

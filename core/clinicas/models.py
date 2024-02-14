@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from datetime import datetime, timedelta
 
 
+
 # Create your models here.
 
 class Clinica(models.Model):
@@ -13,6 +14,8 @@ class Clinica(models.Model):
     hora_fin = models.TimeField(null=True, blank=True)
     responsables = models.ForeignKey('usuarios.CustomUser', on_delete=models.SET_NULL, null=True, blank=True)
     logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg')
+    responsables = models.ManyToManyField('usuarios.CustomUser')  # Cambio aquí
+    logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg', blank=True, null=True)
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
     numero_consultorios = models.IntegerField(null=True)
