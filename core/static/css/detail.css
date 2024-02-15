@@ -67,24 +67,48 @@
 }
 
 .action-button {
-    padding: 5px 10px; /* Ajusta el espacio interno */
-    border: none; /* Sin bordes */
-    background-color: #e7e7e7; /* Fondo neutro */
-    color: #333; /* Color del texto */
-    border-radius: 5px; /* Esquinas redondeadas */
+    padding: 5px 10px;
+    border: none;
+    background-color: #e7e7e7;
+    color: #333;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s; /* Transición suave */
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave para transformación, color de fondo y sombra */
+}
+
+.action-button:hover {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Añade sombra para destacar */
 }
 
 .action-button.edit {
-    background-color: #007bff; /* Fondo azul para editar */
+    background-color: #007bff;
     color: white;
 }
 
+.action-button.edit:hover {
+    background-color: #0056b3; /* Oscurece el color de fondo al pasar el mouse */
+}
+
 .action-button.delete {
-    background-color: #dc3545; /* Fondo rojo para eliminar */
+    background-color: #dc3545;
     color: white;
 }
+
+.action-button.delete:hover {
+    background-color: #b02a37; /* Oscurece el color de fondo al pasar el mouse */
+}
+
+.action-button.active {
+    background-color: #148800;
+    color: white;
+}
+
+.action-button.active:hover {
+    background-color: #0f6b00; /* Oscurece el color de fondo al pasar el mouse */
+}
+
+
 
 .action-button i {
     margin-right: 5px; /* Espacio entre ícono y texto */

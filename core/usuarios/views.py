@@ -19,13 +19,17 @@ from django.views.decorators.http import require_POST
 
 # Local imports
 from .models import CustomUser
-from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
+from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate, UserStatusForm
 from django.views.generic import TemplateView
 # Create your views here.
 
+from django.contrib.auth import get_user_model
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
+
+
+User = get_user_model()
 
 class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin,CreateView):
     model = CustomUser
@@ -396,7 +400,7 @@ class DentistaDetailView(DetailView):
 class ResponsableDetailView(DetailView):
     model = CustomUser
     template_name = 'detalles/detalleResponsable.html'  # Actualiza con tu ruta de plantilla
-    context_object_name = 'paciente'
+    context_object_name = 'responsable'
 
     def get_object(self, queryset=None):
         # Obtén el paciente por su id
@@ -423,6 +427,8 @@ def eliminar_relacion_clinica(request, user_id, clinica_id):
     clinica = get_object_or_404(Clinica, id=clinica_id)
     if request.method == "POST":
         usuario.clinicas.remove(clinica)
+        clinica.responsables.remove(usuario)  # Añade el usuario a la lista de responsables de la clínica
+
         messages.success(request, 'Relación con clínica removida con éxito.')
         return HttpResponseRedirect(reverse('responsable_detail', args=[usuario.id]))
     else:
@@ -438,6 +444,7 @@ def agregar_clinica_a_usuario(request, user_id):
     for clinica_id in clinicas_ids:
         clinica = get_object_or_404(Clinica, id=clinica_id)
         usuario.clinicas.add(clinica)
+        clinica.responsables.add(usuario)  # Añade el usuario a la lista de responsables de la clínica
 
     messages.success(request, 'Clínicas añadidas con éxito.')
     return redirect('responsable_detail', pk=usuario.id)
@@ -445,3 +452,26 @@ def agregar_clinica_a_usuario(request, user_id):
 
 class verOdontograma(TemplateView):
     template_name = 'detalles/odontograma.html'
+
+
+# DESACTIVAR USUARIOS
+    
+@login_required
+def update_user_statusGeneral(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = UserStatusForm(request.POST)
+        if form.is_valid():
+            user.is_active = not user.is_active  # Toggle the user's active status
+            user.save()
+            if user.is_active:
+                messages.success(request, "Usuario activado con éxito.")
+            else:
+                messages.success(request, "Usuario desactivado con éxito.")
+            return redirect('responsable_detail', pk=user_id)  # Pasar 'pk' como argumento
+    else:
+        form = UserStatusForm(initial={'is_active': user.is_active})
+
+    # Puedes redirigir o mostrar un mensaje si el método no es POST
+    messages.error(request, "Método no permitido.")
+    return redirect('responsable_detail', pk=user_id)  # Pasar 'pk' como argumento
