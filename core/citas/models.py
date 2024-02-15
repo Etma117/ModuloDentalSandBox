@@ -49,3 +49,6 @@ class Cita(models.Model):
         self.hora_trabajo.ocupada = False
         self.hora_trabajo.save()
         super().delete(*args, **kwargs)
+
+
+
