@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime, timedelta
 
 
+
 # Create your models here.
 
 class Clinica(models.Model):
@@ -49,12 +50,6 @@ class Clinica(models.Model):
         if self.sabado:
             dias_true.append('sábado')
         return dias_true
-
-    def contar_clinicas_asignadas(cls, responsable):
-        if responsable.tipo_usuario == 'responsable':
-            return cls.objects.filter(responsable=responsable).count()
-        else:
-            return 0
     
     def get_responsables_list(self):
         return self.responsables.all()

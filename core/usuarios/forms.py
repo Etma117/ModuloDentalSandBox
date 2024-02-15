@@ -266,3 +266,9 @@ class CustomUserCreationForm(forms.ModelForm):
 
 class UserRecoveryForm(forms.Form):
     username = forms.CharField(label='Nombre de usuario', max_length=150)
+
+
+# CAMBIAR EL ESTATUS DEL USUARIO 
+class UserStatusForm(forms.Form):
+    # El campo no necesita ser visible, ya que solo se utilizará para cambiar el estado
+    is_active =  forms.BooleanField(widget=forms.HiddenInput(), required=False)

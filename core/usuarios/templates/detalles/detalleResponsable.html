@@ -3,7 +3,7 @@
 
 {% block link %}
     <link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">  
-    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v23">
+    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v23edd34">
 {% endblock link %}
 
 {% block dashboard %}
@@ -21,17 +21,17 @@
 <div class="container mt-4">
     <div class="card card1">
         <div class="card-header">
-            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del Responsable</strong>
+            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del responsable</strong>
         </div>
         <div class="card-body">
             <div class="profile-image">
                 <!-- Placeholder para la imagen de perfil -->
                    <!-- Placeholder para la imagen de perfil -->
-                   {% if paciente.foto %}
-                   <img src="{{ paciente.foto.url }}"  alt="Foto del paciente">
-               {% elif paciente.sexo == "Hombre"%}
+                   {% if responsable.foto %}
+                   <img src="{{ responsable.foto.url }}"  alt="Foto del responsable">
+               {% elif responsable.sexo == "Hombre"%}
                    <img src="{% static 'img/users/user_male.png' %}" alt="Foto del paciente">
-               {% elif paciente.sexo == "Mujer" %}
+               {% elif responsable.sexo == "Mujer" %}
                    <img src="{% static 'img/users/user_female.png' %}"  alt="Foto del paciente">
                {% else %}
                    <img src="{% static 'img/usuariono.png' %}"  alt="Foto del paciente">
@@ -40,19 +40,32 @@
             
             </div>
             <div class="profile-details">
-                <h3>{{paciente.get_full_name}}</h3>
-                <p><i class="fas fa-phone"></i> +52 {{paciente.celular}}</p>
-                <p><i class="fas fa-envelope"></i> {{paciente.email}}</p>
+                <h3>{{responsable.get_full_name}}</h3>
+                <p><i class="fas fa-phone"></i> +52 {{responsable.celular}}</p>
+                <p><i class="fas fa-envelope"></i> {{responsable.email}}</p>
             </div>
             <div class="action-buttons">
                 <button class="action-button edit">
                     <i class="fas fa-edit"></i> 
                     <span class="d-none d-md-inline">Editar</span>
                 </button>
-                <button class="action-button delete">
-                    <i class="fas fa-trash-alt"></i> 
-                    <span class="d-none d-md-inline">Desactivar</span>
-                </button>
+                
+                
+                {% if es_administrador or es_superusuario %}
+                <form action="{% url 'update_user_status_gene' responsable.pk %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="is_active" value="{{ responsable.is_active|yesno:'False,True' }}">
+                  <button type="submit" class="action-button {{ responsable.is_active|yesno:'delete,active' }}">
+                    <i class="fas {{ responsable.is_active|yesno:'fa-toggle-off,fa-toggle-on' }}"></i> 
+                    <span class="d-none d-md-inline">{{ responsable.is_active|yesno:'Desactivar,Activar' }}</span>
+                  </button>
+                </form>
+                {% else %}
+                <span class="badge {{ responsable.is_active|yesno:'badge-success,badge-danger' }}">
+                  {{ responsable.is_active|yesno:'Activo,Inactivo' }}
+                </span>
+                {% endif %}
+                
             </div>
             
 
@@ -73,11 +86,11 @@
             <div class="info-column">
                 <div class="info-block">
                     <h3><i class="fas fa-envelope"></i> Email:</h3>
-                    <p>ivansz123@gmail.com</p>
+                    <p>{{responsable.email}}</p>
                 </div>
                 <div class="info-block">
                     <h3><i class="fas fa-home"></i> Dirección:</h3>
-                    <p>jesus carranza apizaco</p>
+                    <p>{{responsable.direccion}}</p>
                 </div>
                 <!-- Agrega más bloques de información según sea necesario -->
             </div>
@@ -86,11 +99,11 @@
             <div class="info-column">
                 <div class="info-block">
                     <h3><i class="fas fa-user"></i> Genero:</h3>
-                    <p>Male</p>
+                    <p>{{responsable.sexo}}</p>
                 </div>
                 <div class="info-block">
                     <h3><i class="fas fa-birthday-cake"></i> Fecha de nacimiento:</h3>
-                    <p>Jan 09, 1998</p>
+                    <p>{{responsable.fecha_nacimiento}}</p>
                 </div>
                 <!-- Agrega más bloques de información según sea necesario -->
             </div>
@@ -101,7 +114,7 @@
 <div class="container mt-4">
     <div class="card card1 card2 collapsed-card">
         <div class="card-header">
-            <i class="fas fa-house-chimney-medical" style="color: #239db9;"></i> <strong>Clinicas Asociadas</strong>
+            <i class="fas fa-house-chimney-medical" style="color: #239db9;"></i> <strong>Clinicas asociadas</strong>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
             </div>
@@ -109,7 +122,7 @@
         <div class="card-body">
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarPlan">
                 <i class="fas fa-plus-circle"></i>
-                <span class="d-none d-md-inline">Añadir Clínica</span> 
+                <span class="d-none d-md-inline">Añadir clínica</span> 
             </button>
             
 
@@ -127,14 +140,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for clinica in paciente.clinicas.all %}
+                        {% for clinica in responsable.clinicas.all %}
                             <tr>
                                 <td>{{ clinica.nombre }}</td>
                                 <td>{{ clinica.direccion }}</td>
                                 <td>{{ clinica.telefono }}</td>
                                 <td>{{ clinica.horario }}</td>
                                 <td> 
-                                    <form action="{% url 'eliminar_relacion_clinica' user_id=paciente.id clinica_id=clinica.id %}" method="post" class="form-eliminar-relacion">
+                                    <form action="{% url 'eliminar_relacion_clinica' user_id=responsable.id clinica_id=clinica.id %}" method="post" class="form-eliminar-relacion">
                                         {% csrf_token %}
                                         <button type="button" class="btn btn-sm btn-icon1 btn-eliminar" data-clinicaid="{{ clinica.id }}">
                                             <i class="fas fa-trash"></i>
@@ -198,7 +211,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{% url 'agregar_clinica_responsable' paciente.id %}" method="post">
+                    <form action="{% url 'agregar_clinica_responsable' responsable.id %}" method="post">
                         {% csrf_token %}
                         <div class="modal-body">
                             <select name="clinicas" multiple="multiple" class="form-control select2">

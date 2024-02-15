@@ -97,6 +97,13 @@ Ver Responsables
         height: 4px; /* Ajusta el grosor de la línea aquí */
         background-color: #239db9; /* Ajusta el color de la línea aquí */
     }
+
+    .user-picture-inactive {
+        border: 3px solid red; /* Ajusta el grosor según prefieras */
+        border-radius: 50%; /* Esto mantendrá la forma circular del contorno */
+        opacity: 0.5; /* Hace la imagen semi-transparente */
+
+    }
 </style>
 
 
@@ -134,22 +141,29 @@ Ver Responsables
                     {% if paciente.foto  %}
                     <td style="text-align: center; vertical-align: middle;">
 
-                        <img src="{{paciente.foto.url }}" class="img-circle elevation-2  user-picture-medium mt-2 " alt="User Image">
+
+
+                        <img src="{{paciente.foto.url }}" class="{% if not paciente.is_active %}user-picture-inactive{% endif %} img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+
                         <br>
                     </td>
                     
                     {% else %}
                     <td style="text-align: center; vertical-align: middle;">
                             {% if paciente.sexo == "Hombre" %}
-                                    <img src="{% static 'img/users/user_male.png' %}" class="img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+                                <img src="{% static 'img/users/user_male.png' %}" class="{% if not paciente.is_active %}user-picture-inactive{% endif %} img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+               
                             {% elif paciente.sexo == "Mujer" %}
-                                    <img src="{% static 'img/users/user_female.png' %}" class="img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+
+                                    <img src="{% static 'img/users/user_female.png' %}" class="{% if not paciente.is_active %}user-picture-inactive{% endif %} img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+
                             {% else %}
-                                    <img src="{% static 'img/usuariono.png' %}" class="img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
+                                    <img src="{% static 'img/usuariono.png' %}" class="{% if not paciente.is_active %}user-picture-inactive{% endif %} img-circle elevation-2 user-picture user-picture-medium" alt="User Image">
 
                             {% endif %}
 
                         </td>
+                        
                     {% endif %}
 
                     <td>{{ paciente.get_full_name }}</td>
