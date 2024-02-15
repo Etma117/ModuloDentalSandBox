@@ -271,12 +271,6 @@ class ResponsableListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         else:
             return redirect('denegado')
 
-    def get(self, request, responsable_id, *args, **kwargs):
-        responsable = CustomUser.objects.get(id=responsable_id)
-        clinicas_asignadas = responsable.clinicas_asignadas.all()
-        print(responsable, clinicas_asignadas)
-        return render(request, self.template_name, {'responsable': responsable, 'clinicas_asignadas': clinicas_asignadas})
-
 class PacienteListView(ListView):
     model = CustomUser
     template_name = 'listas/listPacientes.html'  # Actualiza con tu ruta de plantilla
