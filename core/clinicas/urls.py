@@ -9,3 +9,6 @@ urlpatterns = [
     path('eliminarClinica/<int:pk>', eliminarClinica.as_view(), name='eliminarClinica'),
     path('editarClinica/<int:pk>', editarClinica.as_view(), name='editarClinica'),
 ]
+
+
+# dd
