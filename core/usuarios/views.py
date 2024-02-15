@@ -202,7 +202,7 @@ class UserCreateViewResponsable(CreateView):
     model = CustomUser
     form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_responsable.html'
-    success_url = reverse_lazy('home') 
+    success_url = reverse_lazy('ResponsableListView') 
 
     def form_valid(self, form):
         user = form.save(commit=False)
