@@ -66,6 +66,8 @@
     }
 }
 
+
+
 .action-button {
     padding: 5px 10px;
     border: none;
@@ -126,7 +128,34 @@
         margin-top: 10px; /* Agrega un margen superior para cuando se envuelvan */
         flex: 1 1 auto; /* Permite que los botones se expandan para llenar el espacio disponible */
     }
+
+
+    .action-buttons form {
+        all: unset; /* Esta propiedad elimina todos los estilos predeterminados */
+        display: flex; /* Restablece display flex para alinear con otros botones */
+        align-items: center; /* Alineación vertical */
+        justify-content: center; /* Alineación horizontal */
+        width: 100%; /* Ocupa todo el ancho disponible */
+        margin: 0; /* Remueve cualquier margen */
+        padding: 0; /* Remueve cualquier padding */
+    }
+    
+
+
+    .action-buttons form button {
+        justify-content: space-between; /* Distribuye el espacio uniformemente */
+        flex-wrap: wrap;
+    
+    }
+
+    .action-button form button {
+        margin-left: 0; /* Elimina el margen izquierdo en pantallas pequeñas */
+        margin-top: 10px; /* Agrega un margen superior para cuando se envuelvan */
+        flex: 1 1 auto; 
+    
+    }
 }
+
 
 /* Media query para pantallas muy pequeñas */
 @media (max-width: 480px) {
@@ -164,6 +193,16 @@
     .action-buttons {
         width: 100%; /* Permite que los botones ocupen todo el ancho disponible */
         margin-top: 10px; /* Añade un margen superior entre los detalles y los botones */
+    }
+
+    .action-buttons form {
+        all: unset; /* Esta propiedad elimina todos los estilos predeterminados */
+        display: flex; /* Restablece display flex para alinear con otros botones */
+        align-items: center; /* Alineación vertical */
+        justify-content: center; /* Alineación horizontal */
+        width: 50%; /* Ocupa todo el ancho disponible */
+        margin: 0; /* Remueve cualquier margen */
+        padding: 0; /* Remueve cualquier padding */
     }
 }
 
@@ -236,4 +275,5 @@ margin-bottom: 5px;
 margin-right: 5px; /* Espacio entre el icono y el texto */
 color: #239db9; /* O el color que prefieras para los iconos */
 }
+
 

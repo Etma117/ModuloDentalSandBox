@@ -3,7 +3,7 @@
 
 {% block link %}
     <link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">  
-    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v23e3">
+    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v23edd34">
 {% endblock link %}
 
 {% block dashboard %}
@@ -21,7 +21,7 @@
 <div class="container mt-4">
     <div class="card card1">
         <div class="card-header">
-            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del Responsable</strong>
+            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles del responsable</strong>
         </div>
         <div class="card-body">
             <div class="profile-image">
@@ -49,6 +49,8 @@
                     <i class="fas fa-edit"></i> 
                     <span class="d-none d-md-inline">Editar</span>
                 </button>
+                
+                
                 {% if es_administrador or es_superusuario %}
                 <form action="{% url 'update_user_status_gene' responsable.pk %}" method="post">
                   {% csrf_token %}
@@ -112,7 +114,7 @@
 <div class="container mt-4">
     <div class="card card1 card2 collapsed-card">
         <div class="card-header">
-            <i class="fas fa-house-chimney-medical" style="color: #239db9;"></i> <strong>Clinicas Asociadas</strong>
+            <i class="fas fa-house-chimney-medical" style="color: #239db9;"></i> <strong>Clinicas asociadas</strong>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
             </div>
@@ -120,7 +122,7 @@
         <div class="card-body">
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarPlan">
                 <i class="fas fa-plus-circle"></i>
-                <span class="d-none d-md-inline">Añadir Clínica</span> 
+                <span class="d-none d-md-inline">Añadir clínica</span> 
             </button>
             
 
