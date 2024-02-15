@@ -12,8 +12,11 @@ class Clinica(models.Model):
     telefono = models.CharField(max_length=20)
     hora_inicio = models.TimeField(null=True, blank=True)
     hora_fin = models.TimeField(null=True, blank=True)
+
+    #responsables = models.ForeignKey('usuarios.CustomUser', on_delete=models.SET_NULL, null=True, blank=True)
+    logo = models.ImageField(upload_to='clinicas/', default='media/clinicas/clinica.jpg')
     responsables = models.ManyToManyField('usuarios.CustomUser', blank=True)
-    logo = models.ImageField(upload_to='clinicas/', blank=True, null=True)
+    #logo = models.ImageField(upload_to='clinicas/', blank=True, null=True)
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
     numero_consultorios = models.IntegerField(null=True)

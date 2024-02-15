@@ -1,7 +1,6 @@
 from typing import Any
 from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
-
 from usuarios.models import CustomUser 
 from .models import Clinica
 from .forms import clinicaForm
