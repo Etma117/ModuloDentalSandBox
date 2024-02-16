@@ -69,8 +69,11 @@ class CustomUser(AbstractUser):
     respuesta_seguridad_2 = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.username
-    
+        # Construye el nombre completo
+        nombre_completo = f"{self.first_name.title()} {self.last_name.title()} {self.apellido_materno.title()}".strip()
+        # Devuelve el nombre completo si está disponible, de lo contrario devuelve el username
+        return nombre_completo if nombre_completo else self.username
+        
 class AsistenteDentista(models.Model):
     asistente = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='asistente_dentistas')
     dentista = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='dentista_asistentes')
