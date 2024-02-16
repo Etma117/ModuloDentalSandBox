@@ -6,6 +6,7 @@ from .forms import clinicaForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib import messages
+from usuarios.models import CustomUser
 
 class Clinicas(ListView):
     model = Clinica
