@@ -26,7 +26,11 @@ Añadir Clínica
 
 <div class="card">
     <div class="card-header">
+<<<<<<< HEAD
         <i class="fas fa-circle-plus " style="color: #239db9;"></i> <strong>Registrar nueva clínica</strong>
+=======
+        <i class="fas fa-circle-plus " style="color: #239db9;"></i> <strong>Registrar Nueva Clínica</strong>
+>>>>>>> origin/master
     </div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
@@ -41,84 +45,84 @@ Añadir Clínica
                                         <!-- El icono de usuario se mostrará inicialmente -->
                                         <i class="fas fa-user image-icon"></i>
                                         <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
-                                        <div class="image-upload-overlay">
-
-
-                                            <button type="button" id="deletePhoto" class="btn btn-danger">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12 mt-2">
                                     {{ form.logo|as_crispy_field }}
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-6">
-                            <div>
+                            <div style="margin: 0 20px;">
                                 {{ form.nombre|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div >
+                            <div style="margin: 0 20px;">
                                 {{ form.direccion|as_crispy_field }}
                             </div>
                         </div>
                     </div>
-
-
                     <div class="row">
                         <div class="col-md-6">
-                            <div >
+                            <div style="margin: 0 20px;">
                                 {{ form.telefono|as_crispy_field }}
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div >
+                            <div style="margin: 0 20px">
                                 {{form.correo_electronico|as_crispy_field}}
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div >
+                        <div class="col-md-4">
+                            <div style="margin: 0 20px;">
                                 {{ form.responsables|as_crispy_field }}
+>>>>>>> origin/master
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div >
+                        <div class="col-md-4">
+                            <div style="margin: 0 20px;">
                                 {{ form.hora_inicio|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div >
+                        <div class="col-md-4">
+                            <div style="margin: 0 20px;">
                                 {{ form.hora_fin|as_crispy_field }}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <div>
+                            Servicios Ofrecidos
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin: 0 20px">
                                 {{form.equipamiento|as_crispy_field}}
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <div>
                                 {{form.numero_consultorios|as_crispy_field}}
                             </div>
                         </div>
                     </div>
-     
-         
                     <div class="row">
-                       <label>  Días laborables </label>
+                        <div class="col-md-6">
+                            <div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                       <label>  Dias Laborables </label>
                     </div>
                     <div class="row">
                         <div class="col-md-2">

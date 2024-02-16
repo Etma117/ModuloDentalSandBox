@@ -11,12 +11,10 @@ class clinicaForm(forms.ModelForm):
             'nombre': 'Nombre de la clínica',
             'direccion': 'Dirección',
             'telefono': 'Teléfono',
-            'hora_inicio': 'Hora de inicio',
-            'hora_fin': 'Hora de fin',
             'correo_electronico': 'Correo electrónico',
             'equipamiento': 'Equipamiento',
             'numero_consultorios': 'Número de consultorios',
-            # No se modifica 'responsables' según tu instrucción.
+            'logo' : 'Logo de la Clínica'
         }
         widgets = {
             'nombre': forms.TextInput(attrs={'placeholder': 'Nombre completo de la clínica'}),
@@ -26,10 +24,17 @@ class clinicaForm(forms.ModelForm):
             'hora_fin': forms.TimeInput(attrs={'placeholder': 'HH:MM', 'type': 'time'}),
             'correo_electronico': forms.EmailInput(attrs={'placeholder': 'ejemplo@clinica.com'}),
             'equipamiento': forms.TextInput(attrs={'placeholder': 'Descripción del equipamiento'}),
-            'numero_consultorios': forms.NumberInput(attrs={'placeholder': 'Cantidad de consultorios'}),
-            # El campo 'logo' no necesita placeholder ya que será un campo de carga de archivo.
-        }
-
+            'numero_consultorios': forms.NumberInput(attrs={'min': '1', 'placeholder' : 'Cantidad de consultorios'}),
+            'lunes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'martes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'miercoles': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'jueves': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'viernes': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'sabado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'hora_inicio' : forms.TimeInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),
+            'hora_fin' : forms.TimeInput(attrs={'placeholder':'HH:MM', 'type': 'time'}),     
+        } 
+   
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -41,7 +46,3 @@ class clinicaForm(forms.ModelForm):
             self.fields['responsables'].queryset = CustomUser.objects.none()
 
         self.fields['responsables'].widget.attrs['class'] = 'select2'
-
-
-
-        

@@ -31,18 +31,18 @@
             </div>
             <p></p>
             <div>
-                <h2>Responsables de la clínica:</h2>
-                <ul>
-                    {% for responsable in clinica.responsables.all %}
-                        <li>
-                            <a href="{% url 'responsable_detail' responsable.id %}">
-                                {{ responsable.get_full_name }}
-                            </a>
-                        </li>
-                    {% empty %}
-                        <li>No hay responsables asignados.</li>
-                    {% endfor %}
-                </ul>
+                <a style="font-size: large;">
+                    {% if clinica.responsables.all|length == 1 %}
+                        Responsable de la Clínica: {{ clinica.responsables.first.get_full_name }}
+                    {% else %}
+                        Responsables de la Clínica: 
+                        <ul>
+                            {% for responsable in clinica.responsables.all %}
+                            <li>{{ responsable.get_full_name }}</li>
+                            {% endfor %}
+                         </ul>
+                    {% endif %}
+                </a>
             </div>
             
         </div>
@@ -51,7 +51,7 @@
     {% if es_administrador or es_superusuario%}
     <div class="row justify-content-end">
         <div class="col-md-2" style="padding-left: 7%;">
-            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'editarClinica' pk=clinica.id %}"> Editar </a>
+            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'editarClinica' clinica_id=clinica.id %}"> Editar </a>
             <a class="btn btn-danger" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'eliminarClinica' pk=clinica.id %}"> Eliminar </a>
         </div>
     </div>
