@@ -35,7 +35,7 @@ class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin,CreateView)
     model = CustomUser
     form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_dentista.html'
-    success_url = reverse_lazy('home') 
+    success_url = reverse_lazy('DentistaListView') 
 
 
     def test_func(self):
@@ -382,7 +382,7 @@ class AsistenteDetailView(DetailView):
 class DentistaDetailView(DetailView):
     model = CustomUser
     template_name = 'detalles/detalleDentista.html'  # Actualiza con tu ruta de plantilla
-    context_object_name = 'paciente'
+    context_object_name = 'dentista'
 
     def get_object(self, queryset=None):
         # Obtén el paciente por su id
@@ -392,7 +392,7 @@ class DentistaDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
-        context['seccion'] = 'ver_asistente'
+        context['seccion'] = 'ver_dentistas'
         return context
     
 
@@ -474,3 +474,25 @@ def update_user_statusGeneral(request, user_id):
     # Puedes redirigir o mostrar un mensaje si el método no es POST
     messages.error(request, "Método no permitido.")
     return redirect('responsable_detail', pk=user_id)  # Pasar 'pk' como argumento
+
+
+    
+@login_required
+def update_user_statusDentista(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = UserStatusForm(request.POST)
+        if form.is_valid():
+            user.is_active = not user.is_active  # Toggle the user's active status
+            user.save()
+            if user.is_active:
+                messages.success(request, "Usuario activado con éxito.")
+            else:
+                messages.success(request, "Usuario desactivado con éxito.")
+            return redirect('dentista_detail', pk=user_id)  # Pasar 'pk' como argumento
+    else:
+        form = UserStatusForm(initial={'is_active': user.is_active})
+
+    # Puedes redirigir o mostrar un mensaje si el método no es POST
+    messages.error(request, "Método no permitido.")
+    return redirect('dentista_detail', pk=user_id)  # Pasar 'pk' como argumento

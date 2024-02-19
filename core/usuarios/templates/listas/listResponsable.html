@@ -111,13 +111,13 @@ Ver Responsables
 
 <div class="card card1">
     <div class="card-header">
-        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de Responsables </strong>
+        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de responsables </strong>
     </div>
     <div class="card-body">
        {% if grupo_responsable_existe %}
 
         {% else %}
-            <a href="{% url "UserCreateViewResponsable" %}" class="btn btn-custom2">Agregar nuevo Responsable</a>
+            <a href="{% url "UserCreateViewResponsable" %}" class="btn btn-custom2">Agregar nuevo responsable</a>
 
         {% endif %}
         
@@ -166,7 +166,7 @@ Ver Responsables
                         
                     {% endif %}
 
-                    <td>{{ paciente.get_full_name }}</td>
+                    <td>{{ paciente.get_full_name|title}}</td>
                     <td>{{ paciente.email }}</td>
                     <td>{{ paciente.celular }}</td>
                     <td>
@@ -248,7 +248,7 @@ Ver Responsables
       {% endblock dom %}
       buttons: [
         {
-          text: 'Nuevo Responsable',
+          text: 'Nuevo responsable',
           className: 'btn btn-custom2 mr-2',
           action: function (e, dt, node, config) {
             window.location.href = '{% url "UserCreateViewResponsable" %}';

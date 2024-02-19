@@ -40,7 +40,7 @@
             
             </div>
             <div class="profile-details">
-                <h3>{{responsable.get_full_name}}</h3>
+                <h3>{{responsable.get_full_name|title}}</h3>
                 <p><i class="fas fa-phone"></i> +52 {{responsable.celular}}</p>
                 <p><i class="fas fa-envelope"></i> {{responsable.email}}</p>
             </div>
@@ -86,12 +86,16 @@
             <div class="info-column">
                 <div class="info-block">
                     <h3><i class="fas fa-envelope"></i> Email:</h3>
-                    <p>{{responsable.email}}</p>
+                    <p><strong>{{ responsable.email }}</strong></p>
                 </div>
                 <div class="info-block">
                     <h3><i class="fas fa-home"></i> Dirección:</h3>
-                    <p>{{responsable.direccion}}</p>
-                </div>
+                    <p>
+                        <strong>{{responsable.direccion}}</strong>
+                        <a href="https://www.google.com/maps/search/?api=1&amp;query={{responsable.direccion|urlencode:'+'}}" target="_blank">
+                            <i class="fas fa-map-marker-alt"></i> Ir a mapa
+                        </a>
+                    </p>                </div>
                 <!-- Agrega más bloques de información según sea necesario -->
             </div>
 
@@ -99,11 +103,11 @@
             <div class="info-column">
                 <div class="info-block">
                     <h3><i class="fas fa-user"></i> Genero:</h3>
-                    <p>{{responsable.sexo}}</p>
+                    <p><strong>{{responsable.sexo}}</strong></p>
                 </div>
                 <div class="info-block">
                     <h3><i class="fas fa-birthday-cake"></i> Fecha de nacimiento:</h3>
-                    <p>{{responsable.fecha_nacimiento}}</p>
+                    <p><strong> {{responsable.fecha_nacimiento}}</strong></p>
                 </div>
                 <!-- Agrega más bloques de información según sea necesario -->
             </div>
