@@ -10,6 +10,7 @@ Agenda
 <link rel="stylesheet" href=" {% static 'fullcalendar/lib/main.css' %}">
 <!--link rel="stylesheet" href=" https://bootswatch.com/5/minty/bootstrap.min.css"-->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
 <style>
 
@@ -114,7 +115,8 @@ Agenda
                     <div  class="container d-flex justify-content-end">
                         <a href="#" class="bi bi-check-circle-fill text-success" style="padding-left: 10px; text-decoration: none; font-size: 20px;"></a>
 
-                        <a href="{% url 'EditarCita' pk=cita.id %}" class="text-primary" style="padding-left: 10px; text-decoration: none; font-size: 20px;">
+                        <a class="text-primary" style="padding-left: 10px; text-decoration: none; font-size: 20px;" onclick="return abrir_modal('{% url 'EditarCita' pk=cita.id %}')" href="#">    
+                        <!--a href="{% url 'EditarCita' pk=cita.id %}" class="text-primary" style="padding-left: 10px; text-decoration: none; font-size: 20px;"-->
                             <i class="fas fa-edit"></i>
                         </a>
 
@@ -139,13 +141,26 @@ Agenda
     
 </div>
 
+
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div id="ventana_modal" class="modal fade" role="dialog"></div>
+    </div>
+</div>
+
+
+
 {% endblock content %}
     
 {% block script%}
 <script src="{% static 'fullcalendar/lib/main.js' %}"></script>
 <script src="{% static 'fullcalendar/lib/main.js' %}"></script>
 <script src="{% static 'fullcalendar/lib/locales-all.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'base/js/bootstrap.min.js' %}"></script>
+
 <!--FullCalendar-->
     <script>
         document.addEventListener('DOMContentLoaded', function(){
@@ -173,4 +188,27 @@ Agenda
             });
         });
     </script>
+    <!--Modal-->
+    <script>
+        function abrir_modal(url)
+        {
+            $('#ventana_modal').load(url, function()
+            {
+            $(this).modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            $(this).modal('show');
+            });
+            return false;
+        }
+
+        function cerrar_modal()
+        {
+        $('#ventana_modal').modal('hide')
+        return false;
+        }
+
+    </script>
+
 {%endblock script%}

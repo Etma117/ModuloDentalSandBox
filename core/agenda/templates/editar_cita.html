@@ -1,17 +1,17 @@
-{% extends "general/base.html" %}
+{% extends "general/basemodal.html" %}
 {% load static %}
 {% block titulo %}
 Editar Cita 
 {% endblock titulo %}
 
 {% block link %}
-<link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">
-
 {% endblock link %}
 
+{%block preloader%}
+{% endblock %}
 
 {% block dashboard %}
-<a class="btn btn-sm  " href="javascript:history.back()">
+<a class="btn btn-sm " href="#" onclick="return cerrar_modal">
     <button class="btn-custom">
         <i class="fas fa-chevron-left"></i>
     </button>  
@@ -128,9 +128,7 @@ Editar Cita
     }
 
 </style>
-<div class="dashboard-header">
-    <h1 class="dashboard-title" style="color: black;">Cita a Paciente {{ cita.start|date:"d/m/Y "}} </h1>
-</div>
+
 
 {% if form.non_field_errors %}
     <script>
@@ -158,22 +156,26 @@ Editar Cita
 
 
 
-    <div class="card">
-        <div class="card-header">
-            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Cita de Paciente {{ cita.paciente.first_name}} </strong>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Cita de Paciente {{ cita.paciente.first_name}} </strong>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" action="{% url 'EditarCita' pk=cita.id %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-custom2">Guardar</button>
+                    <button class="btn btn-danger" onclick= "cerrar_modal()">Cancelar</button>
+                </form>
+            </div>
         </div>
-        <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-custom2">Guardar</button>
-              </form>
-        </div>
-</div>
-
-  
+    </div>
+</div>  
 {% endblock contenido %}
-
+{%block extra_js%}
+{%endblock%}
 
 
 
