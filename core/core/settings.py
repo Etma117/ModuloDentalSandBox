@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",    
     'schedule',
-
+    
     'agenda',    
     'catalogos',
     'clinicas',
@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+
+
+    'pwa',
 
     
 ]
@@ -243,10 +247,6 @@ JAZZMIN_SETTINGS = {
         "salud.ExpedienteMedico": 'fas fa-notes-medical',
         "usuarios.Usuario": 'fas fa-user',
         
-
-
-
-
     }
 
 }
@@ -265,3 +265,25 @@ SESSION_COOKIE_AGE = 10800  # 30 minutos
 
 # Hacer que la sesión expire al cerrar el navegador
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+#Progressive Web App
+
+PWA_APP_NAME = 'Dental Smile'
+PWA_SHORT_NAME = 'Dental S'
+PWA_DESCRIPTION = "Conexión mas cercana entre clinicas dentales y pacientes"
+PWA_THEME_COLOR = '#ffffff'
+PWA_BACKGROUND_COLOR = '#000000'
+PWA_DISPLAY = 'standalone'
+PWA_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': 'static/img/icon.png',
+        'sizes': '256x256'
+    }
+]
+
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
