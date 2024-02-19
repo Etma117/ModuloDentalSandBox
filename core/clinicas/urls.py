@@ -7,6 +7,6 @@ urlpatterns = [
     path('clinica/<int:pk>', vistaClinica.as_view(), name='vistaClinicas'),
     path('crearClinica/', clinicaCrear.as_view(), name='nuevaClinica'),
     path('eliminarClinica/<int:pk>', eliminarClinica.as_view(), name='eliminarClinica'),
-    path('editarClinica/<int:clinica_id>', editarClinica.as_view(), name='editarClinica'),
+    path('editarClinica/<int:pk>', editarClinica.as_view(), name='editarClinica'),
 ]
 

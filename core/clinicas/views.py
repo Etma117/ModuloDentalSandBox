@@ -54,8 +54,8 @@ class vistaClinica(DetailView):
     model = Clinica
     template_name = 'vistaClinicas.html'
 
-    def get(self, request, clinica_id, *args, **kwargs):
-        clinica = Clinica.objects.get(id=clinica_id)
+    def get(self, request, pk, *args, **kwargs):
+        clinica = Clinica.objects.get(id=pk)
         return render(request, self.template_name, {'clinica': clinica})
 
     def get_context_data(self, **kwargs):
