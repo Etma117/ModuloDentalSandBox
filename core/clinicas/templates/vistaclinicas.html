@@ -51,7 +51,7 @@
     {% if es_administrador or es_superusuario%}
     <div class="row justify-content-end">
         <div class="col-md-2" style="padding-left: 7%;">
-            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'editarClinica' clinica_id=clinica.id %}"> Editar </a>
+            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'editarClinica' pk=clinica.id %}"> Editar </a>
             <a class="btn btn-danger" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'eliminarClinica' pk=clinica.id %}"> Eliminar </a>
         </div>
     </div>
@@ -74,8 +74,8 @@
                         <tr style="text-align: center;">
                             <td >{{ hora|time:"H:i" }}</td>
                             {% for dia in clinica.dias_true %}
-                                {% if hora|time:"H" <= "10" %}
-                                    <td>Dentista 1</td>
+                                {% if hora|time:"H" <= "14" %}
+                                    <td>{{clinica.dentista}}</td>
                                 {% else %}
                                     <td></td>
                                 {% endif %}

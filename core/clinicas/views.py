@@ -6,6 +6,7 @@ from .forms import clinicaForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib import messages
+from usuarios.models import CustomUser
 
 class Clinicas(ListView):
     model = Clinica
@@ -29,6 +30,7 @@ class Clinicas(ListView):
         context['seccion'] = 'ver_clinicas'
 
         return context
+
 class clinicaCrear(CreateView):
     model = Clinica
     template_name = 'nuevaClinica.html'
@@ -62,10 +64,6 @@ class vistaClinica(DetailView):
     model = Clinica
     template_name = 'vistaClinicas.html'
 
-    def get(self, request, clinica_id, *args, **kwargs):
-        clinica = Clinica.objects.get(id=clinica_id)
-        return render(request, self.template_name, {'clinica': clinica})
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_clinicas'
@@ -91,8 +89,6 @@ class editarClinica(UpdateView):
     form_class = clinicaForm
     context_object_name = 'clinica'
     success_url = reverse_lazy('clinicas')
-
-
 
     def form_valid(self, form):
         clinica = self.object  # La instancia de la clínica que se está editando.
