@@ -74,8 +74,8 @@
                         <tr style="text-align: center;">
                             <td >{{ hora|time:"H:i" }}</td>
                             {% for dia in clinica.dias_true %}
-                                {% if hora|time:"H" <= "10" %}
-                                    <td>Dentista 1</td>
+                                {% if hora|time:"H" <= "14" %}
+                                    <td>{{clinica.dentista}}</td>
                                 {% else %}
                                     <td></td>
                                 {% endif %}

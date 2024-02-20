@@ -1,5 +1,9 @@
 {% extends 'general/base.html' %}
+<<<<<<< HEAD
 {% load static %}   
+=======
+{% load static %}
+>>>>>>> origin/master
 
 {% block titulo %}
 Editar Clínica
@@ -8,6 +12,7 @@ Editar Clínica
 {% block link %}
 <link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">
 <link rel="stylesheet" href="{% static "css/image-upload.css" %}?v1.1">
+
 {% endblock link %}
 
 {% block dashboard %}
@@ -52,10 +57,6 @@ Editar Clínica
                                         </script>
                                         
                                         {% endif %}
-
-
-
-
 
                                         <i class="fas fa-user image-icon"></i>
                                         <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
@@ -129,7 +130,11 @@ Editar Clínica
                         </div>
                         <div class="col-md-6">
                             <div>
-                                
+<<<<<<<<< Temporary merge branch 1
+                               {{form.responsables|as_crispy_field}} 
+=========
+                                {{form.numero_consultorios|as_crispy_field}}
+>>>>>>>>> Temporary merge branch 2
                             </div>
                         </div>
                     </div>
