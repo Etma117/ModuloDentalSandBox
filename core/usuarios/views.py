@@ -44,8 +44,8 @@ class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin, CreateView
         user.tipo_usuario = 'dentista'
         user.save()
         # Crear y asociar un calendario al dentista
-        slug_prefix = "horario_dentista"
-        dentista_calendar = DentistaCalendar.objects.filter(slug=f"{slug_prefix}{user.id}").first()
+        slug_prefix = "horario_dentista "
+        dentista_calendar = DentistaCalendar.objects.filter(slug=f"{slug_prefix}{user.username}{user.id}").first()
 
         if not dentista_calendar:
             new_calendar = DentistaCalendar.objects.create(
