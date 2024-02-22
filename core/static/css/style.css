@@ -14,7 +14,7 @@ color: #63192B;
 }
 .custom-navbar .nav-link,
 .custom-navbar .nav-link i {
-  color: #ffffff; /* Color blanco para los enlaces del navbar y los iconos */
+  color: #ffffff !important; /* Color blanco para los enlaces del navbar y los iconos */
   transition: color 0.3s ease; /* Transición suave de color al pasar el mouse */
 
 }

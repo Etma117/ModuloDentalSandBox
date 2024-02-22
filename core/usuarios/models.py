@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 class CustomUser(AbstractUser):
     TIPOS_USUARIO = (
         ('administrador', 'Administrador'),
-        ('medico', 'Médico'),
+        ('dentista', 'Dentista'),
         ('asistente', 'Asistente'),
         ('paciente', 'Paciente'),
         ('responsable', 'Responsable')
@@ -78,18 +78,3 @@ class AsistenteDentista(models.Model):
     def __str__(self):
         return f"{self.asistente.username} asiste a {self.dentista.username}"
 
-class Administrador(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    dato_especifico_admin = models.CharField(max_length=255)
-
-class Medico(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    cedula_profesional = models.CharField(max_length=255)
-
-class Asistente(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    dato_especifico_asistente = models.CharField(max_length=255)
-
-class Paciente(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    dato_especifico_paciente = models.CharField(max_length=255)

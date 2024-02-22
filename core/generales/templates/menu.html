@@ -64,7 +64,7 @@
                     <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
                     <a style="font-size: xx-large;">Citas</a>
                     <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
-                    <a href="{% url 'Citas'%}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a href="{% url 'Agenda'%}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
                     <i class="fa-solid fa-phone fa-3x" style="margin-bottom: 45px;"></i>
                     <a style="font-size: xx-large;">Citas proximas</a>
                     <a style="font-size: xx-large;margin-left: 5px;">340</a>
-                    <a href="{% url "Citas" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                    <a href="{% url "Agenda" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
                 </div>
             </div>
         </div>
@@ -112,37 +112,21 @@
         </tr>
     </thead>
     <tbody>
+        {%for cita in citas%}
         <tr>
-            <td>045</td>
-            <td>Juana Perez</td>
-            <td>12:30 p.m.</td>
-            <td> Pendiente</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>045</td>
-            <td>Juana Perez</td>
-            <td>12:30 p.m.</td>
-            <td> Pendiente</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>045</td>
-            <td>Juana Perez</td>
-            <td>12:30 p.m.</td>
-            <td> Pendiente</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>045</td>
-            <td>Juana Perez</td>
-            <td>12:30 p.m.</td>
-            <td> Pendiente</td>
+            <td>{{cita.id}}</td>
+            <td>{{ cita.paciente.first_name}} {{cita.paciente.last_name}} {{cita.paciente.apellido_materno}}</td>
+            <td>{{ cita.start|date:"Y-m-d h:i a"}}</td>
+            <td> {{cita.estado_cita}}</td>
             <td></td>
         </tr>
         
+        {%endfor%}
+        
     </tbody>
 </table>
+
+
 {% elif es_administrador or es_superusuario%}
     <div class="row">
         <div class="col-lg-4 col-sm-12">

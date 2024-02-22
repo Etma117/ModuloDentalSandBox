@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,7 +23,7 @@ from .forms import UserRecoveryForm
 
 # Create your views here.
 
-class home(LoginRequiredMixin, TemplateView):
+class home(LoginRequiredMixin, ListView):
     model= Cita
     context_object_name = 'citas'    
     template_name = 'menu.html'
@@ -50,12 +50,8 @@ def exit(request):
     logout(request)
     return redirect('homePage')
 
-
 class homePageView(TemplateView):
     template_name= 'homepage/index.html'
-
-
-
 
 def recover_password(request):
     if request.method == 'POST':

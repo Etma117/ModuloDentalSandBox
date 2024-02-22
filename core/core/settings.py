@@ -38,10 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     "crispy_forms",
     "crispy_bootstrap5",    
-    'schedule',
+    'schedule',   
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
 
     'agenda',    
     'catalogos',
@@ -49,12 +54,6 @@ INSTALLED_APPS = [
     'generales',
     'horarios',
     'usuarios',
-    'citas',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
     
 ]
 SITE_ID = 1
