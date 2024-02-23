@@ -3,8 +3,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView
 #Models
 from schedule.models import Calendar, Event
-from .models import Cita
+from .models import Cita, DentistaCalendar, CitasDentalesCalendar, DiasNoLaborablesCalendar
 from .forms import CitaForm, CitaEditarForm
+from usuarios.models import CustomUser 
 #librerias externas
 import datetime
 import pytz
@@ -17,28 +18,36 @@ class EventosView(ListView):
     template_name = 'agenda.html'
 
     def get_queryset(self):
-        return Cita.objects.all().order_by('start') #user=self.request.user clinica, dentista filtro 
+        # Obtener el usuario que inició sesión
+        usuario_actual = self.request.user
+
+        # Filtrar las citas por el usuario actual
+        return Cita.objects.filter(dentista=usuario_actual).order_by('start')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        calendars = Calendar.objects.all()
-        events = Event.objects.filter(calendar__in=calendars)
-        non_working_calendar = Calendar.objects.get(name="Calendario Emill 2") #calendario de la clinica para dias no laborables y horario general - tomar del usuario
-        dentista_calendario= Calendar.objects.get(name="Horario Dentista") #calendario del dentista y horario del mismo - Tomar del campo dentista
 
-        context['events_json'] = self.serialize_events(events, non_working_calendar, dentista_calendario)
+        usuario_actual = CustomUser.objects.get(id=self.request.user.id)
+        clinicas_usuario = usuario_actual.clinicas.all()
+
+    # Obtener todos los eventos y calendarios necesarios de antemano
+        HorarioDentista = DentistaCalendar.objects.filter(dentista=usuario_actual)
+        Citasclinica= CitasDentalesCalendar.objects.filter(clinica__in=clinicas_usuario)
+
+        horario= Event.objects.filter(calendar__in=HorarioDentista)
+        
+        citas = Event.objects.filter(calendar__in=Citasclinica )
+        context['events_json'] = self.serialize_events(citas, horario)
         return context
     
 
-    def serialize_events(self, events, non_working_calendar, dentista_calendario ):
+    def serialize_events(self, citas, horario):
         serialized_events = []
         tz = pytz.timezone('America/Mexico_City')
 
-        for event in events:
-
+        for event in citas:
             for occurrence in event.get_occurrences(datetime.datetime(2024,1,1,0,0, tzinfo=tz), datetime.datetime(2025,1,1,0,0, tzinfo=tz) ): #marcar limites de fecha para motrar
-               # print(occurrence, event.title)   
-
+            
                 serialized_event = {
                     'id': event.id,
                     'title': event.title,
@@ -47,20 +56,32 @@ class EventosView(ListView):
                     'display': 'block',
                     'color': event.color_event
                 }
-
                 # Añadir el atributo 'display' solo para eventos del calendario de días no laborables
-                if non_working_calendar.event_set.filter(id=event.id).exists():
-                    serialized_event['allDay'] = 'allDay'
-                    serialized_event['display'] = 'background'
-                    serialized_event['backgroundColor'] = 'red'   
+                # if non_working_calendar.event_set.filter(id=event.id).exists():
+                #     serialized_event['allDay'] = 'allDay'
+                #     serialized_event['display'] = 'background'
+                #     serialized_event['backgroundColor'] = 'red'
+                
+                serialized_events.append(serialized_event)  
 
-                if dentista_calendario.event_set.filter(id=event.id).exists():
-                    serialized_event['title'] = ' '
-                    serialized_event['allDay'] = 'allDay'
-                    serialized_event['display'] = 'background' 
-
+        for event in horario:
+            for occurrence in event.get_occurrences(datetime.datetime(2024,1,1,0,0, tzinfo=tz), datetime.datetime(2025,1,1,0,0, tzinfo=tz) ):
+                serialized_event = {
+                        'id': event.id,
+                        'title': '',
+                        'start': occurrence.start.isoformat(),
+                        'end': occurrence.end.isoformat(),
+                        
+                        'allDay':'allDay',
+                        'display': 'background',
+                        'color': event.color_event                     
+                    }
                 serialized_events.append(serialized_event)
+           
+            
 
+                 
+                
         return serialized_events
     
 

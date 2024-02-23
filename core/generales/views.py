@@ -28,6 +28,14 @@ class home(LoginRequiredMixin, ListView):
     context_object_name = 'citas'    
     template_name = 'menu.html'
     
+    def get_queryset(self):
+        # Obtener el usuario que inició sesión
+        usuario_actual = self.request.user
+
+        # Filtrar las citas por el usuario actual
+        return Cita.objects.filter(dentista=usuario_actual).order_by('start')
+    
+    
 
 
     def get_context_data(self, **kwargs):
