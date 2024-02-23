@@ -10,6 +10,7 @@ from usuarios.models import CustomUser
 from django.shortcuts import redirect
 from django.urls import reverse
 from agenda.models import Cita
+from django.db.models import Q
 
 #Importamos los decoradores para crear que cada vista tenga su login required 
 from django.http import JsonResponse
@@ -27,13 +28,17 @@ class home(LoginRequiredMixin, ListView):
     model= Cita
     context_object_name = 'citas'    
     template_name = 'menu.html'
-    
+
     def get_queryset(self):
         # Obtener el usuario que inició sesión
         usuario_actual = self.request.user
+        citas_aprobadas = Cita.objects.filter(
+        Q(dentista=usuario_actual) | Q(paciente=usuario_actual),
+        estado_cita='Aprobada'
+        ).order_by('start')
 
         # Filtrar las citas por el usuario actual
-        return Cita.objects.filter(dentista=usuario_actual).order_by('start')
+        return citas_aprobadas
     
     
 

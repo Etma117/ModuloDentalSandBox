@@ -239,7 +239,7 @@
 {% else %}
     <div class="row">
         <div class="col-md-3">
-            <a href="{% url "CitaCrear" %}" class="card btn bg-info" style="text-decoration: none;">
+            <a href="{% url "CrearCita" %}" class="card btn bg-info" style="text-decoration: none;">
                 <div class="card-body">
                     <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
                     <h2 style="font-size: x-large; margin-bottom: 0;">Añadir cita</h2>
@@ -278,9 +278,37 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body bg-info">
-                <p style="font-size: xx-large;">Tu cita es el 24 de enero a las 12:30 p.m.</p>
+            {% if citas %}
+                <p style="font-size: xx-large;">Tu cita es el {{ citas.0.start|date:"j \d\e F \a \l\a\s \l\a\s g a" }} </p>                
+            {% else %}
+                <p style="font-size: xx-large;">No hay citas programadas.</p>
+            {% endif %}
             </div>
         </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID. Cita</th>
+                    <th>Nombre</th>
+                    <th>Hora</th>
+                    <th>Estatus</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for cita in citas%}
+                <tr>
+                    <td>{{cita.id}}</td>
+                    <td>{{ cita.paciente.first_name}} {{cita.paciente.last_name}} {{cita.paciente.apellido_materno}}</td>
+                    <td>{{ cita.start|date:"Y-m-d h:i a"}}</td>
+                    <td> {{cita.estado_cita}}</td>
+                    <td></td>
+                </tr>
+                
+                {%endfor%}
+                
+            </tbody>
+        </table>
     </div>
 
     {%endif%}
