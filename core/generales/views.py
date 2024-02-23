@@ -37,7 +37,6 @@ class home(LoginRequiredMixin, ListView):
         estado_cita='Aprobada'
         ).order_by('start')
 
-        # Filtrar las citas por el usuario actual
         return citas_aprobadas
     
     
