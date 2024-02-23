@@ -102,10 +102,12 @@ Añadir Clínica
                             </div>
                         </div>
                         <div class="col-md-6">
-                            
+                            <div style="margin: 0 20px">
+                                {{ form.municipio|as_crispy_field }}
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div>
+                            <div style="margin: 0 20px">
                                {{form.responsables|as_crispy_field}} 
                             </div>
                         </div>

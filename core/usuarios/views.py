@@ -18,7 +18,7 @@ from core import settings
 from django.views.decorators.http import require_POST
 
 # Local imports
-from .models import CustomUser
+from .models import CustomUser, Idiomas
 from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate, UserStatusForm
 from django.views.generic import TemplateView
 # Create your views here.
@@ -393,6 +393,7 @@ class DentistaDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
         context['seccion'] = 'ver_dentistas'
+        context['idioma'] = Idiomas.objects.all()
         return context
     
 
@@ -410,7 +411,7 @@ class ResponsableDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
         context['seccion'] = 'ver_responsable'
-     
+        
         # Obtén el paciente actual
         paciente = self.get_object()
         
@@ -496,3 +497,17 @@ def update_user_statusDentista(request, user_id):
     # Puedes redirigir o mostrar un mensaje si el método no es POST
     messages.error(request, "Método no permitido.")
     return redirect('dentista_detail', pk=user_id)  # Pasar 'pk' como argumento
+    
+@login_required
+def agregar_idioma(request, user_id):
+    if request.method == 'POST':
+        usuario = get_object_or_404(CustomUser, id=user_id)
+        idiomas_seleccionados = request.POST.getlist('idiomas')
+
+        usuario.idiomas.clear()  # Limpia los idiomas existentes antes de agregar los nuevos
+
+        for idioma_id in idiomas_seleccionados:
+            idioma = Idiomas.objects.get(pk=idioma_id)
+            usuario.idiomas.add(idioma)
+
+    return redirect('detalleDentista.html')

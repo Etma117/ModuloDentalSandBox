@@ -3,7 +3,7 @@
 
 from django.urls import path
 from usuarios.views import AsistenteDetailView, AsistenteListView, DentistaDetailView, DentistaListView, PacienteDetailView, PacienteListView, ResponsableDetailView, UserCreateViewAsistente, UserCreateViewDentista, UserCreateViewPaciente, UserCreateViewResponsable, UserUpdateView,ResponsableListView, agregar_clinica_a_usuario, update_user_statusDentista, update_user_statusGeneral, verOdontograma
-from usuarios.views import eliminar_relacion_clinica
+from usuarios.views import eliminar_relacion_clinica, agregar_idioma
 urlpatterns = [
 
     # CREACION DE USUARIOS
@@ -35,5 +35,6 @@ urlpatterns = [
     path('update_user_status_general/<int:user_id>/', update_user_statusGeneral, name='update_user_status_gene'),
     path('update_user_status_dentista/<int:user_id>/', update_user_statusDentista, name='update_user_status_dentista'),
 
+    path('agregar_idioma/ <int:user_id>', agregar_idioma, name='agregar_idioma'),
 
 ]

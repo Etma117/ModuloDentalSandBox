@@ -166,7 +166,16 @@
             </div>
         </div>
         <div class="card-body">
-            <!-- Contenido de Notas dentales -->
+            <a data-toggle="modal" data-target="#modalAgregarIdioma">
+                <i class="fas fa-plus-circle"></i>
+                <span class="d-none d-md-inline">Añadir Idioma</span> 
+            </a>
+
+            <ul>
+                {%for idioma in medico %}
+                <li> {{idioma.idioma}} </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
@@ -185,5 +194,34 @@
     </div>
 </div>
 
+
+
+<!-- Modal de Idiomas -->
+<div class="modal fade" id="modalAgregarIdioma" tabindex="-1" role="dialog" aria-labelledby="modalAgregarIdiomaTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarIdiomaLongTitle">Agregar idioma al dentista</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url 'agregar_idioma' user_id %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <select name="idiomas" multiple="multiple" class="form-control select2">
+                        {%for idiomas in idioma %}
+                            {{idiomas.idioma}}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
