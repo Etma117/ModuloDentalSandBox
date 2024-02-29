@@ -38,9 +38,6 @@ class home(LoginRequiredMixin, ListView):
         ).order_by('start')
 
         return citas_aprobadas
-    
-    
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
