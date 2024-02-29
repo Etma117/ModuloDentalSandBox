@@ -496,3 +496,14 @@ def update_user_statusDentista(request, user_id):
     # Puedes redirigir o mostrar un mensaje si el método no es POST
     messages.error(request, "Método no permitido.")
     return redirect('dentista_detail', pk=user_id)  # Pasar 'pk' como argumento
+
+def edit_language(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    if request.method == 'POST':
+        form = CustomUserUpdateDentistaFormTemplate(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('detalleDentista.html')
+        else:
+            form = CustomUserUpdateDentistaFormTemplate(instance=user)
+        return render(request, 'edit_language.html', {'form': form})

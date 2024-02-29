@@ -27,7 +27,6 @@ class CustomUser(AbstractUser):
     numero = models.CharField(max_length=15, null=True, blank=True, verbose_name='No. celular')
     foto = models.ImageField(upload_to='usuarios/fotos/', null=True, blank=True)
     clinicas = models.ManyToManyField(Clinica, related_name='usuarios_asignados')
-    
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -42,6 +41,14 @@ class CustomUser(AbstractUser):
             return self.clinicas.count()
         else:
             return 0
+        
+    IDIOMAS= (
+        ('español' , 'Español'),
+        ('inglés' , 'Inglés'),
+        ('francés', 'Francés'),
+        ('aleman', 'Alemán')
+    )
+    idiomas = models.CharField(max_length=255, choices = IDIOMAS, null=True, blank=True, verbose_name='Idiomas hablados')
 
     SEX_CHOICES = [
         ('Hombre', 'Hombre'),
