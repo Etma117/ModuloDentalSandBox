@@ -3,7 +3,13 @@ from .models import Clinica
 from usuarios.models import CustomUser
 from django.contrib.auth.models import Group
 
-class ClinicaForm(forms.ModelForm):
+
+from django import forms
+from .models import Clinica
+from usuarios.models import CustomUser
+from django.contrib.auth.models import Group
+
+class clinicaForm(forms.ModelForm):
     class Meta:
         model = Clinica
         fields = '__all__'
@@ -33,6 +39,15 @@ class ClinicaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        responsables_group = Group.objects.get(name='Responsable')
-        self.fields['responsables'].queryset = CustomUser.objects.filter(groups=responsables_group)
-        self.fields['responsables'].widget.attrs['class']='select2'
+        try:
+            responsables_group = Group.objects.get(name='Responsable')
+            self.fields['responsables'].queryset = CustomUser.objects.filter(groups=responsables_group)
+        except Group.DoesNotExist:
+            # Si el grupo 'Responsable' no existe, se asigna un queryset vacío
+            self.fields['responsables'].queryset = CustomUser.objects.none()
+
+        self.fields['responsables'].widget.attrs['class'] = 'select2'
+
+
+
+        

@@ -84,7 +84,7 @@ MIDDLEWARE = [
 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_auto_logout.middleware.auto_logout',
+    # 'django_auto_logout.middleware.auto_logout',
 
 ]
 
@@ -114,8 +114,8 @@ TEMPLATES = [
                 'usuarios.context_processors.user_profile_picture',
                 'usuarios.context_processors.current_time',
                 
-                'django_auto_logout.context_processors.auto_logout_client',
-                'usuarios.context_processors.auto_logout',
+                # 'django_auto_logout.context_processors.auto_logout_client',
+                # 'usuarios.context_processors.auto_logout',
 
 
             ],
@@ -252,15 +252,3 @@ JAZZMIN_SETTINGS = {
 
 
 
-# DJANGO AUTO LOGIN
-AUTO_LOGOUT = {
-    'IDLE_TIME': 20800,  # 10 seconds
-    'SESSION_TIME': 20800,  # 2 minutes
-    'MESSAGE': 'The session has expired. Please login again to continue.',
-    'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
-}
-
-SESSION_COOKIE_AGE = 10800  # 30 minutos
-
-# Hacer que la sesión expire al cerrar el navegador
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True

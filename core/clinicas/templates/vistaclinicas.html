@@ -11,13 +11,19 @@
         <div class="col-md-2 col-sm-6" style="padding-left: 10px; padding-right: 10px;">
             <div class="card" style="background: #0289A8; border-radius: 25px; padding: 10px;">
                 <div class="card-body text-center">
-                    <img src="{{ clinica.logo.url }}" alt="Logo de la clínica" style="width: 100%; height: 100%; border-radius: 15px;">
+                    {% if clinica.logo %}
+                        <img src="{{ clinica.logo.url }}" alt="Logo de la clínica" style="width: 100%; height: 100%; border-radius: 15px;">
+
+                    {% else %}
+
+
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-sm-6">
             <div>
-                <a style="font-size: large;">Nombre de la Clínica: {{ clinica.nombre }}</a>
+                <a style="font-size: large;">Nombre de la clínica: {{ clinica.nombre }}</a>
             </div>
             <p></p>
             <div>
@@ -25,12 +31,24 @@
             </div>
             <p></p>
             <div>
-                <a style="font-size: large;">Responsable de la Clínica: {{ responsable_clinica }}</a>
+                <h2>Responsables de la clínica:</h2>
+                <ul>
+                    {% for responsable in clinica.responsables.all %}
+                        <li>
+                            <a href="{% url 'responsable_detail' responsable.id %}">
+                                {{ responsable.get_full_name }}
+                            </a>
+                        </li>
+                    {% empty %}
+                        <li>No hay responsables asignados.</li>
+                    {% endfor %}
+                </ul>
             </div>
+            
         </div>
     </div>
 
-    {% if es_administrador %}
+    {% if es_administrador or es_superusuario%}
     <div class="row justify-content-end">
         <div class="col-md-2" style="padding-left: 7%;">
             <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'editarClinica' pk=clinica.id %}"> Editar </a>
@@ -46,61 +64,28 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>Hora</th>
-                            <th>Lunes</th>
-                            <th>Martes</th>
-                            <th>Miércoles</th>
-                            <th>Jueves</th>
-                            <th>Viernes</th>
+                            {% for dia in clinica.dias_true %}
+                                <th>{{ dia }}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
                         {% for hora in clinica.generar_horas_entre %}
-                        <tr>
-                            <td>{{ hora|time:"H:i" }}</td>
+                        <tr style="text-align: center;">
+                            <td >{{ hora|time:"H:i" }}</td>
+                            {% for dia in clinica.dias_true %}
+                                {% if hora|time:"H" <= "10" %}
+                                    <td>Dentista 1</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endfor %}
                         </tr>
                         {% endfor %}
+                        <tr>
+                            
+                        </tr>
                     </tbody>
-                    <!--
-                    <tr style="text-align: center;">
-                        <td>{{clinica.hora_inicio}}</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>11:00 - 12:00</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>{{clinica.hora_fin}}</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 1</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>1:00 - 2:00</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td>2:00 - 3:00</td>
-                        <td>Dentista 2</td>
-                        <td>Dentista 2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr> -->
                 </table>
             </div>
         </div>

@@ -70,7 +70,13 @@ Clinicas
     <div class="col-md-3">
         <div class="card card-clinica">
             <a href="{% url 'vistaClinicas' pk=clinica.id %}" class="text-decoration-none">
+                {% if clinica.logo %}
+                <img src="{{clinica.logo.url}}" alt="Logo de la Clínica" class="card-img-top">
+
+                {% else %}
                 <img src="{% static 'img/clinica/clinica.jpg' %}" alt="Logo de la Clínica" class="card-img-top">
+
+                {% endif %}
                 <div class="card-body text-center">
                     <h3 class="card-title">{{ clinica.nombre }}</h3>
                     <p class="card-text">{{ clinica.direccion }}</p>

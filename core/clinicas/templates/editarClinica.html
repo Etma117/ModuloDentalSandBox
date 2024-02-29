@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block titulo %}
-Añadir Clínica
+Editar Clínica
 {% endblock %}
 
 {% block link %}
@@ -26,7 +26,7 @@ Añadir Clínica
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-circle-plus " style="color: #239db9;"></i> <strong>Registrar nueva clínica</strong>
+        <i class="fas fa-circle-plus " style="color: #239db9;"></i> <strong>Editar clinica</strong>
     </div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
@@ -38,7 +38,26 @@ Añadir Clínica
                             <div class="row">
                                 <div class="col-md-12 centered-container">
                                     <div class="image-upload-container mt-5">
-                                        <!-- El icono de usuario se mostrará inicialmente -->
+
+                                        {% if clinica.logo %}
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                document.getElementById('photo').src = "{{ clinica.logo.url }}";
+                                                document.getElementById('photo').style.display = 'block';
+
+                                                var imageIcon = document.querySelector('.image-icon');
+                                                if (imageIcon) {
+                                                    imageIcon.style.display = 'none';
+                                                }
+                                            });
+                                        </script>
+                                        
+                                        {% endif %}
+
+
+
+
+
                                         <i class="fas fa-user image-icon"></i>
                                         <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
                                         <div class="image-upload-overlay">
@@ -115,8 +134,10 @@ Añadir Clínica
                             </div>
                         </div>
                     </div>
-     
-         
+                    <div class="row">
+                     
+                    </div>
+
                     <div class="row">
                        <label>  Días laborables </label>
                     </div>
