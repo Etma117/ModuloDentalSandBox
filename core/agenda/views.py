@@ -90,6 +90,7 @@ class CitaCrearView(CreateView):
     form_class = CitaForm
     template_name = 'crear_cita.html'  # Reemplaza con el nombre de tu plantilla
     success_url = reverse_lazy('Agenda')
+    
 
     def form_valid(self, form):
         # Obtén los datos del formulario
@@ -109,6 +110,7 @@ class CitaCrearView(CreateView):
 
         # Llama al método form_valid del padre para guardar la cita
         return super().form_valid(form)
+    
 
 class CitaEditarView(UpdateView):
     model = Cita
