@@ -617,8 +617,9 @@ body {
 \*-----------------------------------*/
 
 .footer-top {
-  background-color: var(--oxford-blue-2);
-  color: var(--light-steel-blue);
+  background: linear-gradient(to bottom, #239db9, #46a7d3, #64b6e0, #82c6ee, #a1d5fb, #c1e4ff, #d7ecff, #edf4ff); 
+  color: #444445;
+  /* Otros estilos si es necesario */
 }
 
 .footer-top .container {
@@ -683,7 +684,7 @@ body {
 .footer-item:not(:first-child) { margin-block-start: 20px; }
 
 .footer-bottom {
-  background-color: var(--oxford-blue-3);
+  background-color: #edf4ff; /* Cambié el color de fondo al tono #239db9 */
   padding-block: 50px;
   text-align: center;
 }
@@ -744,7 +745,7 @@ body {
   position: fixed;
   bottom: 60px; /* Ajusta este valor según sea necesario para posicionar correctamente */
   right: 20px;
-  background-color: var(--royal-blue-light); /* Asegúrate de tener esta variable CSS definida, o simplemente usa un color directo */
+  background-color: #239db9; /* Asegúrate de tener esta variable CSS definida, o simplemente usa un color directo */
   font-size: 18px;
   color: var(--white); /* Asegúrate de tener esta variable CSS definida, o simplemente usa un color directo */
   padding: 14px;
