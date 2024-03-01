@@ -31,18 +31,18 @@
             </div>
             <p></p>
             <div>
-                <h2>Responsables de la clínica:</h2>
-                <ul>
-                    {% for responsable in clinica.responsables.all %}
-                        <li>
-                            <a href="{% url 'responsable_detail' responsable.id %}">
-                                {{ responsable.get_full_name }}
-                            </a>
-                        </li>
-                    {% empty %}
-                        <li>No hay responsables asignados.</li>
-                    {% endfor %}
-                </ul>
+                <a style="font-size: large;">
+                    {% if clinica.responsables.all|length == 1 %}
+                        Responsable de la Clínica: {{ clinica.responsables.first.get_full_name }}
+                    {% else %}
+                        Responsables de la Clínica: 
+                        <ul>
+                            {% for responsable in clinica.responsables.all %}
+                            <li>{{ responsable.get_full_name }}</li>
+                            {% endfor %}
+                         </ul>
+                    {% endif %}
+                </a>
             </div>
             
         </div>
@@ -74,8 +74,8 @@
                         <tr style="text-align: center;">
                             <td >{{ hora|time:"H:i" }}</td>
                             {% for dia in clinica.dias_true %}
-                                {% if hora|time:"H" <= "10" %}
-                                    <td>Dentista 1</td>
+                                {% if hora|time:"H" <= "14" %}
+                                    <td>{{clinica.dentista}}</td>
                                 {% else %}
                                     <td></td>
                                 {% endif %}

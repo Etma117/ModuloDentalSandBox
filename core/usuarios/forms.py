@@ -10,6 +10,7 @@ from clinicas.models import Clinica
 from .models import AsistenteDentista
 from django.forms import inlineformset_factory
 
+  
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     pass  # Personaliza si es necesario
@@ -43,6 +44,7 @@ class CustomUserCreationFormTemplate(UserCreationForm):
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento', 'type': 'date'}),
             'sexo': forms.Select(attrs={'placeholder': 'Sexo'}),
+            
 
             }
              
@@ -63,7 +65,7 @@ class CustomUserCreationFormTemplate(UserCreationForm):
 
         self.fields['clinicas'].widget.attrs['class'] = 'select2'
 
-        campos_no_requeridos = ['telefono_fijo', 'foto']
+        campos_no_requeridos = ['telefono_fijo', 'foto',]
         for field_name in self.fields:
             if field_name in campos_no_requeridos:
                 self.fields[field_name].required = False
@@ -135,6 +137,9 @@ AsistenteDentistaFormSet = inlineformset_factory(
 
 
 class CustomUserCreationFormDentista(UserCreationForm):
+
+    clinicas = forms.ModelMultipleChoiceField(queryset=Clinica.objects.all(), required=False)
+
     
     fecha_nacimiento = forms.DateField(
         label="Fecha de Nacimiento:",
@@ -146,11 +151,12 @@ class CustomUserCreationFormDentista(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email', 'foto', 
-                 'apellido_materno', 'direccion', 'celular', 'telefono_fijo', 
+                 'apellido_materno', 'direccion', 'celular', 'idiomas', 'telefono_fijo', 
                  'sexo', 'fecha_nacimiento','clinicas',)  
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento', 'type': 'date'}),
             'sexo': forms.Select(attrs={'placeholder': 'Sexo'}),
+            'idiomas': forms.SelectMultiple(attrs={'placeholder': 'Idiomas hablados', 'class': 'select2'})
 
             }
              
@@ -182,7 +188,7 @@ class CustomUserCreationFormDentista(UserCreationForm):
 
         self.fields['clinicas'].widget.attrs['class'] = 'select2'
 
-        campos_no_requeridos = ['telefono_fijo', 'foto']
+        campos_no_requeridos = ['telefono_fijo', 'foto', 'idiomas']
         for field_name in self.fields:
             if field_name in campos_no_requeridos:
                 self.fields[field_name].required = False
@@ -193,6 +199,9 @@ class CustomUserCreationFormDentista(UserCreationForm):
             field = self.fields.get(field_name)  
             if field and isinstance(field.widget, forms.TextInput):
                 field.widget.attrs.update({'class': 'form-control'})
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 class CustomUserUpdateDentistaFormTemplate(UserChangeForm):
     fecha_nacimiento = forms.DateField(

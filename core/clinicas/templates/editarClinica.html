@@ -54,10 +54,6 @@ Editar Clínica
                                         
                                         {% endif %}
 
-
-
-
-
                                         <i class="fas fa-user image-icon"></i>
                                         <img id="photo" src="" alt="La foto aparecerá aquí..." class="image-preview">
                                         <div class="image-upload-overlay">
@@ -107,9 +103,7 @@ Editar Clínica
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div >
-                                {{ form.responsables|as_crispy_field }}
-                            </div>
+
                         </div>
                         <div class="col-md-6">
                             <div >
@@ -130,7 +124,11 @@ Editar Clínica
                         </div>
                         <div class="col-md-6">
                             <div>
+
+                               {{form.responsables|as_crispy_field}} 
+
                                 {{form.numero_consultorios|as_crispy_field}}
+
                             </div>
                         </div>
                     </div>

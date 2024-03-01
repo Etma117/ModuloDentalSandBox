@@ -1,0 +1,15 @@
+{% extends 'general/base.html' %}
+{% block titulo %}
+Editar idiomas hablados
+{% endblock %}
+
+{% block content %}
+
+<h1>Editar idiomas</h1>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_crispy_field}}
+    <button type="submit">Guardar</button>
+</form>
+
+{% endblock %}

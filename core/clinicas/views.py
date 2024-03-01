@@ -1,13 +1,12 @@
 from typing import Any
-from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
-
-from usuarios.models import CustomUser 
+from django.shortcuts import render, redirect
+from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView 
 from .models import Clinica
 from .forms import clinicaForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib import messages
+from usuarios.models import CustomUser
 
 class Clinicas(ListView):
     model = Clinica
@@ -17,12 +16,10 @@ class Clinicas(ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             usuario_actual = self.request.user
-        if usuario_actual.is_superuser:
-            return Clinica.objects.all()
-        elif usuario_actual.tipo_usuario == 'responsable':
-            return usuario_actual.clinicas.all()
-        elif usuario_actual.tipo_usuario == 'administrador':
-            return Clinica.objects.all()
+            if usuario_actual.tipo_usuario == 'responsable':
+                return usuario_actual.clinicas.all()
+            elif usuario_actual.tipo_usuario == 'administrador':
+                return Clinica.objects.all()
         return Clinica.objects.none()
 
     def get_context_data(self, **kwargs):
@@ -31,6 +28,7 @@ class Clinicas(ListView):
         context['seccion'] = 'ver_clinicas'
 
         return context
+
 class clinicaCrear(CreateView):
     model = Clinica
     template_name = 'nuevaClinica.html'
@@ -59,10 +57,10 @@ class clinicaCrear(CreateView):
         context['seccion'] = 'crear_clinicas'
 
         return context
+
 class vistaClinica(DetailView):
     model = Clinica
     template_name = 'vistaClinicas.html'
-    context_object_name = 'clinica'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,6 +68,7 @@ class vistaClinica(DetailView):
         context['seccion'] = 'ver_clinicas'
 
         return context
+
 class eliminarClinica(DeleteView):
     model = Clinica
     template_name = 'eliminarClinica.html'
@@ -81,14 +80,13 @@ class eliminarClinica(DeleteView):
         context['seccion'] = 'ver_clinicas'
 
         return context
+        
 class editarClinica(UpdateView):
     model = Clinica
     template_name = 'editarClinica.html'
     form_class = clinicaForm
     context_object_name = 'clinica'
     success_url = reverse_lazy('clinicas')
-
-
 
     def form_valid(self, form):
         clinica = self.object  # La instancia de la clínica que se está editando.

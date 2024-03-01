@@ -212,13 +212,10 @@ class UserCreateViewResponsable(CreateView):
         admin_group, created = Group.objects.get_or_create(name='Responsable')
         user.groups.add(admin_group)
 
+        clinicas = form.cleaned_data['clinicas']
+        for clinica in clinicas:
+                clinica.responsables.add(user)
 
-        # Asigna el usuario a las clínicas seleccionadas
-        clinicas_ids = self.request.POST.getlist('clinicas')  # Asume que recibes los IDs de las clínicas en el POST
-        for clinica_id in clinicas_ids:
-            clinica = Clinica.objects.get(id=clinica_id)
-            clinica.responsables.add(user)
-        
         messages.success(self.request, "Usuario Responsable creado con éxito.")
         return super().form_valid(form)
     
@@ -231,6 +228,7 @@ class UserCreateViewResponsable(CreateView):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios' 
         context['seccion'] = 'ver_responsable' 
+        context['responsables'] = CustomUser.objects.all()
 
         return context
     
@@ -276,6 +274,7 @@ class ResponsableListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             return redirect(settings.LOGIN_URL)
         else:
             return redirect('denegado')
+
 class PacienteListView(ListView):
     model = CustomUser
     template_name = 'listas/listPacientes.html'  # Actualiza con tu ruta de plantilla
@@ -497,3 +496,14 @@ def update_user_statusDentista(request, user_id):
     # Puedes redirigir o mostrar un mensaje si el método no es POST
     messages.error(request, "Método no permitido.")
     return redirect('dentista_detail', pk=user_id)  # Pasar 'pk' como argumento
+
+def edit_language(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    if request.method == 'POST':
+        form = CustomUserUpdateDentistaFormTemplate(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('detalleDentista.html')
+        else:
+            form = CustomUserUpdateDentistaFormTemplate(instance=user)
+        return render(request, 'edit_language.html', {'form': form})
