@@ -168,7 +168,7 @@ body {
 .section { padding-block: var(--section-padding); }
 
 .section-subtitle {
-  color: var(--royal-blue-light);
+  color: var(--black);
   font-family: var(--ff-poppins);
   font-size: var(--fs-6);
   font-weight: var(--fw-700);
@@ -204,35 +204,22 @@ body {
   text-align: center;
   border-radius: var(--radius-4);
   box-shadow: var(--shadow-4);
+  transition: background-image 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease; /* Añadir transiciones para suavizar el efecto */
 }
 
-.btn:is(:hover, :focus) { --deg: -90deg; }
+.btn:is(:hover, :focus) {
+  background-image: linear-gradient(var(--deg, -90deg), #239db9, #76c9fa, #7191d6, #50a9bd); /* Modificar la dirección del gradiente */
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Incrementar la sombra para un efecto más profundo */
+  transform: scale(1.05); /* Aumentar ligeramente el tamaño para dar sensación de elevación */
+}
+
 
 .w-100 { width: 100%; }
 
 .text-center { text-align: center; }
 
 .card-text,
-.section-text {
-    line-height: 1.7;
-    color: #444445;
-    text-align: justify;
-    font-family: "Times New Roman", Times, serif; /* Estilo de fuente Times New Roman */
-    font-size: 14px; /* Tamaño de fuente 13 */
-    padding: 5px; /* Ajusta el relleno según sea necesario */
-    word-break: keep-all; /* Para evitar separar las letras */
-}
-
-.card-title {
-  color: #239db9; /* Cambia el color del título a azul */
-  font-size: medium; /* Tamaño de fuente mediano */
-  text-align: absolute; /* Centra el título */
-  text-shadow: 1px 1px 1px #888888; /* Efecto sombra 3D gris */
-}
-
-
-
-
+.section-text { line-height: 1.7; }
 
 .img-holder {
   aspect-ratio: var(--width) / var(--height);
@@ -253,6 +240,9 @@ body {
   #HEDER
 \*-----------------------------------*/
 
+.header-top{
+  background-image: linear-gradient(#d5e6fa, #239db9); /* Aplicando el degradado vertical */
+}  
 .header-top,
 .header-bottom .btn { display: none; }
 
@@ -264,6 +254,7 @@ body {
   padding-block: 15px;
   z-index: 4;
 }
+
 
 .header-bottom.active {
   position: fixed;
@@ -293,10 +284,9 @@ body {
 }
 
 .nav-toggle-btn {
-  color: #ffffff; /* Cambié el color al tono #239db9 */
+  color: var(--black);
   font-size: 30px;
-  border: 1px solid #239db9; /* Cambié el color del borde al tono #239db9 */
-  background-color: #239db9; /* Agregué un fondo del mismo tono #239db9 */
+  border: 1px solid var(--black);
   padding: 5px;
 }
 
@@ -322,7 +312,7 @@ body {
 
 .navbar.active {
   visibility: visible;
-  max-height: 244px;
+  max-height: 544px;
   transition-duration: 0.5s;
 }
 
@@ -352,28 +342,13 @@ body {
 
 .hero-content { margin-block-end: 50px; }
 
-.hero-title {
-  margin-block: 15px 30px;
-  font-size: 25px;
-  color: #239db9;
-}
-
-.section-subtitle {
-  margin-block: 15px 30px;
-  font-size: 27px;
-  color: #444445;
-}
+.hero-title { margin-block: 15px 30px; }
 
 .hero-text {
   font-size: var(--fs-6);
   line-height: 1.45;
   margin-block-end: 40px;
-  color: #444445;
-  text-align: justify;
-  text-align-last: left;
 }
-
-
 
 .hero-form {
   background-color: var(--white);
@@ -431,31 +406,6 @@ body {
 .service-card .card-title { margin-block-end: 8px; }
 
 
-.banner img {
-  width: 100%; /* Ajusta la anchura de la imagen al 100% del contenedor */
-  height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
-  
-} 
-
-.section-subtitle {
-  text-align: center; /* Centra el texto */
-  color: #444445; /* Aplica el color #444445 al texto */
-  font-size: 24px; /* Ajusta el tamaño de la fuente */
-  font-weight: bold; /* Hace el texto en negrita */
-  text-transform: uppercase; /* Convierte el texto en mayúsculas */
-  margin-bottom: 20px; /* Añade un espacio debajo del texto */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Agrega una sombra al texto */
-}
-
-.h2{
-  text-align: center; /* Centra el texto */
-  color: #239db9; /* Aplica el color #444445 al texto */
-  font-size: 50px; /* Ajusta el tamaño de la fuente */
-  font-weight: bold; /* Hace el texto en negrita */
-  text-transform: uppercase; /* Convierte el texto en mayúsculas */
-  margin-bottom: 20px; /* Añade un espacio debajo del texto */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Agrega una sombra al texto */
-}
 
 
 
@@ -570,31 +520,17 @@ body {
   #CTA
 \*-----------------------------------*/
 
-.cta {
-  background-color: #239db9; /* Cambié el color de fondo al tono #239db9 */
-}
-
+.cta { background-color: #239db9; }
 
 .cta-banner { margin-block-end: 50px; }
 
-.cta .section-subtitle {
-  color: white;
-  font-size: 22px;
-  text-transform: capitalize;
-}
-
+.cta .section-subtitle { text-transform: capitalize; }
 
 .cta .section-title {
   color: var(--white);
-  font-size: 20px;
-  margin-block-end: 5px;
-  text-transform: capitalize;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  font-size: var(--fs-3);
+  margin-block-end: 30px;
 }
-
-
 
 .cta .btn { max-width: max-content; }
 
@@ -668,14 +604,9 @@ body {
   transition: var(--transition);
 }
 
-.blog-card .card-link:is(:hover, :focus) {
-  color: #239db9; /* Cambié el color del texto al tono #239db9 */
-}
+.blog-card .card-link:is(:hover, :focus) { color: var(--oxford-blue-1); }
 
-.blog-card .card-link:is(:hover, :focus)::after {
-  background-color: #239db9; /* Cambié el color del fondo al tono #239db9 */
-}
-
+.blog-card .card-link:is(:hover, :focus)::after { background-color: var(--oxford-blue-1); }
 
 
 
@@ -686,19 +617,16 @@ body {
 \*-----------------------------------*/
 
 .footer-top {
-  background: linear-gradient(to bottom, #239db9, #46a7d3, #64b6e0, #82c6ee, #a1d5fb, #c1e4ff, #d7ecff, #edf4ff); 
-  color: #444445;
-  /* Otros estilos si es necesario */
+  background-color: var(--oxford-blue-2);
+  color: var(--light-steel-blue);
 }
-
-
 
 .footer-top .container {
   display: grid;
   gap: 30px;
 }
 
-.footer-brand .logo { color: var(--gray); }
+.footer-brand .logo { color: var(--white); }
 
 .footer-text {
   line-height: 1.6;
@@ -713,9 +641,7 @@ body {
 
 .schedule-icon,
 .footer-item .item-icon {
-  font-size: 18px;
-  font-weight: bold;
-  background: linear-gradient(to right, #239db9, #6F749D);
+  background-image: var(--gradient);
   color: var(--white);
   font-size: 18px;
   padding: 11px;
@@ -726,7 +652,7 @@ body {
 .footer-item .item-text { line-height: 1.6; }
 
 .footer-list-title {
-  color: #444445;
+  color: var(--white);
   font-family: var(--ff-poppins);
   font-size: var(--fs-4);
   font-weight: var(--fw-700);
@@ -742,11 +668,11 @@ body {
 }
 
 .footer-link ion-icon {
-  color: #444445;
+  color: var(--royal-blue-light);
   --ionicon-stroke-width: 50px;
 }
 
-.footer-link:is(:hover, :focus) { color: var(--black); }
+.footer-link:is(:hover, :focus) { color: var(--white); }
 
 .footer-item {
   display: flex;
@@ -757,14 +683,13 @@ body {
 .footer-item:not(:first-child) { margin-block-start: 20px; }
 
 .footer-bottom {
-  background-color: #edf4ff; /* Cambié el color de fondo al tono #239db9 */
+  background-color: var(--oxford-blue-3);
   padding-block: 50px;
   text-align: center;
 }
 
-
 .copyright {
-  color: var(--black);
+  color: var(--white);
   line-height: 1.6;
   margin-block-end: 25px;
 }
@@ -779,11 +704,10 @@ body {
 .footer .social-link {
   padding: 11px;
   background-color: hsla(0, 0%, 100%, 0.2);
-  color: black; /* Cambié el color del texto a negro */
+  color: var(--white);
   font-size: 18px;
   border-radius: 50%;
 }
-
 
 .footer .social-link:is(:hover, :focus) { background-image: var(--gradient); }
 
@@ -810,6 +734,27 @@ body {
 }
 
 .back-top-btn.active {
+  transform: translateY(-10px);
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.smile-top-btn {
+  position: fixed;
+  bottom: 60px; /* Ajusta este valor según sea necesario para posicionar correctamente */
+  right: 20px;
+  background-color: var(--royal-blue-light); /* Asegúrate de tener esta variable CSS definida, o simplemente usa un color directo */
+  font-size: 18px;
+  color: var(--white); /* Asegúrate de tener esta variable CSS definida, o simplemente usa un color directo */
+  padding: 14px;
+  border-radius: 50%;
+  visibility: hidden;
+  opacity: 0;
+  transition: var(--transition); /* Asegúrate de tener esta variable CSS definida, o simplemente usa un valor directo */
+}
+
+.smile-top-btn.active {
   transform: translateY(-10px);
   visibility: visible;
   opacity: 1;
@@ -1017,10 +962,13 @@ body {
    * BACK TO TOP
    */
 
-  .back-top-btn {
+  .back-top-btn .smile-top-btn {
     bottom: 70px;
     right: 50px;
   }
+
+
+
 
 }
 
@@ -1031,6 +979,22 @@ body {
 /**
  * responsive for larger than 992px screen
  */
+
+
+ /* Estilos para pantallas de menos de 992px (responsivo) */
+@media (max-width: 991px) {
+  .navbar-link[data-nav-link="iniciar sesion"] {
+    display: block; /* o puedes usar 'flex', dependiendo de tu diseño */
+  }
+}
+
+/* Estilos para pantallas de 992px en adelante (no responsivo) */
+@media (min-width: 992px) {
+  .navbar-link[data-nav-link="iniciar sesion"] {
+    display: none; /* esto ocultará el enlace en pantallas grandes */
+  }
+}
+
 
 @media (min-width: 992px) {
 
@@ -1065,11 +1029,12 @@ body {
    */
 
   .header-top {
-  display: block;
-  background-image: linear-gradient(#d5e6fa, #239db9); /* Aplicando el degradado vertical */
-  color: #fff; /* Cambié el color del texto a blanco */
-  padding-block: 20px;
-}  
+    display: block;
+    background-color: var(--oxford-blue-1);
+    color: var(--white);
+    padding-block: 20px;
+    color: #fff;
+  }
 
   .header-top :is(.container, .social-list),
   .contact-list,
@@ -1123,12 +1088,11 @@ body {
   .navbar-list > li:not(:last-child) { border-block-end: none; }
 
   .navbar-link {
-    color: #239db9; /* Cambié el color del texto al tono #239db9 */
+    color: var(--oxford-blue-1);
     font-family: var(--ff-poppins);
     text-transform: capitalize;
     transition: var(--transition);
   }
-  
 
   .navbar-link:is(:hover, :focus) { color: var(--royal-blue-light); }
 
@@ -1274,13 +1238,6 @@ body {
     padding-block-end: 0;
     margin-block-end: 0;
   }
-
-
-
-  /**
-   * CTA
-   */
-
   .cta .container { align-items: center; }
 
   .cta-banner { margin-block-start: -120px; }

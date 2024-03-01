@@ -1,7 +1,5 @@
 {% load static %}
-
 <!DOCTYPE html>
-
 <html lang="es">
 
 <head>
@@ -13,19 +11,18 @@
   <!-- 
     - favicon
   -->
+  <script src="https://kit.fontawesome.com/78350df3d2.js" crossorigin="anonymous"></script>
+
   <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
 
   <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="{% static "homepage/css/style.css" %}?v1.2">
+  <link rel="stylesheet" href="{% static "homepage/css/style.css" %}?v1.128w">
 
   <!-- 
     - google font link
   -->
-
-  <script src="https://kit.fontawesome.com/78350df3d2.js" crossorigin="anonymous"></script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -47,15 +44,15 @@
         <ul class="contact-list">
 
           <li class="contact-item">
-            <i class="fas fa-envelope"></i>
+            <ion-icon name="mail-outline"></ion-icon>
 
-            <a href="mailto:info@example.com" class="contact-link">dental@gmail.com</a>
+            <a href="mailto:info@example.com" class="contact-link">info@example.com</a>
           </li>
 
           <li class="contact-item">
-            <i class="fas fa-phone"></i> <!-- Solid -->
+            <ion-icon name="call-outline"></ion-icon>
 
-            <a href="tel:+917052101786" class="contact-link">+52-24-1234-789-4454</a>
+            <a href="tel:+917052101786" class="contact-link">+91-7052-101-786</a>
           </li>
 
         </ul>
@@ -94,8 +91,22 @@
     <div class="header-bottom" data-header>
       <div class="container">
 
-        <a href="#" class="logo" style="color: #239db9;">Smile</a>
+        <a href="#" class="logo">Center.</a>
 
+        <style>
+          @media (max-width: 991px) {
+            #iniciarsesion {
+              display: block !important; /* Esto asegura que la regla tenga prioridad para pantallas pequeñas */
+            }
+          }
+          
+          @media (min-width: 992px) {
+            #iniciarsesion {
+              display: none !important; /* Esto asegura que la regla tenga prioridad para pantallas grandes */
+            }
+          }
+        </style>
+        
         <nav class="navbar container" data-navbar>
           <ul class="navbar-list">
 
@@ -104,7 +115,7 @@
             </li>
 
             <li>
-              <a href="#service" class="navbar-link" data-nav-link>Servicios</a>
+              <a href="#service" class="navbar-link" data-nav-link>Servicio</a>
             </li>
 
             <li>
@@ -112,12 +123,18 @@
             </li>
 
             <li>
-              <a href="#blog" class="navbar-link" data-nav-link>Comentarios</a>
+              <a href="#blog" class="navbar-link" data-nav-link>Blog</a>
             </li>
 
             <li>
               <a href="#" class="navbar-link" data-nav-link>Contactos</a>
             </li>
+
+            <li>
+              <a href="{% url "account_login" %}" id="iniciarsesion" class="navbar-link" data-nav-link>iniciar sesion</a>
+            </li>
+
+          
 
           </ul>
         </nav>
@@ -151,9 +168,9 @@
 
           <div class="hero-content">
 
-            <p class="section-subtitle">Bienvenido a Dental Smile </p>
+            <p class="section-subtitle">Bienvenido a Dental Center  </p>
 
-            <h1 class="h1 hero-title">"¡Sonrisas impecables, cuidado incomparable!"</h1>
+            <h1 class="h1 hero-title">Somos los mejores</h1>
 
             <p class="hero-text">
               Nos esforzamos por brindar a nuestros pacientes resultados impecables y un nivel de atención incomparable, 
@@ -164,15 +181,15 @@
             </p>
 
             <form action="" class="hero-form">
-              <input type="email" name="email_address" aria-label="email" placeholder="Email ..." required
+              <input type="email" name="email_address" aria-label="email" placeholder="Tu correo electronico" required
                 class="email-field">
 
-              <button type="submit" class="btn">Contanta con nosotros</button>
-            </form>
+                <button type="submit" class="btn">Contanta con nosotros</button>
+              </form>
 
           </div>
 
-          <figure class="banner-img">
+          <figure class="hero-banner">
             <img src="{% static "/homepage/images/banner.png" %}" width="587" height="839" alt="hero banner" class="w-100">
           </figure>
 
@@ -333,7 +350,7 @@
       <section class="section about" id="about" aria-label="about">
         <div class="container">
 
-          <figure class="dentita">
+          <figure class="about-banner">
             <img src="{% static "/homepage/images/dentista.png" %}" width="470" height="538" loading="lazy" alt="about banner"
               class="w-100">
           </figure>
@@ -344,13 +361,15 @@
 
             <h2 class="h2 section-title">Promovemos su bienestar bucal</h2>
 
-            <p class="section-text section-text-1" style="text-align: justify;">
-              <strong>Somos un equipo dedicado de profesionales de la salud dental comprometidos con el bienestar de nuestros pacientes. En nuestro centro, nos esforzamos por ofrecer un enfoque integral y personalizado para promover la salud bucal y la calidad de vida de quienes confían en nosotros.</strong>
-          </p>
-          
-          <p class="section-text" style="text-align: justify;">
-            <strong> Con años de experiencia y pasión por nuestro trabajo, nos dedicamos a proporcionar tratamientos dentales de alta calidad en un ambiente cálido y acogedor. Nuestro objetivo es no solo cuidar de la salud dental de nuestros pacientes, sino también educarlos y motivarlos para que mantengan una sonrisa saludable de por vida.</strong>
-          </p>          
+            <p class="section-text section-text-1">
+              Con años de experiencia y pasión por nuestro trabajo, nos dedicamos a proporcionar tratamientos dentales de alta calidad en un ambiente cálido y acogedor. Nuestro objetivo es no solo cuidar de la salud dental de nuestros pacientes, sino también educarlos y motivarlos para que mantengan una sonrisa saludable de por vida.
+            </p>
+
+            <p class="section-text">
+              Aliquam erat volutpat. Aliquam enim massa, sagittis blandit ex mattis, ultricies posuere sapien. Morbi a
+              dignissim enim.
+              Fusce elementum, augue in elementum porta, sapien nunc volutpat ex, a accumsan nunc lectus eu lectus.
+            </p>
 
             <a href="#" class="btn">Leer más</a>
 
@@ -557,9 +576,9 @@
 
             <p class="section-subtitle">Reservar cita con Nosotros</p>
 
-            <h2 class="h2 section-title">Nos complace dar la bienvenida a todos nuestros pacientes en cualquier momento. Nuestro consultorio está abierto y listo para recibirlos cuando lo necesiten. ¡Estamos aquí para ayudarles a cuidar su salud dental!</h2>
+            <h2 class="h2 section-title">Registrate y hazlo en minutos!</h2>
 
-            <a href="#" class="btn">Book appointment</a>
+            <a href="#" class="btn">Registrarse</a>
 
           </div>
 
@@ -604,7 +623,7 @@
                   </h3>
 
                   <p class="card-text">
-                    CConsejos y técnicas para cepillarse, usar hilo dental y enjuague bucal de manera efectiva.
+                    Consejos y técnicas para cepillarse, usar hilo dental y enjuague bucal de manera efectiva.
                   </p>
 
                   <a href="#" class="card-link">Leer más</a>
@@ -699,10 +718,11 @@
 
         <div class="footer-brand">
 
-          <a href="#" class="logo">Dental-Smiles</a>
+          <a href="#" class="logo">Dental Center.</a>
 
           <p class="footer-text">
             Los visitantes pueden encontrar fácilmente información sobre el consultorio, incluyendo horarios de atención y ubicación. Se proporcionan testimonios de pacientes satisfechos para respaldar la calidad del servicio. 
+
           </p>
 
           <div class="schedule">
@@ -748,7 +768,6 @@
             </a>
           </li>
 
-
           <li>
             <a href="#" class="footer-link">
               <ion-icon name="add-outline"></ion-icon>
@@ -762,6 +781,14 @@
               <ion-icon name="add-outline"></ion-icon>
 
               <span class="span">Blog</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">
+              <ion-icon name="add-outline"></ion-icon>
+
+              <span class="span">Ultimos Blogs</span>
             </a>
           </li>
 
@@ -826,7 +853,7 @@
         <ul class="footer-list">
 
           <li>
-            <p class="footer-list-title">Contact Us</p>
+            <p class="footer-list-title">Contactanos</p>
           </li>
 
           <li class="footer-item">
@@ -865,7 +892,7 @@
       <div class="container">
 
         <p class="copyright">
-          &copy; 2024 Todos los derechos reservados.
+          &copy; 2022 All Rights Reserved by dentalcenter.
         </p>
 
         <ul class="social-list">
@@ -903,6 +930,13 @@
     - #BACK TO TOP
   -->
 
+
+  <a href="#top" class="smile-top-btn" aria-label="back to top" data-back-smile-top-btn>
+    <i class="fas fa-smile" aria-hidden="true"></i>
+  </a>
+
+
+<br>
   <a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
     <ion-icon name="caret-up" aria-hidden="true"></ion-icon>
   </a>
@@ -914,10 +948,14 @@
   <!-- 
     - custom js link
   -->
-  <script src="{% static "/homepage/js/script.js" %}" defer></script>
+  <script src="{% static "/homepage/js/script.js" %}?v1.1" defer></script>
 
-  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js"></script>
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
 </body>
 
 </html>
