@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",    
     'schedule',
-
+    
     'agenda',    
     'catalogos',
     'clinicas',
@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+
+
+    'pwa',
 
     
 ]
@@ -243,10 +247,6 @@ JAZZMIN_SETTINGS = {
         "salud.ExpedienteMedico": 'fas fa-notes-medical',
         "usuarios.Usuario": 'fas fa-user',
         
-
-
-
-
     }
 
 }
