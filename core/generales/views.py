@@ -55,6 +55,10 @@ class homePageView(TemplateView):
     template_name= 'homepage/index.html'
 
 
+class homePageViewChildren(TemplateView):
+    template_name= 'homepage/indexChildren.html'
+
+
 
 
 def recover_password(request):
