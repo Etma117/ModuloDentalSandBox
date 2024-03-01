@@ -8,6 +8,17 @@ from django.utils.translation import gettext_lazy as _
 
 
 
+class Idiomas(models.Model):
+    IDIOMAS = [
+        ('Aleman', 'Aleman'),
+        ('Español', 'Español'),
+        ('Ingles', 'Ingles'),
+        ('Italiano', 'Italiano'),
+        ('Portugues', 'Portugues')
+    ]
+
+    idoma = models.CharField(choices= IDIOMAS, max_length=50, null=True)
+
 class CustomUser(AbstractUser):
     TIPOS_USUARIO = (
         ('administrador', 'Administrador'),
@@ -27,6 +38,7 @@ class CustomUser(AbstractUser):
     numero = models.CharField(max_length=15, null=True, blank=True, verbose_name='No. celular')
     foto = models.ImageField(upload_to='usuarios/fotos/', null=True, blank=True)
     clinicas = models.ManyToManyField(Clinica, related_name='usuarios_asignados')
+    idiomas = models.ManyToManyField(Idiomas, blank=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -92,9 +104,12 @@ class Administrador(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     dato_especifico_admin = models.CharField(max_length=255)
 
+
+
 class Medico(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     cedula_profesional = models.CharField(max_length=255)
+    
 
 class Asistente(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -103,3 +118,4 @@ class Asistente(models.Model):
 class Paciente(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     dato_especifico_paciente = models.CharField(max_length=255)
+

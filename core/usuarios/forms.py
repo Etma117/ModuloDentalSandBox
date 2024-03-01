@@ -19,12 +19,12 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2', 'tipo_usuario', 'fecha_nacimiento', 'numero', 'clinicas',)
+        fields = ('username', 'email', 'password1', 'password2', 'tipo_usuario', 'fecha_nacimiento', 'numero', 'clinicas', 'idiomas')
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = CustomUser
-        fields = ('username', 'email', 'tipo_usuario', 'fecha_nacimiento', 'numero', 'clinicas',)
+        fields = ('username', 'email', 'tipo_usuario', 'fecha_nacimiento', 'numero', 'clinicas', 'idiomas')
 
 
 class CustomUserCreationFormTemplate(UserCreationForm):
@@ -152,7 +152,7 @@ class CustomUserCreationFormDentista(UserCreationForm):
         model = CustomUser
         fields = ('username', 'first_name', 'last_name', 'email', 'foto', 
                  'apellido_materno', 'direccion', 'celular', 'idiomas', 'telefono_fijo', 
-                 'sexo', 'fecha_nacimiento','clinicas',)  
+                 'sexo', 'fecha_nacimiento','clinicas', 'idiomas')  
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'placeholder': 'Seleccione la fecha de nacimiento', 'type': 'date'}),
             'sexo': forms.Select(attrs={'placeholder': 'Sexo'}),
