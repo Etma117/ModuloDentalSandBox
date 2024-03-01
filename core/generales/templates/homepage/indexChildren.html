@@ -18,7 +18,7 @@
   <!-- 
     - custom css link
   -->
-  <link rel="stylesheet" href="{% static "homepage/css/style.css" %}?v1.128w">
+  <link rel="stylesheet" href="{% static "homepage/css/style.css" %}?v1.12s8w">
 
   <!-- 
     - google font link
@@ -35,8 +35,6 @@
   <!-- 
     - #HEADER
   -->
-
-
 
   <header class="header">
 
@@ -90,7 +88,6 @@
       </div>
     </div>
 
-
     <div class="header-bottom" data-header>
       <div class="container">
 
@@ -142,14 +139,12 @@
           </ul>
         </nav>
 
-        <a href="{% url 'account_login' %}" class="btn login-btn-large-screen">Inicia Sesión</a>
+        <a href="{% url "account_login" %}" class="btn">Inicia Sesión</a>
 
         <button class="nav-toggle-btn" aria-label="Toggle menu" data-nav-toggler>
           <ion-icon name="menu-sharp" aria-hidden="true" class="menu-icon"></ion-icon>
           <ion-icon name="close-sharp" aria-hidden="true" class="close-icon"></ion-icon>
         </button>
-        
-
 
       </div>
     </div>
@@ -173,7 +168,7 @@
 
           <div class="hero-content">
 
-            <p class="section-subtitle">Bienvenido a Dental Center  </p>
+            <p class="section-subtitle">Bienvenido a Dental Center adulto  </p>
 
             <h1 class="h1 hero-title">Somos los mejores</h1>
 
@@ -936,8 +931,8 @@
   -->
 
 
-  <a href="{% url "homePageViewChildren" %}" class="smile-top-btn" aria-label="back to top" data-back-smile-top-btn>
-    <i class="fas fa-smile" aria-hidden="true"></i>
+  <a href="{% url "homePage" %}" class="smile-top-btn" aria-label="back to top" data-back-smile-top-btn>
+    <i class="fas fa-user" aria-hidden="true"></i>
   </a>
 
 
@@ -949,7 +944,7 @@
 
 
 
-  
+
   <!-- 
     - custom js link
   -->

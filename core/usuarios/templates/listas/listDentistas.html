@@ -81,7 +81,7 @@ Ver Dentistas
 
 <div class="card card1">
     <div class="card-header">
-        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de Dentistas </strong>
+        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de dentistas </strong>
     </div>
     <div class="card-body">
        {% if grupo_dentista_existe %}
@@ -202,7 +202,7 @@ Ver Dentistas
       {% endblock dom %}
       buttons: [
         {
-          text: 'Nuevo Dentista',
+          text: 'Nuevo dentista',
           className: 'btn btn-custom2 mr-2',
           action: function (e, dt, node, config) {
             window.location.href = '{% url "register_user_dentista" %}';

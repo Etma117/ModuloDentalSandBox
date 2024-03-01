@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import home, exit, homePageView, login_redirect, recover_password, set_new_password, templeteDenegado, verify_security_answers
+from .views import home, exit, homePageView, homePageViewChildren, login_redirect, recover_password, set_new_password, templeteDenegado, verify_security_answers
 
 
 from django.conf.urls.static import static
@@ -9,6 +9,9 @@ urlpatterns = [
     
     path('menu/', home.as_view(), name="home"),
     path('', homePageView.as_view(), name="homePage"),
+    path('children/', homePageViewChildren.as_view(), name="homePageViewChildren"),
+
+    
     path('accounts/', include('allauth.urls')),
 
     path('logout/', exit, name='exit'),

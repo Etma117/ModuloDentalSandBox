@@ -26,7 +26,7 @@ Añadir Clínica
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-circle-plus " style="color: #239db9;"></i> <strong>Registrar Nueva Clínica</strong>
+        <i class="fas fa-circle-plus " style="color: #239db9;"></i> <strong>Registrar nueva clínica</strong>
     </div>
     <div class="card-body">
         <form action="" method="post" enctype="multipart/form-data">
@@ -87,8 +87,8 @@ Añadir Clínica
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div style="margin: 0 20px;">
+                        <div class="col-md-12">
+                            <div >
                                 {{ form.responsables|as_crispy_field }}
                             </div>
                         </div>
@@ -109,23 +109,16 @@ Añadir Clínica
                                 {{form.equipamiento|as_crispy_field}}
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div>
                                 {{form.numero_consultorios|as_crispy_field}}
                             </div>
                         </div>
                     </div>
+     
+         
                     <div class="row">
-                        <div class="col-md-6">
-                            <div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                       <label>  Dias Laborables </label>
+                       <label>  Días laborables </label>
                     </div>
                     <div class="row">
                         <div class="col-md-2">

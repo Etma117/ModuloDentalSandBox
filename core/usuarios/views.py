@@ -19,19 +19,23 @@ from django.views.decorators.http import require_POST
 
 # Local imports
 from .models import CustomUser
-from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate
+from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate, UserStatusForm
 from django.views.generic import TemplateView
 # Create your views here.
 
+from django.contrib.auth import get_user_model
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
+
+
+User = get_user_model()
 
 class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin,CreateView):
     model = CustomUser
     form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_dentista.html'
-    success_url = reverse_lazy('home') 
+    success_url = reverse_lazy('DentistaListView') 
 
 
     def test_func(self):
@@ -198,7 +202,7 @@ class UserCreateViewResponsable(CreateView):
     model = CustomUser
     form_class = CustomUserCreationFormDentista
     template_name = 'register/register_user_responsable.html'
-    success_url = reverse_lazy('home') 
+    success_url = reverse_lazy('ResponsableListView') 
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -379,7 +383,7 @@ class AsistenteDetailView(DetailView):
 class DentistaDetailView(DetailView):
     model = CustomUser
     template_name = 'detalles/detalleDentista.html'  # Actualiza con tu ruta de plantilla
-    context_object_name = 'paciente'
+    context_object_name = 'dentista'
 
     def get_object(self, queryset=None):
         # Obtén el paciente por su id
@@ -389,14 +393,14 @@ class DentistaDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_usuarios'
-        context['seccion'] = 'ver_asistente'
+        context['seccion'] = 'ver_dentistas'
         return context
     
 
 class ResponsableDetailView(DetailView):
     model = CustomUser
     template_name = 'detalles/detalleResponsable.html'  # Actualiza con tu ruta de plantilla
-    context_object_name = 'paciente'
+    context_object_name = 'responsable'
 
     def get_object(self, queryset=None):
         # Obtén el paciente por su id
@@ -423,6 +427,8 @@ def eliminar_relacion_clinica(request, user_id, clinica_id):
     clinica = get_object_or_404(Clinica, id=clinica_id)
     if request.method == "POST":
         usuario.clinicas.remove(clinica)
+        clinica.responsables.remove(usuario)  # Añade el usuario a la lista de responsables de la clínica
+
         messages.success(request, 'Relación con clínica removida con éxito.')
         return HttpResponseRedirect(reverse('responsable_detail', args=[usuario.id]))
     else:
@@ -438,6 +444,7 @@ def agregar_clinica_a_usuario(request, user_id):
     for clinica_id in clinicas_ids:
         clinica = get_object_or_404(Clinica, id=clinica_id)
         usuario.clinicas.add(clinica)
+        clinica.responsables.add(usuario)  # Añade el usuario a la lista de responsables de la clínica
 
     messages.success(request, 'Clínicas añadidas con éxito.')
     return redirect('responsable_detail', pk=usuario.id)
@@ -445,3 +452,48 @@ def agregar_clinica_a_usuario(request, user_id):
 
 class verOdontograma(TemplateView):
     template_name = 'detalles/odontograma.html'
+
+
+# DESACTIVAR USUARIOS
+    
+@login_required
+def update_user_statusGeneral(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = UserStatusForm(request.POST)
+        if form.is_valid():
+            user.is_active = not user.is_active  # Toggle the user's active status
+            user.save()
+            if user.is_active:
+                messages.success(request, "Usuario activado con éxito.")
+            else:
+                messages.success(request, "Usuario desactivado con éxito.")
+            return redirect('responsable_detail', pk=user_id)  # Pasar 'pk' como argumento
+    else:
+        form = UserStatusForm(initial={'is_active': user.is_active})
+
+    # Puedes redirigir o mostrar un mensaje si el método no es POST
+    messages.error(request, "Método no permitido.")
+    return redirect('responsable_detail', pk=user_id)  # Pasar 'pk' como argumento
+
+
+    
+@login_required
+def update_user_statusDentista(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = UserStatusForm(request.POST)
+        if form.is_valid():
+            user.is_active = not user.is_active  # Toggle the user's active status
+            user.save()
+            if user.is_active:
+                messages.success(request, "Usuario activado con éxito.")
+            else:
+                messages.success(request, "Usuario desactivado con éxito.")
+            return redirect('dentista_detail', pk=user_id)  # Pasar 'pk' como argumento
+    else:
+        form = UserStatusForm(initial={'is_active': user.is_active})
+
+    # Puedes redirigir o mostrar un mensaje si el método no es POST
+    messages.error(request, "Método no permitido.")
+    return redirect('dentista_detail', pk=user_id)  # Pasar 'pk' como argumento

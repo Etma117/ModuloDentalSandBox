@@ -48,13 +48,20 @@ addEventOnElem(navbarLinks, "click", closeNav);
 
 const header = document.querySelector("[data-header]");
 const backTopBtn = document.querySelector("[data-back-top-btn]");
+const simleTopBtn = document.querySelector("[data-back-smile-top-btn]");
+
 
 window.addEventListener("scroll", function () {
   if (window.scrollY >= 100) {
     header.classList.add("active");
     backTopBtn.classList.add("active");
+    simleTopBtn.classList.add("active");
+
+    
   } else {
     header.classList.remove("active");
     backTopBtn.classList.remove("active");
+    simleTopBtn.classList.remove("active");
+
   }
 });
