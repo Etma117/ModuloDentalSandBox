@@ -12,11 +12,10 @@ class Clinica(models.Model):
     hora_inicio = models.TimeField(null=True, blank=True)
     hora_fin = models.TimeField(null=True, blank=True)
     responsables = models.ManyToManyField('usuarios.CustomUser', related_name='clinicas_responsables', blank=True)
-    logo = models.ImageField(upload_to='clinicas/', default='clinicas/default.jpg')
+    logo = models.ImageField(upload_to='clinicas/', blank=True, null=True)
     correo_electronico = models.EmailField(max_length=255, null=True, blank=True)
     equipamiento = models.CharField(max_length=255, null=True, blank=True)
     numero_consultorios = models.IntegerField(null=True)
-    
     lunes = models.BooleanField(default=False)
     martes = models.BooleanField(default=False)
     miercoles = models.BooleanField(default=False)

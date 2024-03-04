@@ -10,6 +10,10 @@ from django.db import transaction
 from django.contrib import messages
 from usuarios.models import CustomUser
 
+
+
+
+#NOTA: CONSIDERAR PONER EL QUERYSET DE ADMINISTRADOR
 class Clinicas(ListView):
     model = Clinica
     template_name = 'clinicas.html'
@@ -18,17 +22,18 @@ class Clinicas(ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             usuario_actual = self.request.user
-            if usuario_actual.tipo_usuario == 'responsable':
+            # Verifica si el usuario es superusuario
+            if usuario_actual.is_superuser:
+                return Clinica.objects.all()
+            elif usuario_actual.tipo_usuario == 'responsable':
                 return usuario_actual.clinicas.all()
             elif usuario_actual.tipo_usuario == 'administrador':
                 return Clinica.objects.all()
         return Clinica.objects.none()
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_clinicas'
         context['seccion'] = 'ver_clinicas'
-
         return context
 
 class clinicaCrear(CreateView):
