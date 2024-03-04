@@ -1,7 +1,6 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   {% comment %} {%load pwa%}
   {% progressive_web_app_meta %} {% endcomment %}
@@ -12,10 +11,6 @@
     Dental Smile 
     {% endblock titulo %}
 </title>
-
-  {% block link1 %}
-
-  {% endblock link1 %}
   {% block linkprincipal %}
 
   <!-- Google Font: Source Sans Pro -->
@@ -45,16 +40,17 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
   <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
 
-{% endblock linkprincipal %}
-  {% block link %}{% endblock link %}
+  {% endblock linkprincipal %}
+  {% block link %}{% endblock link %}  
+  {% block link1 %}{% endblock link1 %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-
-
   <div class="wrapper">
 
   <!-- Preloader -->
- {% include "includes/preloader.html" %}
+  {%block preloader%}
+    {% include "includes/preloader.html" %}
+  {% endblock%}
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light custom-navbar">
@@ -169,8 +165,7 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
 
-    {% include "includes/side_bar_user_panel.html" %}
-      
+    {% include "includes/side_bar_user_panel.html" %} 
 
 
       <!-- Sidebar Menu -->
@@ -620,11 +615,6 @@
           {% endif %}
 
 
-
-
-
-
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -665,22 +655,13 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
+
+    
+   
     <section class="content">
-      <div class="container-fluid">
-        
-      {% block content %}
-      
-      
-      
-      {% endblock content %}
-
-      {% block contenido %}
-
-
-      
-      {% endblock contenido %}
-        
-
+      <div class="container-fluid">        
+      {% block content %}{% endblock content %}
+      {% block contenido %}{% endblock contenido %}
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -735,7 +716,6 @@
 <script src="{% static "plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js" %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static "dist/js/adminlte.js" %}"></script>
-<script src="{% static 'js/demo.js' %}"></script>
 <script src="{% static 'js/Chart.min.js' %}"></script>
 
 <script src="{% static "dist/js/pages/dashboard.js" %}"></script>

@@ -1,137 +1,16 @@
-{% extends "general/base.html" %}
+{% extends "general/basemodal.html" %}
 {% load static %}
 {% block titulo %}
 Editar Cita 
 {% endblock titulo %}
 
 {% block link %}
-<link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">
-
 {% endblock link %}
 
-
-{% block dashboard %}
-<a class="btn btn-sm  " href="javascript:history.back()">
-    <button class="btn-custom">
-        <i class="fas fa-chevron-left"></i>
-    </button>  
-</a>
-{% endblock dashboard %}
+{%block preloader%}
+{% endblock %}
 
 {% block contenido %}
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-<style>
-    .centered-container {
-        margin-top:20px;
-        margin-bottom:40px;
-
-        display: flex;
-        align-items: center; /* Centrar verticalmente */
-        justify-content: center; /* Centrar horizontalmente */
-        height: 20vh; /* Altura total de la ventana de visualización, ajusta según necesites */
-    }
-    
-
-    .image-upload-container {
-        position: relative;
-        width: 200px; /* Ajusta al tamaño deseado */
-        height: 200px; /* Ajusta al tamaño deseado */
-        border: 1px solid #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f8f9fa; /* Color de fondo mientras no hay imagen */
-        border-radius: 50%; /* Esto hace que la imagen sea redonda */
-
-
-    }
-    
-    .image-icon {
-        font-size: 100px; /* Ajusta al tamaño deseado */
-        color: #6c757d; /* Color del icono */
-        display: block; /* Asegurarse de que se muestre el icono */
-    }
-    
-    .image-preview {
-        display: none; /* Se mostrará después de capturar la foto */
-        width: 100%; /* Ajusta esto si necesitas un tamaño específico */
-        height: 100%; /* Asegúrate de que sea igual al ancho para un círculo perfecto */
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: 50%; /* Esto hace que la imagen sea redonda */
-        border: 5px solid #F0F0F0; /* Ajusta el color y el grosor del borde según sea necesario */
-        object-fit: cover; /* Asegura que la imagen cubra el círculo sin deformarse */
-    }
-    
-    
-    /* ... Resto del CSS ... */
-
-    
-
-    
-    .image-upload-overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background: rgba(255, 255, 255, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-        
-    }
-
-    
-    .image-upload-container:hover .image-upload-overlay {
-        opacity: 1;
-    }
-    
-
-    
-    .btn-primary {
-        border: none;
-        background-color: #007bff;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.2s ease-in-out;
-    }
-    
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-    .card {
-        /* Estilos existentes para tu tarjeta */
-        position: relative; /* Esto es necesario para posicionar correctamente el pseudo-elemento */
-    }
-    
-    .card:before {
-        content: ''; /* Esto es necesario para que el pseudo-elemento se genere */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%; /* Esto hará que la línea se extienda a lo largo de toda la tarjeta */
-        height: 4px; /* Ajusta el grosor de la línea aquí */
-        background-color: #239db9; /* Ajusta el color de la línea aquí */
-    }
-
-</style>
-<div class="dashboard-header">
-    <h1 class="dashboard-title" style="color: black;">Cita a Paciente {{ cita.start|date:"d/m/Y "}} </h1>
-</div>
-
 {% if form.non_field_errors %}
     <script>
         Swal.fire({
@@ -157,23 +36,26 @@ Editar Cita
 {% endfor %}
 
 
-
-    <div class="card">
-        <div class="card-header">
-            <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Cita de Paciente {{ cita.paciente.first_name}} </strong>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-circle-plus fa-2x" style="color: #239db9;"></i> <strong>Cita de Paciente {{ cita.paciente.first_name}} </strong>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" action="{% url 'EditarCita' pk=cita.id %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-custom2">Guardar</button>
+                    <button class="btn btn-danger" onclick= "cerrar_modal()">Cancelar</button>
+                </form>
+            </div>
         </div>
-        <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-custom2">Guardar</button>
-              </form>
-        </div>
-</div>
-
-  
+    </div>
+</div>  
 {% endblock contenido %}
-
+{%block extra_js%}
+{%endblock%}
 
 
 

@@ -22,7 +22,7 @@ class Idiomas(models.Model):
 class CustomUser(AbstractUser):
     TIPOS_USUARIO = (
         ('administrador', 'Administrador'),
-        ('medico', 'Médico'),
+        ('dentista', 'Dentista'),
         ('asistente', 'Asistente'),
         ('paciente', 'Paciente'),
         ('responsable', 'Responsable')

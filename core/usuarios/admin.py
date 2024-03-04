@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Administrador, Medico
+from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.utils.html import mark_safe
 
@@ -42,13 +42,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
-@admin.register(Administrador)
-class AdministradorAdmin(admin.ModelAdmin):
-    list_display = ['user', 'dato_especifico_admin']
 
-@admin.register(Medico)
-class MedicoAdmin(admin.ModelAdmin):
-    list_display = ['user', 'cedula_profesional']
     
 admin.site.register(CustomUser, CustomUserAdmin)
 

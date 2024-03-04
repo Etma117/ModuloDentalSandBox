@@ -1,8 +1,11 @@
 asgiref==3.7.2
 certifi==2023.11.17
 cffi==1.16.0
+cffi==1.16.0
 chardet==4.0.0
 crispy-bootstrap5==2023.10
+cryptography==42.0.2
+defusedxml==0.7.1
 cryptography==42.0.2
 defusedxml==0.7.1
 Django==4.2
@@ -17,11 +20,15 @@ django-scheduler==0.10.1
 icalendar==5.0.11
 idna==2.10
 oauthlib==3.2.2
+oauthlib==3.2.2
 Pillow==10.1.0
 psycopg2-binary==2.9.9
 pycparser==2.21
 PyJWT==2.8.0
+pycparser==2.21
+PyJWT==2.8.0
 python-dateutil==2.8.2
+python3-openid==3.2.0
 python3-openid==3.2.0
 pytz==2024.1
 requests==2.25.1

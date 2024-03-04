@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,6 +10,7 @@ from usuarios.models import CustomUser
 from django.shortcuts import redirect
 from django.urls import reverse
 from agenda.models import Cita
+from django.db.models import Q
 
 #Importamos los decoradores para crear que cada vista tenga su login required 
 from django.http import JsonResponse
@@ -23,12 +24,20 @@ from .forms import UserRecoveryForm
 
 # Create your views here.
 
-class home(LoginRequiredMixin, TemplateView):
+class home(LoginRequiredMixin, ListView):
     model= Cita
     context_object_name = 'citas'    
     template_name = 'menu.html'
-    
 
+    def get_queryset(self):
+        # Obtener el usuario que inició sesión
+        usuario_actual = self.request.user
+        citas_aprobadas = Cita.objects.filter(
+        Q(dentista=usuario_actual) | Q(paciente=usuario_actual),
+        estado_cita='Aprobada'
+        ).order_by('start')
+
+        return citas_aprobadas
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,16 +59,12 @@ def exit(request):
     logout(request)
     return redirect('homePage')
 
-
 class homePageView(TemplateView):
     template_name= 'homepage/index.html'
 
 
 class homePageViewChildren(TemplateView):
     template_name= 'homepage/indexChildren.html'
-
-
-
 
 def recover_password(request):
     if request.method == 'POST':

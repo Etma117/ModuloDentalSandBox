@@ -39,103 +39,55 @@ class UserCreateViewDentista(LoginRequiredMixin, UserPassesTestMixin,CreateView)
 
 
     def test_func(self):
-        return self.request.user.is_superuser or self.request.user.groups.filter(name__in=['Administrador','Responsable']).exists()
-    
+        return self.request.user.is_superuser or self.request.user.groups.filter(name__in=['Administrador', 'Responsable']).exists()
 
     def form_valid(self, form):
         user = form.save(commit=False)
         user.created_by = self.request.user
-        user.tipo_usuario = 'dentista'  
-
+        user.tipo_usuario = 'dentista'
         user.save()
+        # Crear y asociar un calendario al dentista
+        slug_prefix = "horario_dentista "
+        dentista_calendar = DentistaCalendar.objects.filter(slug=f"{slug_prefix}{user.username}{user.id}").first()
+
+        if not dentista_calendar:
+            new_calendar = DentistaCalendar.objects.create(
+                name=f"Horario Dentista - {user.username}",
+                slug=f"{slug_prefix}{user.id}",
+                dentista=user
+            )
+            user.calendar_id = new_calendar.id
+            user.save()
+        else:
+            user.calendar_id = dentista_calendar.id
+            user.save()
+
+        # Asignar el grupo 'Dentista' al usuario
         admin_group, created = Group.objects.get_or_create(name='Dentista')
         user.groups.add(admin_group)
+
         messages.success(self.request, "Usuario creado con éxito.")
         return super().form_valid(form)
-    
- 
+
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
             return redirect(settings.LOGIN_URL)
         else:
             return redirect('denegado')
-    
+
     def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()  # Llamada correcta a super()
-        kwargs['current_user'] = self.request.user  # Añade el usuario actual a los argumentos del formulario
+        kwargs = super().get_form_kwargs()
+        kwargs['current_user'] = self.request.user
         return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['navbar'] = 'gestion_usuarios'  # Cambia esto según la página activa
-        context['seccion'] = 'ver_dentistas'  # Cambia esto según la página activa
-
+        context['navbar'] = 'gestion_usuarios'
+        context['seccion'] = 'ver_dentistas'
         return context
-    
-
-class UserUpdateView(UpdateView):
-    model = CustomUser
-    form_class = CustomUserUpdateDentistaFormTemplate  
-    template_name = 'editar/edit_user_profile.html'  
-    success_url = reverse_lazy('home')  
-
-    def form_valid(self, form):
-        messages.success(self.request, "Perfil actualizado con éxito.")
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['navbar'] = 'gestion_usuarios'  # Cambia esto según la página activa
-        context['seccion'] = 'editar_perfil'  # Cambia esto según la página activa
-        
-        user = self.request.user
-        preguntas_configuradas = user.pregunta_seguridad_1 and user.pregunta_seguridad_2
-        context['preguntas_configuradas'] = preguntas_configuradas
-        context['preguntas_seguridad_1'] = CustomUser.PREGUNTAS_SEGURIDAD_1
-        context['preguntas_seguridad_2'] = CustomUser.PREGUNTAS_SEGURIDAD_2
-
-        return context
-    
-
-    def post(self, request, *args, **kwargs):
-        if "change_password" in request.POST:
-            return self.change_password(request)
-        elif "update_security_questions" in request.POST:
-            return self.update_security_questions(request)
-        return super().post(request, *args, **kwargs)
-    
-    def update_security_questions(self, request):
-        pregunta_1 = request.POST.get('pregunta_seguridad_1')
-        respuesta_1 = request.POST.get('respuesta_seguridad_1')
-        pregunta_2 = request.POST.get('pregunta_seguridad_2')
-        respuesta_2 = request.POST.get('respuesta_seguridad_2')
-
-        if not all([pregunta_1, respuesta_1, pregunta_2, respuesta_2]):
-            # Si alguna pregunta o respuesta está vacía, enviar un error
-            return JsonResponse({"error": False, "message": "Todas las preguntas y respuestas de seguridad son obligatorias."})
-
-        # Si todas las preguntas y respuestas están presentes, proceder a guardarlas
-        user = self.request.user
-        user.pregunta_seguridad_1 = pregunta_1
-        user.respuesta_seguridad_1 = respuesta_1
-        user.pregunta_seguridad_2 = pregunta_2
-        user.respuesta_seguridad_2 = respuesta_2
-        user.save()
-
-        return JsonResponse({"success": True, "message": "Preguntas de seguridad actualizadas correctamente."})
-
-    def change_password(self, request):
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Importante para no desloguear al usuario
-            return JsonResponse({"success": True, "message": "Contraseña actualizada correctamente."})
-        else:
-            # Recopila los mensajes de error del formulario y los envía al frontend
-            errors = {field: error.get_json_data() for field, error in form.errors.items()}
-            return JsonResponse({"success": False, "errors": errors})
 
     
+  
 class UserCreateViewPaciente(CreateView):
     model = CustomUser
     form_class = CustomUserCreationFormDentista
@@ -212,10 +164,12 @@ class UserCreateViewResponsable(CreateView):
         admin_group, created = Group.objects.get_or_create(name='Responsable')
         user.groups.add(admin_group)
 
-        clinicas = form.cleaned_data['clinicas']
-        for clinica in clinicas:
-                clinica.responsables.add(user)
-
+        # Asigna el usuario a las clínicas seleccionadas
+        clinicas_ids = self.request.POST.getlist('clinicas')  # Asume que recibes los IDs de las clínicas en el POST
+        for clinica_id in clinicas_ids:
+            clinica = Clinica.objects.get(id=clinica_id)
+            clinica.responsables.add(user)
+        
         messages.success(self.request, "Usuario Responsable creado con éxito.")
         return super().form_valid(form)
     
@@ -231,7 +185,69 @@ class UserCreateViewResponsable(CreateView):
         context['responsables'] = CustomUser.objects.all()
 
         return context
+
+#Clase de actualizar usuario
     
+class UserUpdateView(UpdateView):
+    model = CustomUser
+    form_class = CustomUserUpdateDentistaFormTemplate  
+    template_name = 'editar/edit_user_profile.html'  
+    success_url = reverse_lazy('home')  
+
+    def form_valid(self, form):
+        messages.success(self.request, "Perfil actualizado con éxito.")
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['navbar'] = 'gestion_usuarios'  # Cambia esto según la página activa
+        context['seccion'] = 'editar_perfil'  # Cambia esto según la página activa
+        
+        user = self.request.user
+        preguntas_configuradas = user.pregunta_seguridad_1 and user.pregunta_seguridad_2
+        context['preguntas_configuradas'] = preguntas_configuradas
+        context['preguntas_seguridad_1'] = CustomUser.PREGUNTAS_SEGURIDAD_1
+        context['preguntas_seguridad_2'] = CustomUser.PREGUNTAS_SEGURIDAD_2
+
+        return context    
+
+    def post(self, request, *args, **kwargs):
+        if "change_password" in request.POST:
+            return self.change_password(request)
+        elif "update_security_questions" in request.POST:
+            return self.update_security_questions(request)
+        return super().post(request, *args, **kwargs)
+    
+    def update_security_questions(self, request):
+        pregunta_1 = request.POST.get('pregunta_seguridad_1')
+        respuesta_1 = request.POST.get('respuesta_seguridad_1')
+        pregunta_2 = request.POST.get('pregunta_seguridad_2')
+        respuesta_2 = request.POST.get('respuesta_seguridad_2')
+
+        if not all([pregunta_1, respuesta_1, pregunta_2, respuesta_2]):
+            # Si alguna pregunta o respuesta está vacía, enviar un error
+            return JsonResponse({"error": False, "message": "Todas las preguntas y respuestas de seguridad son obligatorias."})
+
+        # Si todas las preguntas y respuestas están presentes, proceder a guardarlas
+        user = self.request.user
+        user.pregunta_seguridad_1 = pregunta_1
+        user.respuesta_seguridad_1 = respuesta_1
+        user.pregunta_seguridad_2 = pregunta_2
+        user.respuesta_seguridad_2 = respuesta_2
+        user.save()
+
+        return JsonResponse({"success": True, "message": "Preguntas de seguridad actualizadas correctamente."})
+
+    def change_password(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Importante para no desloguear al usuario
+            return JsonResponse({"success": True, "message": "Contraseña actualizada correctamente."})
+        else:
+            # Recopila los mensajes de error del formulario y los envía al frontend
+            errors = {field: error.get_json_data() for field, error in form.errors.items()}
+            return JsonResponse({"success": False, "errors": errors})
     
 # lista de usuarios 
 from django.db.models import Count, Case, When, Value
@@ -247,9 +263,9 @@ class ResponsableListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     
     def get_queryset(self):
         try:
-            paciente_group = Group.objects.get(name='Responsable')
+            responsable_group = Group.objects.get(name='Responsable')
             # Filtra usuarios en el grupo 'Responsable'
-            queryset = CustomUser.objects.filter(groups=paciente_group).annotate(
+            queryset = CustomUser.objects.filter(groups=responsable_group).annotate(
                 num_clinicas=Count('clinicas'),
                 # Añade un campo 'has_clinica' que es falso si el número de clínicas es 0 (indicando que no tiene clínicas)
                 has_clinica=Case(
@@ -259,6 +275,7 @@ class ResponsableListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 )
             ).order_by('has_clinica', 'first_name')  # Ordena primero por 'has_clinica' y luego por 'first_name'
             return queryset
+        
         except Group.DoesNotExist:
             return CustomUser.objects.none()
 
@@ -274,6 +291,8 @@ class ResponsableListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             return redirect(settings.LOGIN_URL)
         else:
             return redirect('denegado')
+        
+
 
 class PacienteListView(ListView):
     model = CustomUser
@@ -305,8 +324,8 @@ class DentistaListView(ListView):
 
     def get_queryset(self):
         try:
-            paciente_group = Group.objects.get(name='Dentista')
-            return CustomUser.objects.filter(groups=paciente_group)
+            dentista_group = Group.objects.get(name='Dentista')
+            return CustomUser.objects.filter(groups=dentista_group)
         except Group.DoesNotExist:
             # Si no existe el grupo, devolver un queryset vacío
             return CustomUser.objects.none()
@@ -326,8 +345,8 @@ class AsistenteListView(ListView):
 
     def get_queryset(self):
         try:
-            paciente_group = Group.objects.get(name='Asistente')
-            return CustomUser.objects.filter(groups=paciente_group)
+            asistente_group = Group.objects.get(name='Asistente')
+            return CustomUser.objects.filter(groups=asistente_group)
         except Group.DoesNotExist:
             # Si no existe el grupo, devolver un queryset vacío
             return CustomUser.objects.none()
@@ -339,11 +358,6 @@ class AsistenteListView(ListView):
         context['grupo_asistente_existe'] = Group.objects.filter(name='Asistente').exists()
 
         return context
-    
-
-
-
-
 # Detalles del paciente 
 
 class PacienteDetailView(DetailView):

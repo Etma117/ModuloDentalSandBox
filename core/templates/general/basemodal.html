@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>  
+    {% block titulo %}
+    Dental Smile 
+    {% endblock titulo %}
+</title>
+  {% block linkprincipal %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static "plugins/fontawesome-free/css/all.min.css" %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="{% static "plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css" %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static "plugins/jqvmap/jqvmap.min.css" %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static "dist/css/adminlte.min.css" %}?v1.12aa">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static "plugins/overlayScrollbars/css/OverlayScrollbars.min.css" %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static "plugins/daterangepicker/daterangepicker.css" %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static "plugins/summernote/summernote-bs4.min.css" %}">
+  <script src="https://kit.fontawesome.com/78350df3d2.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href=" {% static 'css/style.css' %}?v23">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
+
+  {% endblock linkprincipal %}
+  {% block link %}{% endblock link %}  
+  {% block link1 %}{% endblock link1 %}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+  <!-- Preloader -->
+  {%block preloader%}
+  {% endblock%}
+
+ 
+
+    <!-- Main content -->
+
+    
+   
+    <section class="content">
+      <div class="container-fluid">        
+      {% block content %}{% endblock content %}
+      {% block contenido %}{% endblock contenido %}
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  
+
+<!-- jQuery -->
+{% block script1 %}
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js" %}"></script>
+<script src="{% static "js/jquery-ui.min.js" %}"></script>
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<!-- ChartJS -->
+<script src="{% static "plugins/chart.js/Chart.min.js" %}"></script>
+<!-- Sparkline -->
+<script src="{% static "plugins/sparklines/sparkline.js" %}"></script>
+<!-- JQVMap -->
+<script src="{% static "plugins/jqvmap/jquery.vmap.min.js" %}"></script>
+<script src="{% static "plugins/jqvmap/maps/jquery.vmap.usa.js" %}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static "plugins/jquery-knob/jquery.knob.min.js" %}"></script>
+<!-- daterangepicker -->
+<script src="{% static "plugins/moment/moment.min.js" %}"></script>
+<script src="{% static "plugins/daterangepicker/daterangepicker.js" %}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static "plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js" %}"></script>
+<!-- Summernote -->
+<script src="{% static "plugins/summernote/summernote-bs4.min.js" %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static "plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js" %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static "dist/js/adminlte.js" %}"></script>
+<script src="{% static 'js/Chart.min.js' %}"></script>
+
+<script src="{% static "dist/js/pages/dashboard.js" %}"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+
+   
+{% block script  %}
+    
+{% endblock script  %}
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+{% endblock script1 %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+
+<!-- Script de abrir y cerrar modal (Ponerlo igual en la plantilla donde se manda a llamar el modal) -->
+<script>
+  function abrir_modal(url) {
+      $('#ventana_modal').load(url, function() {
+          var modal = $(this);
+          modal.modal({
+              backdrop: 'static',
+              keyboard: false
+          });  
+          // Agregar un controlador de eventos para la tecla Esc
+          $(document).on('keyup', function(e) {
+              if (e.key === "Escape") {
+                  cerrar_modal();
+              }
+          });  
+          modal.modal('show');
+      });
+      return false;
+  }  
+  function cerrar_modal() {
+    
+      $('#ventana_modal').modal('hide');
+  
+      // Eliminar el controlador de eventos después de cerrar el modal
+      $(document).off('keyup');
+      return false;
+  }  
+</script>
+</body>
+</html>

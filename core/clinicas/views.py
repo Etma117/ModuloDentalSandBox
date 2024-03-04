@@ -1,8 +1,10 @@
 from typing import Any
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.db import transaction
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView 
 from .models import Clinica
-from .forms import clinicaForm
+from .forms import ClinicaForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib import messages
@@ -32,7 +34,7 @@ class Clinicas(ListView):
 class clinicaCrear(CreateView):
     model = Clinica
     template_name = 'nuevaClinica.html'
-    form_class = clinicaForm
+    form_class = ClinicaForm
     context_object_name = 'clinica'
     success_url = reverse_lazy('clinicas')
 
@@ -84,7 +86,7 @@ class eliminarClinica(DeleteView):
 class editarClinica(UpdateView):
     model = Clinica
     template_name = 'editarClinica.html'
-    form_class = clinicaForm
+    form_class = ClinicaForm
     context_object_name = 'clinica'
     success_url = reverse_lazy('clinicas')
 
