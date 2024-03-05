@@ -82,7 +82,7 @@ Ver Pacientes
 
 <div class="card card1">
     <div class="card-header">
-        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de Pacientes </strong>
+        <i class="fas fa-person fa-2x" style="color: #239db9;"></i> <strong>Lista de pacientes </strong>
     </div>
     <div class="card-body">
         {% if grupo_paciente_existe %}
@@ -204,7 +204,7 @@ Ver Pacientes
       {% endblock dom %}
       buttons: [
         {
-          text: 'Nuevo Paciente',
+          text: 'Nuevo paciente',
           className: 'btn btn-custom2 mr-2',
           action: function (e, dt, node, config) {
             window.location.href = '{% url "UserCreateViewPaciente" %}';

@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView 
@@ -9,7 +9,10 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib import messages
 from usuarios.models import CustomUser
-
+from django.http import HttpResponseRedirect, JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 
 
@@ -67,13 +70,22 @@ class clinicaCrear(CreateView):
 
 class vistaClinica(DetailView):
     model = Clinica
-    template_name = 'vistaClinicas.html'
+    template_name = "vistaClinicas.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['navbar'] = 'gestion_clinicas'
         context['seccion'] = 'ver_clinicas'
-
+        
+        # Obtén la clínica actual
+        clinica = self.get_object()
+        
+        # Obtén los responsables asociados a la clínica
+        responsables = clinica.responsables.all()
+        responsables_no_asociados = CustomUser.objects.filter(tipo_usuario='responsable').exclude(clinicas_responsables=clinica)
+        context['responsables_no_asociados'] = responsables_no_asociados
+        # Agrega los responsables al contexto
+        context['responsables'] = responsables
         return context
 
 class eliminarClinica(DeleteView):
@@ -128,3 +140,36 @@ class editarClinica(UpdateView):
         context['seccion'] = 'ver_clinicas'
 
         return context
+
+
+# FUNCIONES 
+    
+@login_required
+def eliminar_relacion_responsable_clinica(request, user_id, clinica_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    clinica = get_object_or_404(Clinica, id=clinica_id)
+    if request.method == "POST":
+        usuario.clinicas.remove(clinica)
+        clinica.responsables.remove(usuario)  # Añade el usuario a la lista de responsables de la clínica
+
+        messages.success(request, 'Relación con clínica removida con éxito.')
+        return HttpResponseRedirect(reverse('vistaClinicas', args=[clinica.id]))
+    else:
+        # Si el método no es POST, redirige a la vista de detalle usando 'pk'
+        return redirect('vistaClinicas', pk=clinica.id)
+
+
+@login_required
+@require_POST  # Asegura que esta vista solo se pueda acceder mediante una solicitud POST.
+def agregar_clinica_a_responsable(request, clinica_id):
+    clinica = get_object_or_404(Clinica, id=clinica_id)
+    responsables_ids = request.POST.getlist('responsables')
+
+    for responsable_id in responsables_ids:
+        responsable = CustomUser.objects.get(id=responsable_id)
+
+        clinica.responsables.add(responsable)
+        responsable.clinicas.add(clinica)
+
+    messages.success(request, 'Responsables añadidos con éxito.')
+    return redirect('vistaClinicas', pk=clinica.id)

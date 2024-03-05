@@ -2,7 +2,7 @@
 
 
 from django.urls import path
-from usuarios.views import AsistenteDetailView, AsistenteListView, DentistaDetailView, DentistaListView, PacienteDetailView, PacienteListView, ResponsableDetailView, UserCreateViewAsistente, UserCreateViewDentista, UserCreateViewPaciente, UserCreateViewResponsable, UserUpdateView,ResponsableListView, agregar_clinica_a_usuario, update_user_statusDentista, update_user_statusGeneral, verOdontograma, edit_language
+from usuarios.views import AsistenteDetailView, AsistenteListView, DentistaDetailView, DentistaListView, PacienteDetailView, PacienteListView, ResponsableDetailView, UserCreateViewAsistente, UserCreateViewDentista, UserCreateViewPaciente, UserCreateViewResponsable, UserUpdateView,ResponsableListView, agregar_clinica_a_usuario, agregar_clinica_a_usuario_dentista, eliminar_relacion_clinica_dentista, update_user_statusDentista, update_user_statusGeneral, verOdontograma, edit_language
 from usuarios.views import eliminar_relacion_clinica, agregar_idioma
 urlpatterns = [
 
@@ -26,6 +26,12 @@ urlpatterns = [
     # ELIMINAR Y AGREGAR RELACION CON CLINICA
     path('usuario/<int:user_id>/eliminar-clinica/<int:clinica_id>/', eliminar_relacion_clinica, name='eliminar_relacion_clinica'),
     path('agregar-clinica/<int:user_id>/', agregar_clinica_a_usuario, name='agregar_clinica_responsable'),
+    path('usuario-dentista/<int:user_id>/eliminar-clinica/<int:clinica_id>/', eliminar_relacion_clinica_dentista, name='eliminar_relacion_clinica_dentista'),
+    path('agregar-clinica-dentista/<int:user_id>/', agregar_clinica_a_usuario_dentista, name='agregar_clinica_dentista'),
+
+
+
+
 
     path('odontograma/', verOdontograma.as_view(), name="verOdontograma"),
 

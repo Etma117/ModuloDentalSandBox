@@ -408,6 +408,13 @@ class DentistaDetailView(DetailView):
         context['navbar'] = 'gestion_usuarios'
         context['seccion'] = 'ver_dentistas'
         context['idioma'] = Idiomas.objects.all()
+        # Obtén el paciente actual
+        paciente = self.get_object()
+        
+        # Obtén las clínicas que NO están asociadas con el paciente
+        clinicas_no_asociadas = Clinica.objects.exclude(id__in=paciente.clinicas.all())
+        
+        context['clinicas'] = clinicas_no_asociadas
         return context
     
 
@@ -462,6 +469,35 @@ def agregar_clinica_a_usuario(request, user_id):
 
     messages.success(request, 'Clínicas añadidas con éxito.')
     return redirect('responsable_detail', pk=usuario.id)
+
+
+@login_required
+def eliminar_relacion_clinica_dentista(request, user_id, clinica_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    clinica = get_object_or_404(Clinica, id=clinica_id)
+    if request.method == "POST":
+        usuario.clinicas.remove(clinica)
+        clinica.responsables.remove(usuario)  # Añade el usuario a la lista de responsables de la clínica
+
+        messages.success(request, 'Relación con clínica removida con éxito.')
+        return HttpResponseRedirect(reverse('dentista_detail', args=[usuario.id]))
+    else:
+        # Si el método no es POST, redirige a la vista de detalle usando 'pk'
+        return redirect('dentista_detail', pk=usuario.id)
+
+@login_required
+@require_POST  # Asegura que esta vista solo se pueda acceder mediante una solicitud POST.
+def agregar_clinica_a_usuario_dentista(request, user_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    clinicas_ids = request.POST.getlist('clinicas')  # 'clinicas' es el nombre del campo <select> en tu formulario HTML.
+
+    for clinica_id in clinicas_ids:
+        clinica = get_object_or_404(Clinica, id=clinica_id)
+        usuario.clinicas.add(clinica)
+        clinica.responsables.add(usuario)  # Añade el usuario a la lista de responsables de la clínica
+
+    messages.success(request, 'Clínicas añadidas con éxito.')
+    return redirect('dentista_detail', pk=usuario.id)
 
 
 class verOdontograma(TemplateView):

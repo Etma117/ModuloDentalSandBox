@@ -12,7 +12,7 @@ Editar Clínica
 {% endblock link %}
 
 {% block dashboard %}
-<a class="btn btn-sm  " href="{% url "home" %}">
+<a class="btn btn-sm  " href="{% url "clinicas" %}">
 
       <button class="btn-custom">
         <i class="fas fa-chevron-left"></i>
@@ -102,8 +102,10 @@ Editar Clínica
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-
+                        <div class="col-md-6">
+                            <div >
+                                {{form.numero_consultorios|as_crispy_field}}
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div >
@@ -123,12 +125,13 @@ Editar Clínica
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div style="margin: 0 20px">
+                                {{ form.municipio|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div>
-
                                {{form.responsables|as_crispy_field}} 
-
-                                {{form.numero_consultorios|as_crispy_field}}
-
                             </div>
                         </div>
                     </div>

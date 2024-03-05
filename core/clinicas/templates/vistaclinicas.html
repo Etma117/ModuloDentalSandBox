@@ -1,96 +1,217 @@
 {% extends 'general/base.html' %}
 {% load static %}
 
+{% block link %}
+    <link rel="stylesheet" href="{% static "plugins/select2/css/select2.css" %}?v1.1">  
+
+    <link rel="stylesheet" href=" {% static 'css/detail.css' %}?v2">
+{% endblock link %}
+
 {% block titulo %}
     {{ clinica.nombre }}
 {% endblock %}
 
+{% block dashboard %}
+
+<a class="btn btn-sm  " href="{% url "home" %}">      
+      <button class="btn-custom">
+        <i class="fas fa-chevron-left"></i>
+      </button>  
+</a>
+{% endblock dashboard %}
+
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-2 col-sm-6" style="padding-left: 10px; padding-right: 10px;">
-            <div class="card" style="background: #0289A8; border-radius: 25px; padding: 10px;">
-                <div class="card-body text-center">
-                    {% if clinica.logo %}
-                        <img src="{{ clinica.logo.url }}" alt="Logo de la clínica" style="width: 100%; height: 100%; border-radius: 15px;">
-
-                    {% else %}
 
 
-                    {% endif %}
-                </div>
-            </div>
+
+<div class="container mt-4">
+    <div class="card card1">
+        <div class="card-header">
+            <i class="fas fa-info fa-2x" style="color: #239db9;"></i> <strong> Detalles de la clínica</strong>
         </div>
-        <div class="col-md-6 col-sm-6">
-            <div>
-                <a style="font-size: large;">Nombre de la clínica: {{ clinica.nombre }}</a>
-            </div>
-            <p></p>
-            <div>
-                <a style="font-size: large;">Dirección: {{ clinica.direccion }}</a>
-            </div>
-            <p></p>
-            <div>
-                <a style="font-size: large;">
-                    {% if clinica.responsables.all|length == 1 %}
-                        Responsable de la Clínica: {{ clinica.responsables.first.get_full_name }}
-                    {% else %}
-                        Responsables de la Clínica: 
-                        <ul>
-                            {% for responsable in clinica.responsables.all %}
-                            <li>{{ responsable.get_full_name }}</li>
-                            {% endfor %}
-                         </ul>
-                    {% endif %}
-                </a>
-            </div>
-            
-        </div>
-    </div>
+        <div class="card-body">
+            <div class="profile-image">
 
-    {% if es_administrador or es_superusuario%}
-    <div class="row justify-content-end">
-        <div class="col-md-2" style="padding-left: 7%;">
-            <a class="btn btn-info" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'editarClinica' pk=clinica.id %}"> Editar </a>
-            <a class="btn btn-danger" style="font-size: 15pt; width: 100px; height: 40px; margin-top: 5px;" href="{% url 'eliminarClinica' pk=clinica.id %}"> Eliminar </a>
-        </div>
-    </div>
-    {% endif %}
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-hover" style="width: 100%;">
-                    <thead>
-                        <tr style="text-align: center;">
-                            <th>Hora</th>
-                            {% for dia in clinica.dias_true %}
-                                <th>{{ dia }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for hora in clinica.generar_horas_entre %}
-                        <tr style="text-align: center;">
-                            <td >{{ hora|time:"H:i" }}</td>
-                            {% for dia in clinica.dias_true %}
-                                {% if hora|time:"H" <= "14" %}
-                                    <td>{{clinica.dentista}}</td>
-                                {% else %}
-                                    <td></td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                        <tr>
-                            
-                        </tr>
-                    </tbody>
-                </table>
+                {% if clinica.logo %}
+                     <img src="{{ clinica.logo.url }}"  alt="Foto de la clinica">
+                {% else %}
+                    <img src="{% static 'img/clinica/clinica.jpg' %}"  alt="Foto de la clinica">
+                {% endif %}
             </div>
+            <div class="profile-details">
+                <h3>{{clinica.nombre}}</h3>
+                <p><i class="fas fa-phone"></i> +52 {{clinica.telefono}}</p>
+                <p><i class="fas fa-envelope"></i> {{clinica.correo_electronico}}</p>
+            </div>
+            <div class="action-buttons">
+
+                <button class="action-button edit" onclick="location.href='{% url 'editarClinica' clinica.id %}'">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+                
+                <button class="action-button delete">
+                    <i class="fas fa-trash-alt"></i> Desactivar
+                </button>
+            </div>
+        
+
+
         </div>
     </div>
 </div>
 
 
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-user-md" style="color: #239db9;"></i> <strong>Lista de responsables</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarResponsable">
+                <i class="fas fa-plus-circle"></i>
+                <span class="d-none d-md-inline">Añadir responsable</span> 
+            </button>
+            <div class="table-responsive mt-3"> <!-- Contenedor responsivo para la tabla -->
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for responsable in responsables %}
+                        <tr>
+                            <td>{{ responsable.get_full_name|title}}</td>
+                            <td>{{ responsable.email }}</td>
+                            <td>{{ responsable.celular }}</td>
+
+                            <td> 
+                                <form action="{% url 'eliminar_relacion_responsable' user_id=responsable.id clinica_id=clinica.id %}" method="post" class="form-eliminar-relacion">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-sm btn-icon1 btn-eliminar" data-clinicaid="{{ clinica.id }}">
+                                        <i class="fas fa-trash"></i>
+                                        <span class="d-none d-md-inline">Eliminar relación</span>
+                                    </button>
+                                </form>
+                            
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-clock" style="color: #239db9;"></i> <strong>Horarios</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Contenido del Historial médico -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAgregarResponsable" tabindex="-1" role="dialog" aria-labelledby="modalAgregarResponsableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarResponsableLongTitle">Agregar responsable a la clínica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url "agregar_clinica_a_responsable" clinica.id  %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <select name="responsables" multiple="multiple" class="form-control select2">
+                        {% for responsable in responsables_no_asociados %}
+                            <option value="{{ responsable.id }}">{{ responsable.get_full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.btn-eliminar'); // Selecciona todos los botones de eliminar
+    
+        buttons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                const clinicaId = this.getAttribute('data-clinicaid'); // Obtiene el ID de la clínica desde el atributo data-clinicaid
+    
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás revertir esto!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.closest('form').submit(); // Encuentra el formulario más cercano y lo envía
+                    }
+                })
+            });
+        });
+    });
+    </script>
+
+
+
+
 {% endblock %}
+
+{% block script1 %}
+<script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+<script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+<script src="{% static "plugins/select2/js/select2.full.min.js" %}"></script>
+
+<script src="{% static "dist/js/adminlte.min.js" %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+
+<script>
+    $(function () {
+        $('.select2').select2()
+      });
+    </script>
+
+<script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Selecciona una clínica", // Añade el texto del placeholder
+                allowClear: true, // Permite limpiar la selección
+                width: '100%' // Asegura que Select2 ocupe todo el ancho del contenedor
+            });
+        });
+</script>
+        
+{% endblock script1 %}
