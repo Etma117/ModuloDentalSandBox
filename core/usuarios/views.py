@@ -477,8 +477,6 @@ def eliminar_relacion_clinica_dentista(request, user_id, clinica_id):
     clinica = get_object_or_404(Clinica, id=clinica_id)
     if request.method == "POST":
         usuario.clinicas.remove(clinica)
-        clinica.responsables.remove(usuario)  # Añade el usuario a la lista de responsables de la clínica
-
         messages.success(request, 'Relación con clínica removida con éxito.')
         return HttpResponseRedirect(reverse('dentista_detail', args=[usuario.id]))
     else:
@@ -494,7 +492,6 @@ def agregar_clinica_a_usuario_dentista(request, user_id):
     for clinica_id in clinicas_ids:
         clinica = get_object_or_404(Clinica, id=clinica_id)
         usuario.clinicas.add(clinica)
-        clinica.responsables.add(usuario)  # Añade el usuario a la lista de responsables de la clínica
 
     messages.success(request, 'Clínicas añadidas con éxito.')
     return redirect('dentista_detail', pk=usuario.id)

@@ -70,7 +70,7 @@ class clinicaCrear(CreateView):
 
 class vistaClinica(DetailView):
     model = Clinica
-    template_name = "vistaClinicas.html"
+    template_name = "vistaclinicas.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,8 +84,21 @@ class vistaClinica(DetailView):
         responsables = clinica.responsables.all()
         responsables_no_asociados = CustomUser.objects.filter(tipo_usuario='responsable').exclude(clinicas_responsables=clinica)
         context['responsables_no_asociados'] = responsables_no_asociados
+        dentistas_no_asociados = CustomUser.objects.filter(tipo_usuario='dentista').exclude(clinicas=clinica)
+        context['dentistas_no_asociados'] = dentistas_no_asociados
+        asistentes_no_asociados = CustomUser.objects.filter(tipo_usuario='asistente').exclude(clinicas=clinica)
+        context['asistentes_no_asociados'] = asistentes_no_asociados
+        
         # Agrega los responsables al contexto
         context['responsables'] = responsables
+
+        dentistas = clinica.usuarios_asignados.filter(tipo_usuario='dentista')
+        context['dentistas'] = dentistas
+        asistentes = clinica.usuarios_asignados.filter(tipo_usuario='asistente')
+        context['asistentes'] = asistentes
+
+
+
         return context
 
 class eliminarClinica(DeleteView):
@@ -173,3 +186,32 @@ def agregar_clinica_a_responsable(request, clinica_id):
 
     messages.success(request, 'Responsables añadidos con éxito.')
     return redirect('vistaClinicas', pk=clinica.id)
+
+@login_required
+def eliminar_relacion_dentista_clinica(request, user_id, clinica_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    clinica = get_object_or_404(Clinica, id=clinica_id)
+    if request.method == "POST":
+        usuario.clinicas.remove(clinica)
+        messages.success(request, 'Relación con clínica removida con éxito.')
+        return HttpResponseRedirect(reverse('vistaClinicas', args=[clinica.id]))
+    else:
+        # Si el método no es POST, redirige a la vista de detalle usando 'pk'
+        return redirect('vistaClinicas', pk=clinica.id)
+
+
+
+@login_required
+@require_POST  # Asegura que esta vista solo se pueda acceder mediante una solicitud POST.
+def agregar_clinica_a_dentista(request, clinica_id):
+    clinica = get_object_or_404(Clinica, id=clinica_id)
+    dentistas_ids = request.POST.getlist('dentistas')
+
+    for dentista_id in dentistas_ids:
+        dentista = CustomUser.objects.get(id=dentista_id)
+
+        dentista.clinicas.add(clinica)
+
+    messages.success(request, 'Usuario añadidos con éxito.')
+    return redirect('vistaClinicas', pk=clinica.id)
+

@@ -13,7 +13,7 @@
 
 {% block dashboard %}
 
-<a class="btn btn-sm  " href="{% url "home" %}">      
+<a class="btn btn-sm  " href="{% url "clinicas" %}">      
       <button class="btn-custom">
         <i class="fas fa-chevron-left"></i>
       </button>  
@@ -65,7 +65,7 @@
 <div class="container mt-4">
     <div class="card card1 card2 collapsed-card">
         <div class="card-header">
-            <i class="fas fa-user-md" style="color: #239db9;"></i> <strong>Lista de responsables</strong>
+            <i class="fas fa-user" style="color: #239db9;"></i> <strong>Lista de responsables</strong>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
             </div>
@@ -114,6 +114,116 @@
 </div>
 
 
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-user-md" style="color: #239db9;"></i> <strong>Lista de dentistas</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarDentista">
+                <i class="fas fa-plus-circle"></i>
+                <span class="d-none d-md-inline">Añadir dentistas</span> 
+            </button>
+            <div class="table-responsive mt-3"> <!-- Contenedor responsivo para la tabla -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dentista in dentistas %}
+                        <tr>
+                            <td>{{ dentista.get_full_name|title}}</td>
+                            <td>{{ dentista.email }}</td>
+                            <td>{{ dentista.celular }}</td>
+
+                            <td> 
+                                <form action="{% url 'eliminar_relacion_clinica_dentista' user_id=dentista.id clinica_id=clinica.id %}" method="post" class="form-eliminar-relacion">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-sm btn-icon1 btn-eliminar" data-clinicaid="{{ clinica.id }}">
+                                        <i class="fas fa-trash"></i>
+                                        <span class="d-none d-md-inline">Eliminar relación</span>
+                                    </button>
+                                </form>
+                            
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <div class="card card1 card2 collapsed-card">
+        <div class="card-header">
+            <i class="fas fa-user-nurse" style="color: #239db9;"></i> <strong>Lista de asistentes</strong>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarAsistente">
+                <i class="fas fa-plus-circle"></i>
+                <span class="d-none d-md-inline">Añadir asistentes</span> 
+            </button>
+            <div class="table-responsive mt-3"> <!-- Contenedor responsivo para la tabla -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for asistente in asistentes %}
+                        <tr>
+                            <td>{{ asistente.get_full_name|title}}</td>
+                            <td>{{ asistente.email }}</td>
+                            <td>{{ asistente.celular }}</td>
+
+                            <td> 
+                                <form action="{% url 'eliminar_relacion_clinica_dentista' user_id=asistente.id clinica_id=clinica.id %}" method="post" class="form-eliminar-relacion">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-sm btn-icon1 btn-eliminar" data-clinicaid="{{ clinica.id }}">
+                                        <i class="fas fa-trash"></i>
+                                        <span class="d-none d-md-inline">Eliminar relación</span>
+                                    </button>
+                                </form>
+                            
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="container mt-4">
     <div class="card card1 card2 collapsed-card">
         <div class="card-header">
@@ -123,8 +233,36 @@
             </div>
         </div>
         <div class="card-body">
-            <!-- Contenido del Historial médico -->
-        </div>
+            <div class="table-responsive">
+                <table class="table table-hover" style="width: 100%;">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>Hora</th>
+                            {% for dia in clinica.dias_true %}
+                                <th>{{ dia }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hora in clinica.generar_horas_entre %}
+                        <tr style="text-align: center;">
+                            <td >{{ hora|time:"H:i" }}</td>
+                            {% for dia in clinica.dias_true %}
+                                {% if hora|time:"H" <= "14" %}
+                                    <td>{{clinica.dentista}}</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>       
+         </div>
     </div>
 </div>
 
@@ -154,6 +292,61 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalAgregarDentista" tabindex="-1" role="dialog" aria-labelledby="modalAgregarResponsableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarResponsableLongTitle">Agregar dentista a la clínica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url "agregar_clinica_a_dentista" clinica.id  %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <select name="dentistas" multiple="multiple" class="form-control select2">
+                        {% for dentista in dentistas_no_asociados %}
+                            <option value="{{ dentista.id }}">{{ dentista.get_full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAgregarAsistente" tabindex="-1" role="dialog" aria-labelledby="modalAgregarResponsableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarResponsableLongTitle">Agregar asistente a la clínica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url "agregar_clinica_a_dentista" clinica.id  %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <select name="dentistas" multiple="multiple" class="form-control select2">
+                        {% for asistente in asistentes_no_asociados %}
+                            <option value="{{ asistente.id }}">{{ asistente.get_full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 <script>
