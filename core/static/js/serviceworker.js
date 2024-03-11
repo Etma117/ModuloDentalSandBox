@@ -1,7 +1,5 @@
-// service-worker.js
-// sw.js
-
-const CACHE_NAME = 'dental-cache';
+//ServiceWorker
+const CACHE_NAME = 'dental-cache-v1';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -10,16 +8,27 @@ self.addEventListener('install', (event) => {
         '/',
         '/static/css/style.css',
         '/static/js/main.js',
-        // Agrega otras rutas que desees cachear
-      ]);
+      ]).catch((error) => {
+        console.error('Error al agregar recursos al caché:', error);
+      });
     })
   );
 });
 
+
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      return response || fetch(event.request).then((fetchResponse) => {
+        // Cachear nuevos recursos durante la solicitud
+        if(fetchResponse && fetchResponse.status === 200) {
+          const responseToCache = fetchResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return fetchResponse;
+      });
     })
   );
 });
@@ -34,17 +43,6 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return fetch(event.request).then((response) => {
-        cache.put(event.request, response.clone());
-        return response;
-      });
     })
   );
 });

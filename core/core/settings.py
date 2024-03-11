@@ -59,7 +59,7 @@ INSTALLED_APPS = [
 
 
 
-    # 'pwa',
+    'pwa',
 
     
 ]
@@ -91,6 +91,7 @@ MIDDLEWARE = [
 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
     # 'django_auto_logout.middleware.auto_logout',
 
 ]
@@ -252,6 +253,23 @@ JAZZMIN_SETTINGS = {
     }
 
 }
+#Progressive Web App
 
+PWA_APP_NAME = 'Dental Smile'
+PWA_SHORT_NAME = 'Dental S'
+PWA_DESCRIPTION = "Conexión mas cercana entre clinicas dentales y pacientes"
+PWA_THEME_COLOR = '#ffffff'
+PWA_BACKGROUND_COLOR = '#000000'
+PWA_DISPLAY = 'standalone'
+PWA_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': 'static/img/icon.png',
+        'sizes': '256x256'
+    }
+]
 
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
 
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
