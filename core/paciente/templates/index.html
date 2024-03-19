@@ -1,0 +1,319 @@
+{% extends 'general/base.html' %}
+
+{% block dashboard %}
+    <style>
+        .texto-bienvenida {
+            font-family: Arial, sans-serif; /* Cambia esto por la fuente que prefieras */
+            color: #767676; /* Cambia esto por el color que prefieras */
+            font-size: 24px; 
+            margin-left:50px;
+        }
+        
+    </style>
+
+            {% if es_dentista %}
+            <span class="texto-bienvenida d-none d-md-block">Bienvenido Dr. {{ user_nombre }} {{ user_apellido }}</span>
+            {% elif es_responsable %}
+                <span class="texto-bienvenida d-none d-md-block">Bienvenido Responsable {{ user_nombre }} {{ user_apellido }}</span>
+            {% elif es_administrador %}
+                <span class="texto-bienvenida d-none d-md-block">Bienvenido Administrador {{ user_nombre }} {{ user_apellido }}</span>
+            {% else %}
+                <span class="texto-bienvenida d-none d-md-block">Bienvenido {{ user_nombre }} {{ user_apellido }}</span>
+            {% endif %}
+
+{% endblock dashboard %}
+{% block dashboard1 %}
+<p id="current-time" class="texto-bienvenida d-none d-md-block"></p>
+
+{% endblock dashboard1 %}
+{% block content %}
+
+
+    <script>
+        function updateCurrentTime() {
+          var now = new Date();
+          var timeString = now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +
+                           ' - ' + now.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          document.getElementById('current-time').textContent = '' + timeString;
+        }
+        
+        // Actualizar la hora cada segundo
+        setInterval(updateCurrentTime, 1000);
+        
+        // Llamar a la función inmediatamente para inicializar la hora
+        updateCurrentTime();
+    </script>
+
+{% if es_dentista or es_asistente%}
+    <div class="row">
+        <div class="col-lg-4 col-sm-12" >
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
+                    <a style="font-size: xx-large;">Pacientes</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_pacientes }}</a>
+                    <a href="{% url "ver_pacientes" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-sm-12">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <i class="fa-regular fa-calendar-days fa-3x" style="margin-bottom: 45px;"></i>
+                    <a style="font-size: xx-large;">Citas</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> 5</a>
+                    <a href="{% url 'Agenda'%}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <i class="fa-solid fa-phone fa-3x" style="margin-bottom: 45px;"></i>
+                    <a style="font-size: xx-large;">Citas próximas</a>
+                    <a style="font-size: xx-large;margin-left: 5px;">340</a>
+                    <a href="{% url "Agenda" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <a href="{% url "UserCreateViewPaciente" %}" class="card bg-info" style="width: 100%; height: auto;">
+            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                <i class="fa-solid fa-user-plus fa-6x"></i>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Registrar paciente</h2>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{% url 'CrearCita'%}" class="card btn bg-info" style="text-decoration: none;">
+            <div class="card-body">
+                <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Añadir cita</h2>
+            </div>
+        </a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID. Cita</th>
+            <th>Nombre</th>
+            <th>Hora</th>
+            <th>Estatus</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for cita in citas%}
+        <tr>
+            <td>{{cita.id}}</td>
+            <td>{{ cita.paciente.first_name}} {{cita.paciente.last_name}} {{cita.paciente.apellido_materno}}</td>
+            <td>{{ cita.start|date:"Y-m-d h:i a"}}</td>
+            <td> {{cita.estado_cita}}</td>
+            <td></td>
+        </tr>
+        
+        {%endfor%}
+        
+    </tbody>
+</table>
+
+
+{% elif es_administrador or es_superusuario%}
+    <div class="row">
+        <div class="col-lg-4 col-sm-12">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <i class="fa-solid fa-stethoscope fa-3x" style="margin-bottom: 45px;" ></i>
+                    <a style="font-size: xx-large;">Dentistas</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_dentistas }}</a>
+                    <a href="{% url "DentistaListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12" >
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <i class="fa-regular fa-user fa-3x" style="margin-bottom: 45px;" ></i>
+                    <a style="font-size: xx-large;">Responsables</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_responsables }}</a>
+                    <a href="{% url "ResponsableListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12" >
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <i class="fa fa-hospital fa-3x" style="margin-bottom: 45px;" ></i>
+                    <a style="font-size: xx-large;">Clínicas</a>
+                    <a style="font-size: xx-large; margin-left: 5px;"> {{ total_clinicas }}</a>
+                    <a href="{% url "clinicas" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <a href="{% url "register_user_dentista" %}" class="card btn bg-info" style="width: 100%; height: auto;">
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                    <i class="fa-solid fa-stethoscope fa-6x" style="float: left;"></i>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Añadir dentista</h2>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-3">
+            <a href="{% url "UserCreateViewResponsable" %}" class="card btn bg-info" style=" width: 100%; height: auto;">
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                    <i class="fa fa-user-plus fa-6x" style="float: left;"></i>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Añadir responsable</h2>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-3">
+            <a href="{% url "nuevaClinica" %}" class="card btn bg-info" style="width: 100%; height: auto;">
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                    <i class="fa-solid fa-hospital fa-6x" style="float: left;"></i>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Añadir clínica</h2>
+                </div>
+            </a>
+        </div>
+    </div>
+
+{% elif es_responsable%}
+<div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <i class="fa-solid fa-stethoscope fa-3x" style="margin-bottom: 45px;" ></i>
+                <a style="font-size: xx-large;">Dentistas</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> {{ total_dentistas }}</a>
+                <a href="{% url "DentistaListView" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-12" >
+        <div class="small-box bg-info">
+            <div class="inner">
+                <i class="fa fa-hospital fa-3x" style="margin-bottom: 45px;" ></i>
+                <a style="font-size: xx-large;">Clínicas</a>
+                <a style="font-size: xx-large; margin-left: 5px;"> {{ clinicas_responsable }} </a>
+                <a href="{% url "clinicas" %}" class="small-box-footer" style="background-color: rgba(47, 53, 59, 0.5);display: block;padding: 3px 0; text-align: center;color: antiquewhite;">ver más</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <a href="{% url "register_user_dentista" %}" class="card btn bg-info" style="width: 100%; height: auto;">
+            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                <i class="fa-solid fa-stethoscope fa-6x" style="float: left;"></i>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Añadir dentista</h2>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-lg-3">
+        <a href="{% url "UserCreateViewAsistente" %}" class="card btn bg-info" style=" width: 100%; height: auto;">
+            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                <i class="fa fa-user-plus fa-6x" style="float: left;"></i>
+                <h2 style="font-size: x-large; margin-bottom: 0;">Añadir asistente</h2>
+            </div>
+        </a>
+    </div>
+</div>
+{% else %}
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{% url "CrearCita" %}" class="card btn bg-info" style="text-decoration: none;">
+                <div class="card-body">
+                    <i class="fa-regular fa-calendar-plus fa-6x" style="float: left;"></i>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Añadir cita</h2>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="#" class="card btn bg-info" style="text-decoration: none;">
+                <div class="card-body">
+                    <i class="fa-regular fa-clock fa-6x" style="float: left;"></i>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Reagenda cita</h2>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="#" class="card btn bg-info" style="text-decoration: none;">
+                <div class="card-body">
+                    <i class="fa fa-notes-medical fa-6x" style="float: left;"></i>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Historial clinico</h2>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="#" class="card btn bg-info" style="text-decoration: none;">
+                <div class="card-body">
+                    <i class="fa-solid fa-prescription-bottle-medical fa-6x" style="float: left;"></i>
+                    <h2 style="font-size: x-large; margin-bottom: 0;">Tratamiento</h2>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body bg-info">
+            {% if citas %}
+                <p style="font-size: xx-large;">Tú cita es el {{ citas.0.start|date:"j \d\e F \a \l\a\s \l\a\s g a" }} </p>                
+            {% else %}
+                <p style="font-size: xx-large;">No hay citas programadas.</p>
+            {% endif %}
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID. Cita</th>
+                    <th>Nombre</th>
+                    <th>Hora</th>
+                    <th>Estatus</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for cita in citas%}
+                <tr>
+                    <td>{{cita.id}}</td>
+                    <td>{{ cita.paciente.first_name}} {{cita.paciente.last_name}} {{cita.paciente.apellido_materno}}</td>
+                    <td>{{ cita.start|date:"Y-m-d h:i a"}}</td>
+                    <td> {{cita.estado_cita}}</td>
+                    <td></td>
+                </tr>
+                
+                {%endfor%}
+                
+            </tbody>
+        </table>
+    </div>
+
+    {%endif%}
+{% endblock content %}
+
+
+
+

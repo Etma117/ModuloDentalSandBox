@@ -22,6 +22,9 @@ from django.contrib.auth import authenticate, login
 from usuarios.models import CustomUser
 from .forms import UserRecoveryForm
 
+
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 class home(LoginRequiredMixin, ListView):
@@ -137,3 +140,27 @@ def login_redirect(request):
         return redirect('home')  # O el nombre de la URL del menú
     else:
         return redirect(reverse('account_login'))  
+    
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.groups.filter(name='paciente').exists():
+                return redirect('vista_paciente')
+            else:
+                return redirect('vista_normal')
+        else:
+            # Handle invalid login
+            pass
+    return render(request, 'login.html')
+
+@login_required
+def vista_normal(request):
+    return render(request, 'vista_normal.html')
+
+@login_required
+def vista_paciente(request):
+    return render(request, 'vista_paciente.html')

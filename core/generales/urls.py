@@ -1,7 +1,5 @@
 from django.urls import path, include
 from .views import home, exit, homePageView, homePageViewChildren, login_redirect, recover_password, set_new_password, templeteDenegado, verify_security_answers
-
-
 from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
@@ -20,6 +18,7 @@ urlpatterns = [
     path('set-new-password/', set_new_password, name='set_new_password'),
     path('denegado/', templeteDenegado.as_view(), name="denegado"),
     path('login/redirect/', login_redirect, name='login_redirect'),
+
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

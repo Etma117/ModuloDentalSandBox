@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario Dividido</title>
+<style>
+  .form-section {
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <form id="form-dividido">
+    <div id="section-1" class="form-section">
+      <label for="motivo">Motivo de cita:</label>
+      <select id="motivo" name="motivo">
+        <option value="revision_diagnostico">Revisión y diagnóstico</option>
+        <option value="limpieza">Limpieza</option>
+        <option value="ortodoncia">Ortodoncia</option>
+        <option value="blanqueamiento">Blanqueamiento</option>
+        <option value="carillas">Carillas</option>
+        <option value="implantes">Implantes</option>
+        <option value="coronas">Coronas</option>
+        <option value="extracciones">Extracciones</option>
+      </select>
+      <button type="button" onclick="siguienteSeccion(1)">Siguiente</button>
+    </div>
+    <div id="section-2" class="form-section">
+      <label for="municipio">Municipio:</label>
+      <select id="municipio" name="municipio">
+        <option value="apizaco">Apizaco</option>
+        <option value="huamantla">Huamantla</option>
+        <option value="tlaxcala">Tlaxcala</option>
+        <option value="zacatelco">Zacatelco</option>
+        <!-- Agrega más opciones según los municipios de Tlaxcala -->
+      </select>
+      <button type="button" onclick="siguienteSeccion(2)">Siguiente</button>
+      <button type="button" onclick="anteriorSeccion(2)">Anterior</button>
+    </div>
+    <!-- Resto del formulario -->
+  </form>
+
+  <script>
+    let currentSection = 1;
+    const form = document.getElementById('form-dividido');
+    const formSections = document.querySelectorAll('.form-section');
+
+    function mostrarSeccion(numeroSeccion) {
+      formSections.forEach(section => {
+        section.style.display = 'none';
+      });
+      document.getElementById(`section-${numeroSeccion}`).style.display = 'block';
+    }
+
+    function siguienteSeccion(numeroSeccion) {
+      if (numeroSeccion < formSections.length) {
+        currentSection = numeroSeccion + 1;
+        mostrarSeccion(currentSection);
+      }
+    }
+
+    function anteriorSeccion(numeroSeccion) {
+      if (numeroSeccion > 1) {
+        currentSection = numeroSeccion - 1;
+        mostrarSeccion(currentSection);
+      }
+    }
+
+    mostrarSeccion(currentSection);
+  </script>
+</body>
+</html>
