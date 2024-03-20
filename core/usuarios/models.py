@@ -90,7 +90,8 @@ class CustomUser(AbstractUser):
     def __str__(self):
         # Construye el nombre completo
         nombre_completo = f"{self.first_name.title()} {self.last_name.title()} {self.apellido_materno.title()}".strip()
-        # Devuelve el nombre completo si está disponible, de lo contrario devuelve el username
+        if self.clinicas:
+            nombre_completo += f" - Clínica: {self.clinicas}"
         return nombre_completo if nombre_completo else self.username
         
 class AsistenteDentista(models.Model):

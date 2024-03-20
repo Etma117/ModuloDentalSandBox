@@ -141,7 +141,7 @@
           </ul>
         </nav>
 
-        <a href="{% url 'account_login' %}" class="btn login-btn-large-screen">Inicia Sesión</a>
+        <a href="{% url 'account_login' %}" class="btn login-btn-large-screen btn-primary-custom">Inicia Sesión</a>
 
         <button class="nav-toggle-btn" aria-label="Toggle menu" data-nav-toggler>
           <ion-icon name="menu-sharp" aria-hidden="true" class="menu-icon"></ion-icon>
@@ -154,116 +154,155 @@
     </div>
 
   </header> 
-
-  
  <!-- 
     - #HEADER
   -->
-
   <main>
     <article>
-
       <!-- 
-        - #HERO
+        - #Form Agenda
       -->
+      <section class="section" id="home" aria-label="hero">
 
-      <section class="section hero" id="home" aria-label="hero">
+        <div class="container"> 
+          <div class="row">            
+            <div class="col col-lg-12">
 
-        <div class="container">        
+              <form id="form-dividido" class="needs-validation" novalidate>
+                <div id="section-1" class="form-section">
+                  <label for="motivo" class="form-label">Motivo de cita:</label>
+                  {% comment %} Seccion 1 {% endcomment %}
+                  <select class="form-select form-select-lg mb-3" id="motivo" name="motivo" required>
+                    <option value="" disabled selected>Selecciona un motivo</option>
+                    <option value="revision_diagnostico">Revisión y diagnóstico</option>
+                    <option value="limpieza">Limpieza</option>
+                    <option value="ortodoncia">Ortodoncia</option>
+                    <option value="blanqueamiento">Blanqueamiento</option>
+                    <option value="carillas">Carillas</option>
+                    <option value="implantes">Implantes</option>
+                    <option value="coronas">Coronas</option>
+                    <option value="extracciones">Extracciones</option>
+                    <!-- Agrega opciones de la tabla -->
+                  </select>
+                  <div class="invalid-feedback">Por favor selecciona un motivo.</div>
+                  <button type="button" class="btn btn-primary mt-3" onclick="siguienteSeccion(1)">Siguiente</button>
+                </div>
+                {% comment %} Seccion 2 {% endcomment %}
+                <div id="section-2" class="form-section" style="display: none;">
+                  <label for="municipio" class="form-label">Municipio:</label>
+                  <select id="municipio" name="municipio" class="form-select form-select-lg mb-3" required>
+                    <option value="" disabled selected>Selecciona un municipio</option>
+                    <option value="apizaco">Apizaco</option>
+                    <option value="huamantla">Huamantla</option>
+                    <option value="tlaxcala">Tlaxcala</option>
+                    <option value="zacatelco">Zacatelco</option>
+                    <!-- Agrega más opciones de la tabla -->
+                  </select>
+                  <div class="invalid-feedback">Por favor selecciona un municipio.</div>
+                  <button type="button" class="btn btn-primary mt-3 ms-2" onclick="siguienteSeccion(2)">Siguiente</button>                  
+                  <button type="button" class="btn btn-light mt-3 " onclick="anteriorSeccion(2)">Anterior</button>
+                </div>
+                {% comment %} Seccion 3 {% endcomment %}
+                <div id="section-3" class="form-section" style="display: none;">
+                  <label for="clinica" class="form-label">Clinica: </label>
+                  <select id="clinica" name="clinica" class="form-select form-select-lg mb-3" required>
+                    <option value="" disabled selected>Selecciona una clinica cercana a ti</option>
+                    {% for clinca in clinicas %}
+                    <option value="{{ clinca.id }}" data-clinica-id="{{ clinica.id }}">{{ clinca.nombre }}</option>
+                  {% endfor %}
+                    <!-- Agrega más opciones de la tabla -->
+                  </select>
+                  <div class="invalid-feedback">Por favor selecciona una clinica.</div>
+                  <button type="button" id="mostrar-dentistas-btn" class="btn btn-primary mt-3 ms-2" onclick="siguienteSeccion(2)">Siguiente</button>                  
+                  <button type="button" class="btn btn-ligh mt-3" onclick="anteriorSeccion(2)">Anterior</button>
+                </div>
+                {% comment %} Seccion 4 {% endcomment %}
+                <div id="section-4" class="form-section" style="display: none;">
+                  <label for="dentistas" class="form-label">Dentista</label>
+                  
+                  <select id="dentista" name="dentista" class="form-select form-select-lg mb-3" required>
+                    <option value="" disabled selected>Selecciona un Dentista</option>
+    
 
-          <form id="form-dividido" class="needs-validation" novalidate>
-            <div id="section-1" class="form-section">
-              <label for="motivo" class="form-label">Motivo de cita:</label>
-              {% comment %} Seccion 1 {% endcomment %}
-              <select class="form-select form-select-lg mb-3" id="motivo" name="motivo" required>
-                <option value="" disabled selected>Selecciona un motivo</option>
-                <option value="revision_diagnostico">Revisión y diagnóstico</option>
-                <option value="limpieza">Limpieza</option>
-                <option value="ortodoncia">Ortodoncia</option>
-                <option value="blanqueamiento">Blanqueamiento</option>
-                <option value="carillas">Carillas</option>
-                <option value="implantes">Implantes</option>
-                <option value="coronas">Coronas</option>
-                <option value="extracciones">Extracciones</option>
-                <!-- Agrega opciones de la tabla -->
-              </select>
-              <div class="invalid-feedback">Por favor selecciona un motivo.</div>
-              <button type="button" class="btn btn-primary mt-3" onclick="siguienteSeccion(1)">Siguiente</button>
+                    {% for dentista in dentistas %}
+                      <option value="{{ dentista.id }}">{{ dentista.get_full_name }}</option>
+                    {% endfor %}
+
+
+                  </select>
+                  <div class="invalid-feedback">Por favor selecciona un Dentista.</div>
+                  <button type="button" class="btn btn-primary mt-3 ms-2" onclick="siguienteSeccion(2)">Siguiente</button>                  
+                  <button type="button" class="btn btn-ligh mt-3" onclick="anteriorSeccion(2)">Anterior</button>
+                </div>
+
+                <!-- Seccion 5: Seleccione fecha y horario -->
+                <div id="section-5" class="form-section" style="display: none;">
+                  <label for="fecha" class="form-label">Seleccione fecha:</label>
+                  <input type="date" id="fecha" name="fecha" class="form-control mb-3" required>
+                  <label for="horario" class="form-label">Seleccione horario:</label>
+                  <select id="horario" name="horario" class="form-select form-select-lg mb-3" required>
+                    <option value="" disabled selected>Selecciona un horario</option>
+                    <!-- Agrega opciones de horario -->
+                  </select>
+                  <div class="invalid-feedback">Por favor selecciona fecha y horario.</div>
+                  <button type="button" class="btn btn-primary mt-3" onclick="anteriorSeccion(4)">Anterior</button>
+                  <!-- Botón de enviar formulario -->
+                  <button type="submit" class="btn btn-primary mt-3">Enviar Formulario</button>
+
+                </div>            
+
+              </form> 
+
             </div>
-            {% comment %} Seccion 2 {% endcomment %}
-            <div id="section-2" class="form-section" style="display: none;">
-              <label for="municipio" class="form-label">Municipio:</label>
-              <select id="municipio" name="municipio" class="form-select form-select-lg mb-3" required>
-                <option value="" disabled selected>Selecciona un municipio</option>
-                <option value="apizaco">Apizaco</option>
-                <option value="huamantla">Huamantla</option>
-                <option value="tlaxcala">Tlaxcala</option>
-                <option value="zacatelco">Zacatelco</option>
-                <!-- Agrega más opciones de la tabla -->
-              </select>
-              <div class="invalid-feedback">Por favor selecciona un municipio.</div>
-              <button type="button" class="btn btn-primary mt-3" onclick="anteriorSeccion(2)">Anterior</button>
-              <button type="button" class="btn btn-primary mt-3 ms-2" onclick="siguienteSeccion(2)">Siguiente</button>
+            <div class="col" style="margin-top: 15px">
+
+              <div class="progress mb-3">
+                <div class="progress-bar" role="progressbar" style="width: 0%; height: 25px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            
+              </div>
+              <span id="progress-label" class="progress-label">Paso 1 de 5</span>
+
             </div>
-            {% comment %} Seccion 3 {% endcomment %}
-            <div id="section-3" class="form-section" style="display: none;">
-              <label for="clinica" class="form-label">Clinica: </label>
-              <select id="clinica" name="clinica" class="form-select form-select-lg mb-3" required>
-                <option value="" disabled selected>Selecciona una clinica cercana a ti</option>
-                {% for clinca in clinicas %}
-                <option value="{{ clinca.id }}">{{ clinca.nombre }}</option>
-              {% endfor %}
-                <!-- Agrega más opciones de la tabla -->
-              </select>
-              <div class="invalid-feedback">Por favor selecciona una clinica.</div>
-              <button type="button" class="btn btn-primary mt-3" onclick="anteriorSeccion(2)">Anterior</button>
-              <button type="button" class="btn btn-primary mt-3 ms-2" onclick="siguienteSeccion(2)">Siguiente</button>
-            </div>
-            {% comment %} Seccion 4 {% endcomment %}
-            <div id="section-4" class="form-section" style="display: none;">
-              <label for="dentistas" class="form-label">Dentista</label>
-              <select id="dentista" name="dentista" class="form-select form-select-lg mb-3" required>
-                <option value="" disabled selected>Selecciona un Dentista</option>
-
-                {% for dentista in dentistas %}
-                  <option value="{{ dentista.id }}">{{ dentista.get_full_name }}</option>
-                {% endfor %}
-
-              </select>
-              <div class="invalid-feedback">Por favor selecciona un Dentista.</div>
-              <button type="button" class="btn btn-primary mt-3" onclick="anteriorSeccion(2)">Anterior</button>
-              <button type="button" class="btn btn-primary mt-3 ms-2" onclick="siguienteSeccion(2)">Siguiente</button>
-            </div>
-
-            <!-- Seccion 5: Seleccione fecha y horario -->
-            <div id="section-5" class="form-section" style="display: none;">
-              <label for="fecha" class="form-label">Seleccione fecha:</label>
-              <input type="date" id="fecha" name="fecha" class="form-control mb-3" required>
-              <label for="horario" class="form-label">Seleccione horario:</label>
-              <select id="horario" name="horario" class="form-select form-select-lg mb-3" required>
-                <option value="" disabled selected>Selecciona un horario</option>
-                <!-- Agrega opciones de horario -->
-              </select>
-              <div class="invalid-feedback">Por favor selecciona fecha y horario.</div>
-              <button type="button" class="btn btn-primary mt-3" onclick="anteriorSeccion(4)">Anterior</button>
-              <!-- Botón de enviar formulario -->
-              <button type="submit" class="btn btn-primary mt-3">Enviar Formulario</button>
-
-            </div>            
-
-          </form>   
-        </div>
-
-        <div class="container">
-          <div class="progress mb-3">
-            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>            
-          </div>
-          <span id="progress-label" class="progress-label">Paso 1 de 5</span>
+          </div> 
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+        <script>
+          $(document).ready(function() {
+            $('#mostrar-dentistas-btn').click(function() {
+                var clinicaId = $('#clinica').val();
+                if (clinicaId) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '{% url 'filtrar_dentistas' %}',
+                        data: {'clinica_id': clinicaId},
+                        success: function(data) {
+                            // Limpiar el select antes de agregar nuevas opciones
+                            $('#dentista').empty();
+                            // Agregar la opción por defecto al inicio del select
+                            $('#dentista').append($('<option>', {
+                                value: '',
+                                text: 'Selecciona un Dentista',
+                                disabled: true,
+                                selected: true
+                            
+                            }));
+                            // Iterar sobre los datos devueltos y agregar opciones al select
+                            $.each(data.dentistas, function(index, dentista) {
+                                $('#dentista').append($('<option>', {
+                                    value: dentista.id,
+                                    text: dentista.nombre
+                                }));
+                            });
+                            $('#dentistas-container').show();
+                        }
+                    });
+                }
+            });
+        });
+        </script>
 
         <script>
           let currentSection = 1;
