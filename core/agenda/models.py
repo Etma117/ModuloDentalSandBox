@@ -33,7 +33,6 @@ class Cita(Event):
     def save(self, *args, **kwargs):
                                
         slug_prefix = "citas_dentales_"
-        # Intentar obtener el calendario por slug
         citas_dentales_calendar = CitasDentalesCalendar.objects.filter(slug=f"{slug_prefix}{self.clinica.id}").first()#calendario por clinica
 
         if citas_dentales_calendar:
