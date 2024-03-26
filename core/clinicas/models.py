@@ -2,6 +2,12 @@ from django.db import models
 from datetime import datetime, timedelta
 # Create your models here.
 
+class Municipio(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.nombre
+
 class Clinica(models.Model):
     nombre = models.CharField(max_length=255)
     direccion = models.CharField(max_length=200)
@@ -18,68 +24,9 @@ class Clinica(models.Model):
     miercoles = models.BooleanField(default=False)
     jueves = models.BooleanField(default=False)
     viernes = models.BooleanField(default=False)
-    sabado = models.BooleanField(default=False)
+    sabado = models.BooleanField(default=False)    
 
-    MUNICIPIOS = [
-        ('AMAXAC DE GUERRERO', 'AMAXAC DE GUERRERO'),
-        ('ACUAMANALA DE MIGUEL HIDALGO', 'ACUAMANALA DE MIGUEL HIDALGO'),
-        ('ALTLANCA', 'ALTLANCA'),
-        ('AMAXAC DE GUERRERO', 'AMAXAC DE GUERRERO'),
-        ('APIZACO', 'APIZACO'),
-        ('ATLANGATEPEC', 'ATLANGATEPEC'),
-        ('BENITO JUÁREZ', 'BENITO JUÁREZ'),
-        ('CALPULALPAN', 'CALPULALPAN'),
-        ('CHIAUTEMPAN', 'CHIAUTEMPAN'),
-        ('CONTLA DE JUAN CUAMATZI', 'CONTLA DE JUAN CUAMATZI'),
-        ('CUAPIAXTLA', 'CUAPIAXTLA'),
-        ('CUAXOMULCO', 'CUAXOMULCO'),
-        ('EL CARMEN TEQUEXQUITLA', 'EL CARMEN TEQUEXQUITLA'),
-        ('EMILIANO ZAPATA', 'EMILIANO ZAPATA'),
-        ('ESPAÑITA', 'ESPAÑITA'),
-        ('HUAMANTLA', 'HUAMANTLA'),
-        ('HUEYOTLIPAN', 'HUEYOTLIPAN'),
-        ('IXTACUIXTLA DE MARIANO MATAMOROS', 'IXTACUIXTLA DE MARIANO MATAMOROS'),
-        ('IXTENCO', 'IXTENCO'),
-        ('LA MAGDALENA TLALTELULCO', 'LA MAGDALENA TLALTELULCO'),
-        ('LÁZARO CÁRDENAS', 'LÁZARO CÁRDENAS'),
-        ('MAZATECOCHCO DE JOSÉ MARÍA MORELOS', 'MAZATECOCHCO DE JOSÉ MARÍA MORELOS'),
-        ('MUÑOZ DE DOMINGO ARENAS', 'MUÑOZ DE DOMINGO ARENAS'),
-        ('NANACAMILPA DE MARIANO ARISTA', 'NANACAMILPA DE MARIANO ARISTA'),
-        ('NATIVITAS', 'NATIVITAS'),
-        ('PANOTLA', 'PANOTLA'),
-        ('PAPALOTLA DE XICOHTÉNCATL', 'PAPALOTLA DE XICOHTÉNCATL'),
-        ('SAN DAMIÁN TEXOLOC', 'SAN DAMIÁN TEXOLOC'),
-        ('SAN FRANCISCO TETLANOHCAN', 'SAN FRANCISCO TETLANOHCAN'),
-        ('SAN JERÓNIMO ZACUALPAN', 'SAN JERÓNIMO ZACUALPAN'),
-        ('SAN JOSÉ TEACALCO', 'SAN JOSÉ TEACALCO'),
-        ('SAN JUAN HUACTZINCO', 'SAN JUAN HUACTZINCO'),
-        ('SAN LORENZO AXOCOMANITLA', 'SAN LORENZO AXOCOMANITLA'),
-        ('SAN LUCAS TECOPILCO', 'SAN LUCAS TECOPILCO'),
-        ('SAN PABLO DEL MONTE', 'SAN PABLO DEL MONTE'),
-        ('SANCTORUM DE LÁZARO CÁRDENAS', 'SANCTORUM DE LÁZARO CÁRDENAS'),
-        ('SANTA ANA NOPALUCAN', 'SANTA ANA NOPALUCAN'),
-        ('SANTA APOLONIA TEACALCO', 'SANTA APOLONIA TEACALCO'),
-        ('SANTA CATARINA AYOMETLA', 'SANTA CATARINA AYOMETLA'),
-        ('SANTA CRUZ QUILEHTLA', 'SANTA CRUZ QUILEHTLA'),
-        ('SANTA CRUZ TLAXCALA', 'SANTA CRUZ TLAXCALA'),
-        ('SANTA ISABEL XILOXOXTLA', 'SANTA ISABEL XILOXOXTLA'),
-        ('TEOLOCHOLCO', 'TEOLOCHOLCO'),
-        ('TEPETITLA DE LARDIZÁBAL', 'TEPETITLA DE LARDIZÁBAL'),
-        ('TETLA DE LA SOLIDARIDAD', 'TETLA DE LA SOLIDARIDAD'),
-        ('TETLATLAHUCA', 'TETLATLAHUCA'),
-        ('TLAXCALA', 'TLAXCALA'),
-        ('TLAXCO', 'TLAXCO'),
-        ('TOTOLAC', 'TOTOLAC'),
-        ('TOCATLÁN', 'TOCATLÁN'),
-        ('TZOMPANTEPEC', 'TZOMPANTEPEC'),
-        ('XALOZTOC', 'XALOZTOC'),
-        ('XALTOCAN', 'XALTOCAN'),
-        ('YAUHQUEMEHCAN', 'YAUHQUEMEHCAN'),
-        ('ZACATELCO', 'ZACATELCO'),
-        ('ZITLALTEPEC DE TRINIDAD SÁNCHEZ SANTOS', 'ZITLALTEPEC DE TRINIDAD SÁNCHEZ SANTOS'),
-    ]
-
-    municipio = models.CharField(choices=MUNICIPIOS, max_length=50, null=True)
+    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, null=True, blank=True)
 
     def generar_horas_entre(self):
         hora_actual = datetime.combine(datetime.today(), self.hora_inicio)
