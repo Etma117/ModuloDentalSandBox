@@ -110,3 +110,26 @@ class CitaEditarForm(forms.ModelForm):
             # Filtrar opciones del campo doctor según el grupo "doctores"
             dentista_group = Group.objects.get(name='Dentista')
             self.fields['dentista'].queryset = CustomUser.objects.filter(groups=dentista_group)
+
+from schedule.models import Rule
+
+class HorarioLaborableForm(forms.ModelForm):
+
+    start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Hora de inicio')
+    end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Hora de fin')
+
+    class Meta:
+        model = Rule
+        fields = ['name', 'description', 'params']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['params'].widget = forms.CheckboxSelectMultiple(choices=[
+            ('MO', 'Lunes'),
+            ('TU', 'Martes'),
+            ('WE', 'Miércoles'),
+            ('TH', 'Jueves'),
+            ('FR', 'Viernes'),
+            ('SA', 'Sábado'),
+            ('SU', 'Domingo'),
+        ])

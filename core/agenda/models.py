@@ -1,18 +1,26 @@
 from django.db import models
 from schedule.models import Calendar, Event
-
-
 from usuarios.models import CustomUser
 from clinicas.models import Clinica
 
+
 class DiasNoLaborablesCalendar(Calendar):
-    clinica = models.ForeignKey(Clinica, related_name='clinica_agenda_nolabor', on_delete=models.CASCADE)   
+    clinica = models.ForeignKey(Clinica, related_name='clinica_agenda_nolabor', on_delete=models.CASCADE)  
+    
+    def get_eventos(self):
+        return Event.objects.filter(calendario_id=self.id)   
 
 class DentistaCalendar(Calendar):
     dentista = models.ForeignKey(CustomUser, related_name='dentista_horario', on_delete=models.CASCADE, null=True, blank=True)
+
+    def get_eventos(self):
+        return Event.objects.filter(calendario_id=self.id)  
    
 class CitasDentalesCalendar(Calendar):
     clinica = models.ForeignKey(Clinica, related_name='clinica_agenda', on_delete=models.CASCADE, null=True, blank=True) #obtener clinica usuario posterior
+    
+    def get_eventos(self):
+        return Event.objects.filter(calendario_id=self.id)  
    
 class Cita(Event):
 

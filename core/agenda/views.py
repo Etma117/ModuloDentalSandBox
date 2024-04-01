@@ -1,16 +1,16 @@
 #Django clases
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, CreateView, UpdateView, View
 #Models
-from schedule.models import Calendar, Event
+from schedule.models import Calendar, Event, Rule
 from .models import Cita, DentistaCalendar, CitasDentalesCalendar, DiasNoLaborablesCalendar
-from .forms import CitaForm, CitaEditarForm
+from .forms import CitaForm, CitaEditarForm, HorarioLaborableForm
 from usuarios.models import CustomUser 
 #librerias externas
 import datetime
+from datetime import timedelta
 import pytz
-
-
 
 class EventosView(ListView):
     model=Cita
@@ -76,12 +76,7 @@ class EventosView(ListView):
                         'display': 'background',
                         'color': event.color_event                     
                     }
-                serialized_events.append(serialized_event)
-           
-            
-
-                 
-                
+                serialized_events.append(serialized_event)   
         return serialized_events
     
 
@@ -123,3 +118,46 @@ class CitaEditarView(UpdateView):
         #clinica = self.request.user.clinica  # Ajusta según cómo obtienes la clínica del usuario
         #form.instance.calendar = clinica.citas_dentales_calendar  # Ajusta según la relación real en tu modelo
         return super().form_valid(form)
+    
+
+class CrearHorarioLaborableView(View):
+    def get(self, request):
+        form = HorarioLaborableForm()
+        return render(request, 'crear_horario_laborable.html', {'form': form})
+
+    def post(self, request):
+        form = HorarioLaborableForm(request.POST)
+        if form.is_valid():
+            usuario = request.user  # Obtener el usuario actual
+            calendar=  DentistaCalendar.objects.filter(dentista=usuario).first()
+            
+            selected_days = request.POST.getlist('params')
+            rule_params = ','.join(selected_days)  # Genera los parámetros params
+            
+           
+            dentista_nombre = request.user.get_full_name()  
+
+            rule = Rule.objects.create(
+                name=form.cleaned_data['name'],
+                description=form.cleaned_data['description'],
+                frequency='DAILY',  # Frecuencia diaria
+                params=rule_params,
+            )
+            
+            fecha_actual = datetime.datetime.now().date()
+            start_time = datetime.datetime.combine(fecha_actual, form.cleaned_data['start_time'])
+            end_time = datetime.datetime.combine(fecha_actual, form.cleaned_data['end_time'])
+
+            # Crear evento asociado a la regla para el día de hoy
+            event = Event.objects.create(
+                calendar=calendar,
+                rule=rule,
+                title=f"Horario Laborable - Dentista {dentista_nombre}",
+                start=start_time,
+                end=end_time,
+                end_recurring_period=datetime.datetime.now().date() + timedelta(days=365 * 2)  # Finaliza la recurrencia dentro de dos años exactos
+           
+            )
+            
+            return redirect('Agenda')  # Redirecciona a la página de éxito
+        return render(request, 'crear_horario_laborable.html', {'form': form})

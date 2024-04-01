@@ -21,6 +21,7 @@ from django.views.decorators.http import require_POST
 from .models import CustomUser, Idiomas
 from .forms import CustomUserCreationAsistenteFormTemplate, CustomUserCreationFormDentista, CustomUserCreationFormTemplate, CustomUserUpdateDentistaFormTemplate, UserStatusForm
 from django.views.generic import TemplateView
+from agenda.models import DentistaCalendar
 # Create your views here.
 
 from django.contrib.auth import get_user_model
