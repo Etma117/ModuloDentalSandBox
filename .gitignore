@@ -10,6 +10,7 @@ env/
 venv/
 .env
 entvirt/
+git-sim_media/
 
 # Ignorar archivos y carpetas generados por IDEs y editores de texto
 .idea/
