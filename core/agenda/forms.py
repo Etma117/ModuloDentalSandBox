@@ -112,15 +112,20 @@ class CitaEditarForm(forms.ModelForm):
             self.fields['dentista'].queryset = CustomUser.objects.filter(groups=dentista_group)
 
 from schedule.models import Rule
+from datetime import time
+
+HORAS_CHOICES = [(time(hour=h, minute=0), f'{h}:00 {("AM" if h < 12 else "PM")}') for h in range(6, 24)]
 
 class HorarioLaborableForm(forms.ModelForm):
+    start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M', attrs= {'class': 'form-control'}), label='Hora de inicio')
+    end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M', attrs= {'class': 'form-control'}), label='Hora de fin')
 
-    start_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Hora de inicio')
-    end_time = forms.TimeField(widget=forms.TimeInput(format='%H:%M'), label='Hora de fin')
+    
 
     class Meta:
         model = Rule
-        fields = ['name', 'description', 'params']
+        fields = ['params']
+        
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -132,4 +137,4 @@ class HorarioLaborableForm(forms.ModelForm):
             ('FR', 'Viernes'),
             ('SA', 'Sábado'),
             ('SU', 'Domingo'),
-        ])
+        ], attrs= {'class': 'form-check-input'})

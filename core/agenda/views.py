@@ -138,8 +138,8 @@ class CrearHorarioLaborableView(View):
             dentista_nombre = request.user.get_full_name()  
 
             rule = Rule.objects.create(
-                name=form.cleaned_data['name'],
-                description=form.cleaned_data['description'],
+                name=f'Horario Laborable - Dentista {dentista_nombre}',
+                description=f'Horario Laborable - Dentista {dentista_nombre}',
                 frequency='DAILY',  # Frecuencia diaria
                 params=rule_params,
             )
@@ -155,8 +155,7 @@ class CrearHorarioLaborableView(View):
                 title=f"Horario Laborable - Dentista {dentista_nombre}",
                 start=start_time,
                 end=end_time,
-                end_recurring_period=datetime.datetime.now().date() + timedelta(days=365 * 2)  # Finaliza la recurrencia dentro de dos años exactos
-           
+                end_recurring_period=datetime.datetime.now().date() + timedelta(days=365 * 2)  # Finaliza la recurrencia dentro de dos años exactos           
             )
             
             return redirect('Agenda')  # Redirecciona a la página de éxito
