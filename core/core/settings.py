@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-b1=sn7!$2v1iz&effl(f_!5o%o@&ua6nxiuan&-++xt(byy+&3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://modulodentalsandbox.onrender.com']
+ALLOWED_HOSTS = ['*','https://modulodentalsandbox.onrender.com']
 
 
 # Application definition
