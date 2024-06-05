@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'django_react_components',
     'webpack_loader',
 
     'agenda',    
