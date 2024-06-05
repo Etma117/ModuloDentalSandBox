@@ -4,6 +4,7 @@
     
   {%load pwa%}
   {% progressive_web_app_meta %}
+  {% load django_react_components %}
 
 <head>
   <meta charset="UTF-8">
@@ -238,7 +239,9 @@
                 <!-- Seccion 5: Seleccione fecha y horario -->
                 <div id="section-5" class="form-section" style="display: none;">
                   <label for="fecha" class="form-label">Seleccione fecha:</label>
-                  <input type="date" id="fecha" name="fecha" class="form-control mb-3" required>
+
+                  <input type="text" class="ms-input has-left-icon w-input" data-input="datepicker" autocomplete="off" maxlength="256" name="Date-2" data-name="Date 2" placeholder="01/01/2023" id="datepicker" required="">
+                  
                   <label for="horario" class="form-label">Seleccione horario:</label>
                   <select id="horario" name="horario" class="form-select form-select-lg mb-3" required>
                     <option value="" disabled selected>Selecciona un horario</option>
@@ -375,6 +378,8 @@
 
           mostrarSeccion(currentSection);
         </script>
+
+       
       </section>
 
 

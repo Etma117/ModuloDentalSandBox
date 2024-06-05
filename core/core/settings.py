@@ -37,17 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',    
+    'django.contrib.sites',
 
     "crispy_forms",
     "crispy_bootstrap5",    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_react_components',
+    'webpack_loader',
 
-
-    'schedule',
-    
     'agenda',    
     'catalogos',
     'clinicas',
@@ -56,11 +56,9 @@ INSTALLED_APPS = [
     'usuarios',
     'paciente',
     'citas',
-    'django.contrib.sites',
-
-
 
     'pwa',
+    'schedule',
 
     
 ]

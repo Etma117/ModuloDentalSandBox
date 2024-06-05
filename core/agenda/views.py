@@ -21,7 +21,7 @@ class EventosView(ListView):
         # Obtener el usuario que inició sesión
         usuario_actual = self.request.user
 
-        # Filtrar las citas por el usuario actual
+        # Filtrar las citas por el dentista - solo calendario dentistas
         return Cita.objects.filter(dentista=usuario_actual).order_by('start')
     
     def get_context_data(self, **kwargs):
@@ -30,7 +30,7 @@ class EventosView(ListView):
         usuario_actual = CustomUser.objects.get(id=self.request.user.id)
         clinicas_usuario = usuario_actual.clinicas.all()
 
-    # Obtener todos los eventos y calendarios necesarios de antemano
+    # Obtener todos los calendarios del dentista y clinica, para ver el horario y las citas del dentista
         HorarioDentista = DentistaCalendar.objects.filter(dentista=usuario_actual)
         Citasclinica= CitasDentalesCalendar.objects.filter(clinica__in=clinicas_usuario)
 
@@ -56,7 +56,7 @@ class EventosView(ListView):
                     'display': 'block',
                     'color': event.color_event
                 }
-                # Añadir el atributo 'display' solo para eventos del calendario de días no laborables
+                # Añadir el atributo 'display' solo para eventos del calendario de días no laborables ----- 
                 # if non_working_calendar.event_set.filter(id=event.id).exists():
                 #     serialized_event['allDay'] = 'allDay'
                 #     serialized_event['display'] = 'background'
@@ -115,8 +115,8 @@ class CitaEditarView(UpdateView):
 
     def form_valid(self, form):
         # Asignar la clínica al calendario de citas
-        #clinica = self.request.user.clinica  # Ajusta según cómo obtienes la clínica del usuario
-        #form.instance.calendar = clinica.citas_dentales_calendar  # Ajusta según la relación real en tu modelo
+        #clinica = self.request.user.clinica  
+        #form.instance.calendar = clinica.citas_dentales_calendar 
         return super().form_valid(form)
     
 
