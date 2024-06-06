@@ -260,14 +260,20 @@ PWA_THEME_COLOR = '#ffffff'
 PWA_BACKGROUND_COLOR = '#000000'
 PWA_DISPLAY = 'standalone'
 PWA_START_URL = '/'
-PWA_APP_ICONS = [
+PWA_APP_ICONS = [ 
     {
-        'src': 'static/img/icon.png',
-        'sizes': '256x256'
+        "src": "static/icons/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    },
+    {
+        "src": "static/icons/android-chrome-256x256.png",
+        "sizes": "256x256",
+        "type": "image/png"
     }
 ]
 
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
 
-# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
