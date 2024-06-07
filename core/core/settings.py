@@ -270,7 +270,7 @@ PWA_APP_ICONS = [
         "src": "static/icons/android-chrome-256x256.png",
         "sizes": "256x256",
         "type": "image/png"
-    }
+    },
 
     {
         "src": "static/icons/android-icon-36x36.png",
