@@ -261,52 +261,36 @@ PWA_BACKGROUND_COLOR = '#000000'
 PWA_DISPLAY = 'standalone'
 PWA_START_URL = '/'
 PWA_APP_ICONS = [ 
+    
     {
-        "src": "static/icons/android-chrome-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-    },
-    {
-        "src": "static/icons/android-chrome-256x256.png",
+        "src": "static/icons/favicon-256x256.png",
         "sizes": "256x256",
         "type": "image/png"
-    }
-
+    }, 
     {
-        "src": "static/icons/android-icon-36x36.png",
-        "sizes": "36x36",
-        "type": "image\/png",
-        "density": "0.75"
-    },
-    {
-        "src": "static/icons/android-icon-48x48.png",
-        "sizes": "48x48",
-        "type": "image\/png",
-        "density": "1.0"
-    },
-    {
-        "src": "static/icons/android-icon-72x72.png",
-        "sizes": "72x72",
-        "type": "image\/png",
-        "density": "1.5"
-    },
-    {
-        "src": "static/icons/android-icon-96x96.png",
-        "sizes": "96x96",
-        "type": "image\/png",
-        "density": "2.0"
-    },
-    {
-        "src": "\/android-icon-144x144.png",
-        "sizes": "144x144",
-        "type": "image\/png",
-        "density": "3.0"
-    },
-    {
-        "src": "\/android-icon-192x192.png",
+        "src": "static/icons/android-icon-192x192.png",
         "sizes": "192x192",
-        "type": "image\/png",
-        "density": "4.0"
+        "type": "image/png"
+    },
+    {
+        "src": "static/icons/ms-icon-70x70.png",
+        "sizes": "70x70",
+        "type": "image/png"
+    },
+    {
+        "src": "static/icons/ms-icon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    },
+    {
+        "src": "static/icons/ms-icon-150x150.png",
+        "sizes": "150x150",
+        "type": "image/png"
+    },
+    {
+        "src": "static/icons/ms-icon-310x310.png",
+        "sizes": "310x310",
+        "type": "image/png"
     }
 ]
 
